@@ -1,3 +1,3 @@
 # OrbY
-__O__rbital Displa__y__
+_O_rbital Displa_y_
 
