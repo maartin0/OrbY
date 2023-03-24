@@ -1,13 +1,14 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-// const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV === "production";
 
 const stylesHandler = "style-loader";
 
 const config = {
-  entry: "./src/body.ts",
+  entry: "./src/index.ts",
   output: {
     path: path.resolve(__dirname, "dist"),
   },
@@ -25,7 +26,7 @@ const config = {
     rules: [
       {
         test: /\.(ts|tsx)$/i,
-        loader: "ts-loader",
+        loader: "babel-loader",
         exclude: ["/node_modules/"],
       },
       {
@@ -46,7 +47,10 @@ const config = {
 module.exports = () => {
   if (isProduction) {
     config.mode = "production";
-    // config.plugins.push( new WorkboxWebpackPlugin.GenerateSW() );
+
+    config.plugins.push(new MiniCssExtractPlugin());
+    config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
+
   } else {
     config.mode = "development";
   }

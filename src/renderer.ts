@@ -1,6 +1,7 @@
 import { PerspectiveCamera, Scene, WebGLRenderer} from 'three';
-import './style.css';
 import Body from './body';
+import './planets';
+import './style.css';
 
 const scene = new Scene();
 const renderer = new WebGLRenderer();
@@ -18,16 +19,15 @@ refreshUI();
 renderRoot.classList.add('renderRoot');
 document.body.appendChild(renderRoot);
 
-new Body().enable();
 Body.renderAll(scene);
 
 console.log('ready!');
 
-let t = 0;
-
+let iteration = 0;
+let start: number = Date.now();
 function animate() {
-  Body.animateAll(t);
-  t += 1;
+  Body.animateAll(iteration, (Date.now() - start) / 1000);
+  iteration += 1;
   requestAnimationFrame( animate );
   renderer.render( scene, camera );
 }
