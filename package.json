@@ -1,9 +1,9 @@
 {
   "name": "orby",
   "version": "0.0.1",
-  "main": "src/index.ts",
+  "main": "src/index.tsx",
   "scripts": {
-    "start": "nodemon src/index.ts",
+    "start": "nodemon src/index.tsx",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",

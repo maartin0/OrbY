@@ -1,7 +1,6 @@
 import {PerspectiveCamera, Raycaster, Scene, Vector2, WebGLRenderer} from 'three';
 import Body from './body';
 import './planets';
-import './style.css';
 
 const scene = new Scene();
 const renderer = new WebGLRenderer();
@@ -22,17 +21,19 @@ document.body.appendChild(renderRoot);
 Body.renderAll(scene, camera);
 Body.bodies[0].focus();
 
-console.log('ready!');
+const raycaster: Raycaster = new Raycaster();
+const pointer: Vector2 = new Vector2();
 
-const raycaster = new Raycaster();
-const pointer = new Vector2();
+export const listeners: ((iteration: number, sec: number) => void)[] = [];
 
-let iteration = 0;
+let iteration: number = 0;
 let start: number = Date.now();
-let click = false;
-function render() {
+let click: boolean = false;
+function render(): void {
   raycaster.setFromCamera(pointer, camera);
-  Body.animateAll(iteration, (Date.now() - start) / 1000, raycaster, click);
+  const sec: number = (Date.now() - start) / 1000;
+  Body.animateAll(iteration, sec, raycaster, click);
+  listeners.forEach(l => l(iteration, sec));
   click = false;
   iteration += 1;
   requestAnimationFrame( render );
