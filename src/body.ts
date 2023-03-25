@@ -1,25 +1,49 @@
-import { BufferGeometry, Mesh, MeshBasicMaterial, Scene, SphereGeometry, Vector3 } from 'three';
+import {Camera, Color, Mesh, MeshBasicMaterial, Raycaster, Scene, SphereGeometry, Vector3} from 'three';
 
 export default abstract class Body {
-  private static bodies: Body[] = [];
-  private static meshes: Mesh[] = [];
+  public static bodies: Body[] = [];
 
-  public static renderAll(scene: Scene): void {
-    this.meshes = this.bodies.map(b => b.getMesh());
-    scene.add(...this.meshes);
+  public static renderAll(scene: Scene, camera: Camera): void {
+    const meshes: Mesh[] = this.bodies.map(b => {
+      b.mesh = b.getMesh();
+      b.scene = scene;
+      b.camera = camera;
+      return b.mesh;
+    });
+    scene.add(...meshes);
   }
 
-  public static animateAll(iteration: number, sec: number): void {
-    let i = 0;
+  public static animateAll(iteration: number, sec: number, raycaster: Raycaster, click: boolean): void {
     for (let body of this.bodies) {
-      const mesh = this.meshes[i];
+      const mesh = body.mesh;
+
+      // Translate position based on timingFunction
       const vector = body.getPosition(iteration, sec);
       mesh.position.x = vector.x;
       mesh.position.y = vector.y;
       mesh.position.z = vector.z;
-      i++;
+
+      // Trigger mouse events
+      if (raycaster.intersectObject(mesh).length >= 1) {
+        if (!body.hoverActive) {
+          body.hoverActive = true;
+          body.hoverStart();
+        }
+        if (click) {
+          body.click();
+        }
+      } else if (body.hoverActive) {
+        body.hoverActive = false;
+        body.hoverEnd();
+      }
     }
   }
+
+  protected mesh: Mesh;
+  protected scene: Scene;
+  protected camera: Camera;
+  private hoverActive = false;
+  protected focused = false;
 
   protected constructor() {
     Body.bodies.push(this);
@@ -34,6 +58,29 @@ export default abstract class Body {
    * @param sec time since start in seconds
    */
   protected abstract getPosition(iteration: number, sec: number): Vector3;
+
+  public focus(): void {
+    console.log('try focus');
+    this.camera.position.set(
+        this.mesh.position.x,
+        this.mesh.position.y,
+        this.mesh.position.z + 40,
+    );
+    //this.camera.translateY(1000);
+    //console.log('test');
+    this.scene.background = new Color(Math.random());
+    Body.bodies.forEach(b => b.focused = false);
+    this.focused = true;
+  }
+
+  protected hoverStart(): void {
+  }
+
+  protected hoverEnd(): void {
+  }
+
+  protected click(): void {
+  }
 }
 
 export class SimpleBody extends Body {
@@ -50,7 +97,7 @@ export class SimpleBody extends Body {
     this.textureColor = textureColor;
     this.timingFunction = timingFunction;
   }
-  public getMesh(): Mesh {
+  protected getMesh(): Mesh {
     return new Mesh(
       new SphereGeometry(this.textureRadius),
       new MeshBasicMaterial({
@@ -62,6 +109,18 @@ export class SimpleBody extends Body {
 
   protected getPosition(iteration: number, sec: number): Vector3 {
     return this.timingFunction(iteration, sec);
+  }
+
+  protected hoverStart() {
+    (this.mesh.material as MeshBasicMaterial).color.set(0xffffff);
+  }
+
+  protected hoverEnd() {
+    (this.mesh.material as MeshBasicMaterial).color.set(this.textureColor);
+  }
+
+  protected click() {
+    this.focus();
   }
 }
 
