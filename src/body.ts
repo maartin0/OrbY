@@ -1,4 +1,16 @@
-import {Camera, Color, Mesh, MeshBasicMaterial, Raycaster, Scene, SphereGeometry, Vector3} from 'three';
+import {
+  BufferGeometry,
+  Camera,
+  Color,
+  Line,
+  LineBasicMaterial,
+  Mesh,
+  MeshBasicMaterial,
+  Raycaster,
+  Scene,
+  SphereGeometry,
+  Vector3
+} from 'three';
 
 export default abstract class Body {
   public static bodies: Body[] = [];
@@ -11,6 +23,8 @@ export default abstract class Body {
       return b.mesh;
     });
     scene.add(...meshes);
+    // Let individual bodies setup any required children
+    this.bodies.forEach(b => b.init());
   }
 
   public static animateAll(iteration: number, sec: number, raycaster: Raycaster, click: boolean): void {
@@ -73,6 +87,9 @@ export default abstract class Body {
     this.focused = true;
   }
 
+  protected init(): void {
+  }
+
   protected hoverStart(): void {
   }
 
@@ -87,6 +104,9 @@ export class SimpleBody extends Body {
   private readonly textureRadius: number;
   private readonly textureColor: number;
   private readonly timingFunction: (iteration: number, sec: number) => Vector3;
+  private pathPoints: Vector3[] = [];
+  private line: Line;
+
   public constructor(
     textureRadius: number,
     textureColor: number,
@@ -97,6 +117,15 @@ export class SimpleBody extends Body {
     this.textureColor = textureColor;
     this.timingFunction = timingFunction;
   }
+
+  protected init() {
+    this.line = new Line(
+        new BufferGeometry(),
+        new LineBasicMaterial({ color: 0xff0000 }),
+    );
+    this.scene.add(this.line);
+  }
+
   protected getMesh(): Mesh {
     return new Mesh(
       new SphereGeometry(this.textureRadius),
@@ -108,7 +137,10 @@ export class SimpleBody extends Body {
   }
 
   protected getPosition(iteration: number, sec: number): Vector3 {
-    return this.timingFunction(iteration, sec);
+    const pos = this.timingFunction(iteration, sec);
+    this.pathPoints.push(pos);
+    this.line.geometry = this.line.geometry.setFromPoints(this.pathPoints);
+    return pos;
   }
 
   protected hoverStart() {

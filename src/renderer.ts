@@ -42,7 +42,7 @@ function render() {
 render();
 
 document.addEventListener('wheel', (e: WheelEvent) => {
-  camera.position.z += e.deltaY / 500;
+  camera.position.z += e.deltaY / 10;
 });
 
 let clickLast: { x: number, y: number } | null = null;
