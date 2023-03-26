@@ -78,7 +78,7 @@ export default abstract class Body {
     this.camera.position.set(
         this.mesh.position.x,
         this.mesh.position.y,
-        this.mesh.position.z + 40,
+        this.mesh.position.z + 200,
     );
     //this.camera.translateY(1000);
     //console.log('test');
@@ -131,7 +131,7 @@ export class SimpleBody extends Body {
       new SphereGeometry(this.textureRadius),
       new MeshBasicMaterial({
         color: this.textureColor,
-        wireframe: true,
+        wireframe: false,
       }
     ));
   }
