@@ -2,26 +2,25 @@ import { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 import Body from './body';
 import './planets';
 import { initialise, tick } from '../animationState';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const scene: Scene = new Scene();
 const renderer: WebGLRenderer = new WebGLRenderer({ alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
 const renderRoot: HTMLCanvasElement = renderer.domElement;
-let camera: PerspectiveCamera;
+const camera: PerspectiveCamera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+const orbitControls: OrbitControls = new OrbitControls(camera, renderRoot);
 
 renderer.setClearColor(0x000000, 0);
 
-function refreshUI() {
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-}
-window.addEventListener('resize', refreshUI);
-refreshUI();
+window.addEventListener('resize', () => location.reload());
 
 renderRoot.classList.add('renderRoot');
 document.body.appendChild(renderRoot);
 
-initialise(scene, camera);
+camera.position.set(0, 20, 100);
+
+initialise(scene, camera, orbitControls);
 
 function render(): void {
   tick();
@@ -31,7 +30,7 @@ function render(): void {
 
 render();
 
-document.addEventListener('wheel', (e: WheelEvent) => {
+/* document.addEventListener('wheel', (e: WheelEvent) => {
   camera.position.z += e.deltaY / 10;
 });
 
@@ -53,3 +52,4 @@ document.addEventListener('mousemove', (e: MouseEvent) => {
     update(e);
   }
 });
+*/

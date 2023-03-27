@@ -31,6 +31,14 @@ body > * {
     height: 100vh;
 }
 
+#container {
+    pointer-events: none;
+}
+
+#container input {
+    pointer-events: auto;
+}
+
 #controller {
     display: flex;
     flex-direction: column;
@@ -56,10 +64,13 @@ body > * {
     display: none;
 }
 
-.clickable {
+span.label {
     cursor: pointer;
+    position: absolute;
+    background-color: black;
+    pointer-events: auto;
 }
 
-span .big {
+span.label.big {
     font-size: 120%;
 }

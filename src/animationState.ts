@@ -2,6 +2,7 @@ import { getDateString, now, programStart } from './util/date';
 import { PerspectiveCamera, Scene } from 'three';
 import { l1 } from './util/number';
 import Body from './renderer/body';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 export enum AnimationDirection {
     forward = 1,
@@ -21,6 +22,7 @@ export default interface AnimationState {
     viewport: {
         scene: Scene,
         camera: PerspectiveCamera,
+        controls: OrbitControls,
     },
     planets: Body[],
     lastTick: bigint, // Last actual time of tick, used for synchronising speeds
@@ -45,7 +47,7 @@ export function update(ms: bigint, bypass?: boolean | undefined) {
     if (bypass || animationState.time.ms !== ms) {
         animationState.time.ms = ms;
         animationState.time.label = getDateString(ms);
-        animationState.planets = Body.getSortedBodies();
+        animationState.planets = Body.bodies;
         broadcast();
     }
 }
@@ -63,7 +65,7 @@ export function tick(): void {
     animationState.lastTick = now();
 }
 
-export function initialise(scene: Scene, camera: PerspectiveCamera): void {
+export function initialise(scene: Scene, camera: PerspectiveCamera, controls: OrbitControls): void {
     animationState = {
         time: {
             ms: programStart,
@@ -77,6 +79,7 @@ export function initialise(scene: Scene, camera: PerspectiveCamera): void {
         viewport: {
             scene,
             camera,
+            controls,
         },
         planets: [],
         lastTick: programStart,
