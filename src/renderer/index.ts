@@ -1,7 +1,7 @@
 import {PerspectiveCamera, Raycaster, Scene, Vector2, WebGLRenderer} from 'three';
 import Body from './body';
 import './planets';
-import {getDateString, yearMs} from "../util/util";
+import {getDateString, yearMs} from "../util/date";
 
 const scene = new Scene();
 const renderer = new WebGLRenderer();
