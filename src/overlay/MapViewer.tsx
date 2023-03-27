@@ -3,6 +3,7 @@ import AnimationState, { animationState, subscribe } from '../animationState';
 import Body from '../renderer/body';
 import { generateUUID } from 'three/src/math/MathUtils';
 import { Vector2 } from 'three';
+import { MouseEventHandler } from 'react';
 
 let component: MapViewer;
 
@@ -21,13 +22,16 @@ export default class MapViewer extends React.Component<Props, State> {
     }
     render(): JSX.Element {
         return (
-            <p id='map'>
+            <div id='map'>
                 {this.state.animationState.planets.map((b: Body) => {
                     const projection: Vector2 = b.getProjection();
                     return (
                     <span key={generateUUID()}
-                          className={`label${b.focused ? ' big' : ''}`}
-                          onClick={() => b.focus()}
+                          className={`label${b.focused ? ' focused' : ''}`}
+                          onClick={(event: React.MouseEvent): void => {
+                              b.focus();
+                              console.log('click');
+                          }}
                           style={{
                               left: (100 * projection.x)+'vw',
                               top: (100 * projection.y)+'vh',
@@ -35,7 +39,7 @@ export default class MapViewer extends React.Component<Props, State> {
                         {b.displayName + ' '}
                     </span>
                 )})}
-            </p>
+            </div>
         );
     }
 }

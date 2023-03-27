@@ -71,6 +71,6 @@ span.label {
     pointer-events: auto;
 }
 
-span.label.big {
-    font-size: 120%;
+span.label.focused {
+    background-color: green;
 }
