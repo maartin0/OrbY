@@ -31,8 +31,8 @@ function broadcast(): void {
     listeners.forEach(l => l(state));
 }
 
-export function update(ms: bigint) {
-    if (state.time.ms !== ms) {
+export function update(ms: bigint, bypass?: boolean | undefined) {
+    if (bypass || state.time.ms !== ms) {
         state.time.ms = ms;
         state.time.label = getDateString(ms);
         broadcast();
@@ -48,3 +48,6 @@ export function tick(): void {
         )
     );
 }
+
+// Set initial state
+update(BigInt(0), true);
