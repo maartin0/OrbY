@@ -1,6 +1,7 @@
 import { getDateString, now, programStart } from './util/date';
 import { PerspectiveCamera, Scene } from 'three';
 import { l1 } from './util/number';
+import Body from './renderer/body';
 
 export enum AnimationDirection {
     forward = 1,
@@ -21,6 +22,7 @@ export default interface AnimationState {
         scene: Scene,
         camera: PerspectiveCamera,
     },
+    planets: Body[],
     lastTick: bigint, // Last actual time of tick, used for synchronising speeds
 }
 
@@ -43,6 +45,7 @@ export function update(ms: bigint, bypass?: boolean | undefined) {
     if (bypass || animationState.time.ms !== ms) {
         animationState.time.ms = ms;
         animationState.time.label = getDateString(ms);
+        animationState.planets = Body.getSortedBodies();
         broadcast();
     }
 }
@@ -75,6 +78,7 @@ export function initialise(scene: Scene, camera: PerspectiveCamera): void {
             scene,
             camera,
         },
+        planets: [],
         lastTick: programStart,
     }
     update(programStart, true);
