@@ -7,11 +7,14 @@ import {
   MeshBasicMaterial,
   Scene,
   SphereGeometry,
+  Vector2,
   Vector3,
 } from 'three';
-import AnimationState, { subscribe } from '../animationState';
+import AnimationState, { animationState, subscribe } from '../animationState';
 
 export default class Body {
+  public static bodies: Body[] = [];
+
   protected mesh: Mesh;
   protected scene: Scene;
   protected camera: Camera;
@@ -24,20 +27,27 @@ export default class Body {
   protected readonly timingFunction: PositionFunction;
   private line: Line;
 
+  public static getSortedBodies(): Body[] {
+    return this.bodies.sort((a, b) => (a.getProjection().x - b.getProjection().x));
+  }
+
   public constructor(
       displayName: string,
       textureRadius: number,
       textureColor: number,
       timingFunction: PositionFunction
   ) {
-    subscribe((state: AnimationState) => this.update(state));
+    subscribe(() => this.update());
     this.displayName = displayName;
     this.textureRadius = textureRadius;
     this.textureColor = textureColor;
     this.timingFunction = timingFunction;
+    Body.bodies.push(this);
   }
 
   protected init(): void {
+    this.scene = animationState.viewport.scene;
+    this.camera = animationState.viewport.camera;
     this.mesh = this.getMesh();
     this.scene.add(this.mesh);
     if (this.focused) this.focus();
@@ -45,14 +55,18 @@ export default class Body {
     this.plot();
   }
 
-  protected update(state: AnimationState): void {
-    if (!this.ready) {
-      this.scene = state.viewport.scene;
-      this.camera = state.viewport.camera;
-      this.init();
-    }
+  public getProjection(): Vector2 | undefined {
+    if (!this.ready) this.init();
+    const projection: Vector3 = this.mesh.position.project(this.camera);
+    return new Vector2(
+        (projection.x + 1) / 2,
+        (projection.y - 1) / 2,
+    );
+  }
 
-    const pos: Vector3 = this.getPosition(state.time.ms);
+  protected update(): void {
+    if (!this.ready) this.init();
+    const pos: Vector3 = this.getPosition(animationState.time.ms);
     this.mesh.position.x = pos.x;
     this.mesh.position.y = pos.y;
     this.mesh.position.z = pos.z;
@@ -65,6 +79,7 @@ export default class Body {
         this.mesh.position.y,
         this.mesh.position.z + 200,
     );
+    Body.bodies.forEach((b: Body): void => { b.focused = false });
     this.focused = true;
   }
 

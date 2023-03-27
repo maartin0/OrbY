@@ -74,6 +74,6 @@ export default class Controller extends React.Component<Props, State> {
     }
 }
 
-subscribe((animationState: AnimationState) => {
+subscribe((animationState: AnimationState): void => {
     component?.setState({ animationState });
 });
