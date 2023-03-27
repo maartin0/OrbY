@@ -7,18 +7,13 @@ body {
     color: white;
     display: flex;
     flex-direction: column;
+    font-family: Courier monospace;
 }
 
 body > * {
     left: 0;
     right: 0;
     width: 100vw;
-}
-
-#controller {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
 }
 
 #canvasHolder {
@@ -28,8 +23,7 @@ body > * {
 header {
     border-bottom: 1px solid white;
     margin: 0;
-    padding: 8px;
-    padding-top: 16px;
+    padding: 10px;
 }
 
 header p {
@@ -40,8 +34,13 @@ header > div {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: end;
+    align-items: center;
+    width: calc(100vw - 20px);
+}
+
+header #timer {
+    margin-right: auto;
 }
 
 header > div > * {
@@ -60,7 +59,6 @@ span.label {
     cursor: pointer;
     position: absolute;
     background-color: black;
-    pointer-events: auto;
     z-index: 9;
 }
 
