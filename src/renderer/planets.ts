@@ -1,17 +1,8 @@
 import { circularOrbit, SimpleBody } from './body';
 import { Vector3 } from 'three';
 
-export const ellipticalOrbit = (radius: number, speed?: number) => ((iteration: number, sec: number) => {
-    const angle: number = (sec * (speed ?? 1)) % (Math.PI * 2);
-    return new Vector3(
-        radius * Math.cos(angle),
-        0,
-        radius * Math.sin(angle)
-    );
-});
-
 // Sun
-new SimpleBody(50, 0xfcf803, circularOrbit(0.01));
+new SimpleBody(50, 0xfcf803, circularOrbit(0.01)).focused = true;
 
 // Mercury
 new SimpleBody(1/6, 0x6a838f, circularOrbit(50));

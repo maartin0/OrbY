@@ -1,7 +1,7 @@
 import { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 import Body from './body';
 import './planets';
-import { tick } from '../animationState';
+import { initialise, tick } from '../animationState';
 
 const scene: Scene = new Scene();
 const renderer: WebGLRenderer = new WebGLRenderer();
@@ -19,7 +19,7 @@ refreshUI();
 renderRoot.classList.add('renderRoot');
 document.body.appendChild(renderRoot);
 
-Body.renderAll(scene, camera);
+initialise(scene, camera);
 
 function render(): void {
   tick();
