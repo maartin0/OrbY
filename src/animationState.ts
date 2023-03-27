@@ -1,5 +1,6 @@
 import { getDateString, now, programStart } from './util/date';
 import { PerspectiveCamera, Scene } from 'three';
+import { l1 } from './util/number';
 
 export enum AnimationDirection {
     forward = 1,
@@ -13,7 +14,7 @@ export default interface AnimationState {
     },
     animation: {
         direction: AnimationDirection,
-        speedRatio: number, // Speed ratio, e.g. 1: 1ms real = 1ms animation vs 1000 where 1s real = 1ms animation
+        speedRatio: bigint, // Speed ratio, e.g. 1: 1ms real = 1ms animation vs 1000 where 1s real = 1ms animation
         paused: boolean,
     },
     viewport: {
@@ -67,7 +68,7 @@ export function initialise(scene: Scene, camera: PerspectiveCamera): void {
         },
         animation: {
             direction: AnimationDirection.forward,
-            speedRatio: 1,
+            speedRatio: l1,
             paused: false,
         },
         viewport: {
