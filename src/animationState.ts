@@ -5,7 +5,7 @@ export enum AnimationDirection {
     backward = -1,
 }
 
-export interface State {
+export default interface AnimationState {
     time: {
         ms: bigint,
         label: string,
@@ -16,10 +16,10 @@ export interface State {
     }
 }
 
-export let state: State;
+export let animationState: AnimationState;
 
 export type Consumer<T> = (arg: T) => any;
-export type Listener = Consumer<State>;
+export type Listener = Consumer<AnimationState>;
 
 export const listeners: Listener[] = [];
 
@@ -28,23 +28,23 @@ export function subscribe(..._listeners: Listener[]): void {
 }
 
 function broadcast(): void {
-    listeners.forEach(l => l(state));
+    listeners.forEach(l => l(animationState));
 }
 
 export function update(ms: bigint, bypass?: boolean | undefined) {
-    if (bypass || state.time.ms !== ms) {
-        state.time.ms = ms;
-        state.time.label = getDateString(ms);
+    if (bypass || animationState.time.ms !== ms) {
+        animationState.time.ms = ms;
+        animationState.time.label = getDateString(ms);
         broadcast();
     }
 }
 
 // tick() should be called every ms
 export function tick(): void {
-    update(state.time.ms
+    update(animationState.time.ms
         + (
-            BigInt(state.animation.direction.valueOf())
-            * state.animation.speedRatio
+            BigInt(animationState.animation.direction.valueOf())
+            * animationState.animation.speedRatio
         )
     );
 }
