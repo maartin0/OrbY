@@ -7,8 +7,9 @@ let component: Controller;
 
 type Props = {};
 type State = {
-    expanded: boolean;
-    animationState: AnimationState;
+    expanded: boolean,
+    insane: boolean,
+    animationState: AnimationState,
 }
 
 function setFromScale(value: number): void {
@@ -24,6 +25,7 @@ export default class Controller extends React.Component<Props, State> {
         super(props);
         this.state = {
             expanded: false,
+            insane: false,
             animationState,
         }
         component = this;
@@ -36,8 +38,8 @@ export default class Controller extends React.Component<Props, State> {
                     Speed:
                     <input type='range' onChange={(e: FormEvent<HTMLInputElement>): void => {
                         setFromScale((e.target as HTMLInputElement).valueAsNumber);
-                    }} value={getFromLogarithmic()} min={0} max={20} step={1} />
-                    ({getSpeedString(this.state.animationState.animation.speedRatio)})
+                    }} value={getFromLogarithmic()} min={0} max={this.state.insane ? 100 : 20} step={1} />
+                    ({getSpeedString(animationState.animation.speedRatio)})
                 </label>
                 <br />
                 <label>
@@ -53,6 +55,13 @@ export default class Controller extends React.Component<Props, State> {
                     Pause?
                     <input type='checkbox' onChange={(e: FormEvent<HTMLInputElement>): void => {
                         animationState.animation.paused = (e.target as HTMLInputElement).checked;
+                    }} />
+                </label>
+                <br />
+                <label>
+                    <input type='button' value='Enable Insanity' onClick={(e: FormEvent<HTMLInputElement>): void => {
+                        this.setState({ insane: true });
+                        (e.target as HTMLInputElement).disabled = true;
                     }} />
                 </label>
             </div>
