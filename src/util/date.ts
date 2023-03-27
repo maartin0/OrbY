@@ -7,7 +7,7 @@ const nativeFormatter: Intl.DateTimeFormat = new Intl.DateTimeFormat(undefined, 
     timeStyle: 'long'
 });
 
-export const now: () => bigint = () => BigInt(Date.now() + nativeOffset);
+export const now: () => bigint = () => BigInt(Date.now() - nativeOffset);
 export const programStart: bigint = now();
 
 function getDateStringNative(time: bigint): string {
@@ -35,3 +35,38 @@ export function getDateString(ms: bigint): string {
         : getDateStringFuture(ms);
 }
 
+const unit: {[name: string]: number} = {
+    year: 365 * 24 * 60 * 60,
+    month: 30 * 24 * 60 * 60,
+    week: 7 * 24 * 60 * 60,
+    day: 24 * 60 * 60,
+    hour: 60 * 60,
+    minute: 60,
+    second: 1,
+}
+
+export function getSpeedString(speed: number): string {
+    const calc = (unit: number, name: string): string => {
+        const result: bigint = BigInt(Math.round(speed / unit));
+        return `${getNumberString(result)} ${name}${result === BigInt(1) ? '' : 's'}`
+    }
+    return `${
+        speed < 1
+        ? 'NaN'
+        : speed == 1
+        ? '1 second'
+        : (speed > unit.year)
+        ? calc(unit.year, 'year')
+        : (speed > unit.month)
+        ? calc(unit.month, 'month')
+        : (speed > unit.hour)
+        ? calc(unit.hour, 'hour')
+        : (speed > unit.minute) 
+        ? calc(unit.minute, 'minute')
+        : (speed > unit.second) 
+        ? calc(unit.second, 'second')
+        : speed == 1
+        ? '1 second'
+        : 'NaN'
+    } per second`;
+}

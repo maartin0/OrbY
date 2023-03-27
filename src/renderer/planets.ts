@@ -1,5 +1,4 @@
 import { circularOrbit, SimpleBody } from './body';
-import { Vector3 } from 'three';
 
 // Sun
 new SimpleBody(50, 0xfcf803, circularOrbit(0.01)).focused = true;

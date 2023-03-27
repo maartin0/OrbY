@@ -13,7 +13,7 @@ export default interface AnimationState {
     },
     animation: {
         direction: AnimationDirection,
-        speedRatio: bigint, // Speed ratio, e.g. 1: 1ms real = 1ms animation vs 1000 where 1s real = 1ms animation
+        speedRatio: number, // Speed ratio, e.g. 1: 1ms real = 1ms animation vs 1000 where 1s real = 1ms animation
         paused: boolean,
     },
     viewport: {
@@ -51,7 +51,7 @@ export function tick(): void {
         update(animationState.time.ms
             + (
                 BigInt(animationState.animation.direction.valueOf())
-                * animationState.animation.speedRatio
+                * BigInt(animationState.animation.speedRatio)
                 * (now() - animationState.lastTick)
             )
         );
@@ -67,7 +67,7 @@ export function initialise(scene: Scene, camera: PerspectiveCamera): void {
         },
         animation: {
             direction: AnimationDirection.forward,
-            speedRatio: BigInt(1),
+            speedRatio: 1,
             paused: false,
         },
         viewport: {

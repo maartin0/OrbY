@@ -112,8 +112,7 @@ export class SimpleBody extends Body {
   }
 
   protected getPosition(ms: bigint): Vector3 {
-    const pos = this.timingFunction(ms);
-    return pos;
+    return this.timingFunction(ms);
   }
 }
 
