@@ -1,7 +1,7 @@
 import { getNumberString, l1 } from './number';
 
 const nativeLimit: bigint = BigInt(new Date(10000, 0, 0).valueOf());
-const nativeOffset: number = new Date(0, 0, 0).valueOf();
+const nativeOffset: number = -new Date(0, 0, 0).valueOf();
 const nativeFormatter: Intl.DateTimeFormat = new Intl.DateTimeFormat(undefined, {
     dateStyle: 'full',
     timeStyle: 'long'
@@ -11,7 +11,7 @@ export const now: () => bigint = () => BigInt(Date.now() - nativeOffset);
 export const programStart: bigint = now();
 
 function getDateStringNative(time: bigint): string {
-    return nativeFormatter.format(Number(time) - nativeOffset);
+    return nativeFormatter.format(Number(time) + nativeOffset);
 }
 
 // Number of milliseconds in a year
