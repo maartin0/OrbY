@@ -1,5 +1,4 @@
 import { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
-import Body from './body';
 import './planets';
 import { initialise, tick } from '../animationState';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -24,6 +23,7 @@ initialise(scene, camera, orbitControls);
 
 function render(): void {
   tick();
+  orbitControls.update();
   requestAnimationFrame( render );
   renderer.render( scene, camera );
 }

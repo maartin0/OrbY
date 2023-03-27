@@ -53,7 +53,9 @@ export function update(ms: bigint, bypass?: boolean | undefined) {
 }
 
 export function tick(): void {
-    if (!animationState.animation.paused) {
+    if (animationState.animation.paused) {
+        broadcast();
+    } else {
         update(animationState.time.ms
             + (
                 BigInt(animationState.animation.direction.valueOf())

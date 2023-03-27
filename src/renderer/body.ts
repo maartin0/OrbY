@@ -64,15 +64,17 @@ export default class Body {
     this.mesh.position.x = pos.x;
     this.mesh.position.y = pos.y;
     this.mesh.position.z = pos.z;
+    if (this.focused) this.keepFocus();
   }
 
   public focus(): void {
-    console.log('try focus');
-    animationState.viewport.controls.target.copy(
-        this.mesh.position
-    );
     Body.bodies.forEach((b: Body): void => { b.focused = false });
     this.focused = true;
+    this.keepFocus();
+  }
+
+  private keepFocus(): void {
+    animationState.viewport.controls.target.copy(this.mesh.position);
   }
 
   protected getMesh(): Mesh {
