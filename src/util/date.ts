@@ -7,8 +7,10 @@ const nativeFormatter: Intl.DateTimeFormat = new Intl.DateTimeFormat(undefined, 
     timeStyle: 'long'
 });
 
+export const programStart: bigint = BigInt(Date.now() + nativeOffset);
+
 function getDateStringNative(time: bigint): string {
-    return nativeFormatter.format(Number(time) + nativeOffset);
+    return nativeFormatter.format(Number(time) - nativeOffset);
 }
 
 // Number of milliseconds in a year

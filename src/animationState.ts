@@ -1,4 +1,5 @@
-import { getDateString } from './util/date';
+import { getDateString, programStart } from './util/date';
+import { PerspectiveCamera, Scene } from 'three';
 
 export enum AnimationDirection {
     forward = 1,
@@ -13,7 +14,12 @@ export default interface AnimationState {
     animation: {
         direction: AnimationDirection,
         speedRatio: bigint, // Speed ratio, e.g. 1: 1ms real = 1ms animation vs 1000 where 1s real = 1ms animation
-    }
+    },
+    viewport: {
+        scene: Scene,
+        camera: PerspectiveCamera,
+    },
+    lastTick: bigint, // Last actual time of tick, used for synchronising speeds
 }
 
 export let animationState: AnimationState;
@@ -39,15 +45,32 @@ export function update(ms: bigint, bypass?: boolean | undefined) {
     }
 }
 
-// tick() should be called every ms
 export function tick(): void {
     update(animationState.time.ms
         + (
             BigInt(animationState.animation.direction.valueOf())
             * animationState.animation.speedRatio
+            * (BigInt(Date.now()) - animationState.lastTick)
         )
     );
+    animationState.lastTick = BigInt(Date.now());
 }
 
-// Set initial state
-update(BigInt(0), true);
+export function initialise(scene: Scene, camera: PerspectiveCamera): void {
+    animationState = {
+        time: {
+            ms: programStart,
+            label: getDateString(programStart),
+        },
+        animation: {
+            direction: AnimationDirection.forward,
+            speedRatio: BigInt(1),
+        },
+        viewport: {
+            scene,
+            camera,
+        },
+        lastTick: programStart,
+    }
+    update(programStart, true);
+}
