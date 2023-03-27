@@ -1,5 +1,6 @@
 import { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 import './planets';
+import './keybinds';
 import { initialise, tick } from '../animationState';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
