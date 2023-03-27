@@ -1,4 +1,4 @@
-import { getDateString, programStart } from './util/date';
+import { getDateString, now, programStart } from './util/date';
 import { PerspectiveCamera, Scene } from 'three';
 
 export enum AnimationDirection {
@@ -14,6 +14,7 @@ export default interface AnimationState {
     animation: {
         direction: AnimationDirection,
         speedRatio: bigint, // Speed ratio, e.g. 1: 1ms real = 1ms animation vs 1000 where 1s real = 1ms animation
+        paused: boolean,
     },
     viewport: {
         scene: Scene,
@@ -46,14 +47,16 @@ export function update(ms: bigint, bypass?: boolean | undefined) {
 }
 
 export function tick(): void {
-    update(animationState.time.ms
-        + (
-            BigInt(animationState.animation.direction.valueOf())
-            * animationState.animation.speedRatio
-            * (BigInt(Date.now()) - animationState.lastTick)
-        )
-    );
-    animationState.lastTick = BigInt(Date.now());
+    if (!animationState.animation.paused) {
+        update(animationState.time.ms
+            + (
+                BigInt(animationState.animation.direction.valueOf())
+                * animationState.animation.speedRatio
+                * (now() - animationState.lastTick)
+            )
+        );
+    }
+    animationState.lastTick = now();
 }
 
 export function initialise(scene: Scene, camera: PerspectiveCamera): void {
@@ -65,6 +68,7 @@ export function initialise(scene: Scene, camera: PerspectiveCamera): void {
         animation: {
             direction: AnimationDirection.forward,
             speedRatio: BigInt(1),
+            paused: false,
         },
         viewport: {
             scene,
