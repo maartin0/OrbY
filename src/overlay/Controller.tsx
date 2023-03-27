@@ -1,5 +1,5 @@
 import * as React from 'react';
-import AnimationState, {animationState, subscribe} from "../animationState";
+import AnimationState, { animationState, subscribe } from '../animationState';
 
 let component: Controller;
 

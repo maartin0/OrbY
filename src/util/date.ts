@@ -1,4 +1,4 @@
-import {getNumberString} from './number';
+import { getNumberString } from './number';
 
 const nativeLimit: bigint = BigInt(new Date(10000, 0, 0).valueOf());
 const nativeOffset: number = new Date(0, 0, 0).valueOf();

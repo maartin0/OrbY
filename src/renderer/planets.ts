@@ -1,5 +1,5 @@
-import { circularOrbit, SimpleBody } from './body';
-import {Vector3} from "three";
+import {circularOrbit, SimpleBody} from './body';
+import {Vector3} from 'three';
 
 export const ellipticalOrbit = (radius: number, speed?: number) => ((iteration: number, sec: number) => {
     const angle: number = (sec * (speed ?? 1)) % (Math.PI * 2);
