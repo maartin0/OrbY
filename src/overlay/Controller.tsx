@@ -12,11 +12,11 @@ type State = {
 }
 
 function setFromScale(value: number): void {
-    animationState.animation.speedRatio = Math.round(Math.exp(value));
+    animationState.animation.speedRatio = BigInt(Math.round(Math.exp(value)));
 }
 
 function getFromLogarithmic(): number {
-    return Math.round(Math.log(animationState.animation.speedRatio));
+    return Math.round(Math.log(Number(animationState.animation.speedRatio)));
 }
 
 export default class Controller extends React.Component<Props, State> {
@@ -36,7 +36,7 @@ export default class Controller extends React.Component<Props, State> {
                     Speed:
                     <input type='range' onChange={(e: FormEvent<HTMLInputElement>): void => {
                         setFromScale((e.target as HTMLInputElement).valueAsNumber);
-                    }} value={getFromLogarithmic()} min={0} max={50} step={1} />
+                    }} value={getFromLogarithmic()} min={0} max={20} step={1} />
                     ({getSpeedString(this.state.animationState.animation.speedRatio)})
                 </label>
                 <br />

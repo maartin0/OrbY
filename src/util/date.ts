@@ -1,4 +1,4 @@
-import { getNumberString } from './number';
+import { getNumberString, l1 } from './number';
 
 const nativeLimit: bigint = BigInt(new Date(10000, 0, 0).valueOf());
 const nativeOffset: number = new Date(0, 0, 0).valueOf();
@@ -45,15 +45,15 @@ const unit: {[name: string]: number} = {
     second: 1,
 }
 
-export function getSpeedString(speed: number): string {
+export function getSpeedString(speed: bigint): string {
     const calc = (unit: number, name: string): string => {
-        const result: bigint = BigInt(Math.round(speed / unit));
-        return `${getNumberString(result)} ${name}${result === BigInt(1) ? '' : 's'}`
+        const result: bigint = speed / BigInt(unit);
+        return `${getNumberString(result)} ${name}${result === l1 ? '' : 's'}`
     }
     return `${
-        speed < 1
+        speed < l1
         ? 'NaN'
-        : speed == 1
+        : speed == l1
         ? '1 second'
         : (speed > unit.year)
         ? calc(unit.year, 'year')
@@ -65,7 +65,7 @@ export function getSpeedString(speed: number): string {
         ? calc(unit.minute, 'minute')
         : (speed > unit.second) 
         ? calc(unit.second, 'second')
-        : speed == 1
+        : speed == l1
         ? '1 second'
         : 'NaN'
     } per second`;
