@@ -25,6 +25,7 @@ export default interface AnimationState {
         controls: OrbitControls,
     },
     planets: Body[],
+    orbitsDisabled: boolean,
     lastTick: bigint, // Last actual time of tick, used for synchronising speeds
 }
 
@@ -84,6 +85,7 @@ export function initialise(scene: Scene, camera: PerspectiveCamera, controls: Or
             controls,
         },
         planets: [],
+        orbitsDisabled: false,
         lastTick: programStart,
     }
     update(programStart, true);

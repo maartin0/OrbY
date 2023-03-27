@@ -4,39 +4,15 @@ body {
     height: 100%;
     overflow: hidden;
     background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
 }
 
 body > * {
-    position: fixed;
-    top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
     width: 100vw;
-    height: 100vh;
-}
-
-.renderRoot {
-    z-index: -1;
-}
-
-#container > div {
-    color: white;
-    padding: 0;
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    height: 100vh;
-}
-
-#container {
-    pointer-events: none;
-}
-
-#container input {
-    pointer-events: auto;
 }
 
 #controller {
@@ -45,23 +21,39 @@ body > * {
     text-align: center;
 }
 
-#controller > div {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    padding-bottom: 10px;
+#canvasHolder {
+    z-index: -1;
 }
 
-#controller > div div {
+header {
+    border-bottom: 1px solid white;
+    margin: 0;
+    padding: 8px;
+    padding-top: 16px;
+}
+
+header p {
+    margin: 0;
+}
+
+header > div {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
-    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
-#controller .hidden {
-    display: none;
+header > div > * {
+    margin: 0 4px;
+}
+
+header label {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
 }
 
 span.label {

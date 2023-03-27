@@ -16,9 +16,9 @@ renderer.setClearColor(0x000000, 0);
 window.addEventListener('resize', () => location.reload());
 
 renderRoot.classList.add('renderRoot');
-document.body.appendChild(renderRoot);
+document.getElementById('canvasHolder').appendChild(renderRoot);
 
-camera.position.set(0, 20, 100);
+camera.position.set(0, 80, 500);
 
 initialise(scene, camera, orbitControls);
 
@@ -30,27 +30,3 @@ function render(): void {
 }
 
 render();
-
-/* document.addEventListener('wheel', (e: WheelEvent) => {
-  camera.position.z += e.deltaY / 10;
-});
-
-let clickLast: { x: number, y: number } | null = null;
-const update = (e: MouseEvent) => clickLast = { x: e.x, y: e.y };
-
-document.addEventListener('mousedown', (e: MouseEvent) => {
-  update(e);
-});
-
-document.addEventListener('mouseup', () => {
-  clickLast = null;
-});
-
-document.addEventListener('mousemove', (e: MouseEvent) => {
-  if (clickLast) {
-    scene.rotation.y += (e.clientX - clickLast.x) / 100;
-    scene.rotation.x += (e.clientY - clickLast.y) / 100;
-    update(e);
-  }
-});
-*/
