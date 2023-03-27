@@ -90,7 +90,7 @@ export default class Body {
   protected plot(): void {
     this.line = new Line(
         new BufferGeometry(),
-        new LineBasicMaterial({ color: 0xff0000 }),
+        new LineBasicMaterial({ color: this.textureColor }),
     );
     const points: Vector3[] = [];
     const passed: boolean[] = [false, false, false];
