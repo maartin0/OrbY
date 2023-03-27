@@ -69,8 +69,10 @@ span.label {
     position: absolute;
     background-color: black;
     pointer-events: auto;
+    z-index: 9;
 }
 
 span.label.focused {
     background-color: green;
+    z-index: 10;
 }
