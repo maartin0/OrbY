@@ -65,6 +65,7 @@ export default class Body {
     this.mesh.position.y = pos.y;
     this.mesh.position.z = pos.z;
     if (this.focused) this.keepFocus();
+    this.line.visible = !animationState.orbitsDisabled;
   }
 
   public focus(): void {

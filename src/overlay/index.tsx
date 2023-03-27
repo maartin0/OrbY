@@ -5,6 +5,8 @@ import MapViewer from './MapViewer';
 export default () => (
     <div>
         <MapViewer />
-        <Controller />
+        <header>
+            <Controller />
+        </header>
     </div>
 );
