@@ -11,15 +11,30 @@ import {
 } from 'three';
 import AnimationState, { subscribe } from '../animationState';
 
-export default abstract class Body {
+export default class Body {
   protected mesh: Mesh;
   protected scene: Scene;
   protected camera: Camera;
   protected ready: boolean = false;
   public focused: boolean = false;
 
-  protected constructor() {
+  public readonly displayName: string;
+  public readonly textureRadius: number;
+  public readonly textureColor: number;
+  protected readonly timingFunction: PositionFunction;
+  private line: Line;
+
+  public constructor(
+      displayName: string,
+      textureRadius: number,
+      textureColor: number,
+      timingFunction: PositionFunction
+  ) {
     subscribe((state: AnimationState) => this.update(state));
+    this.displayName = displayName;
+    this.textureRadius = textureRadius;
+    this.textureColor = textureColor;
+    this.timingFunction = timingFunction;
   }
 
   protected init(): void {
@@ -27,6 +42,7 @@ export default abstract class Body {
     this.scene.add(this.mesh);
     if (this.focused) this.focus();
     this.ready = true;
+    this.plot();
   }
 
   protected update(state: AnimationState): void {
@@ -42,10 +58,6 @@ export default abstract class Body {
     this.mesh.position.z = pos.z;
   }
 
-  protected abstract getMesh(): Mesh;
-
-  protected abstract getPosition(ms: bigint): Vector3;
-
   public focus(): void {
     console.log('try focus');
     this.camera.position.set(
@@ -55,40 +67,15 @@ export default abstract class Body {
     );
     this.focused = true;
   }
-}
-
-export type PositionFunction = (ms: bigint) => Vector3;
-
-export class SimpleBody extends Body {
-  private readonly textureRadius: number;
-  private readonly textureColor: number;
-  private readonly timingFunction: PositionFunction;
-  private line: Line;
-
-  public constructor(
-    textureRadius: number,
-    textureColor: number,
-    timingFunction: PositionFunction
-  ) {
-    super();
-    this.textureRadius = textureRadius;
-    this.textureColor = textureColor;
-    this.timingFunction = timingFunction;
-  }
-
-  protected init() {
-    super.init();
-    this.plot();
-  }
 
   protected getMesh(): Mesh {
     return new Mesh(
-      new SphereGeometry(this.textureRadius),
-      new MeshBasicMaterial({
-        color: this.textureColor,
-        wireframe: false,
-      }
-    ));
+        new SphereGeometry(this.textureRadius),
+        new MeshBasicMaterial({
+              color: this.textureColor,
+              wireframe: false,
+            },
+        ));
   }
 
   protected plot(): void {
@@ -115,6 +102,8 @@ export class SimpleBody extends Body {
     return this.timingFunction(ms);
   }
 }
+
+export type PositionFunction = (ms: bigint) => Vector3;
 
 export const circularOrbit = (radius: number, speed?: number) => ((ms: bigint) => {
   const angle: number = ((Number(ms) / 1000) * (speed ?? 1)) % (Math.PI * 2);
