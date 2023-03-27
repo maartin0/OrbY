@@ -4,9 +4,11 @@ import './planets';
 import { initialise, tick } from '../animationState';
 
 const scene: Scene = new Scene();
-const renderer: WebGLRenderer = new WebGLRenderer();
+const renderer: WebGLRenderer = new WebGLRenderer({ alpha: true });
 const renderRoot: HTMLCanvasElement = renderer.domElement;
 let camera: PerspectiveCamera;
+
+renderer.setClearColor(0x000000, 0);
 
 function refreshUI() {
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -36,11 +38,11 @@ document.addEventListener('wheel', (e: WheelEvent) => {
 let clickLast: { x: number, y: number } | null = null;
 const update = (e: MouseEvent) => clickLast = { x: e.x, y: e.y };
 
-document.addEventListener('mousedown', (e: MouseEvent) => {
+renderRoot.addEventListener('mousedown', (e: MouseEvent) => {
   update(e);
 });
 
-document.addEventListener('mouseup', () => {
+renderRoot.addEventListener('mouseup', () => {
   clickLast = null;
 });
 

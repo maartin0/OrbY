@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { FormEvent } from 'react';
-import AnimationState, { AnimationDirection, animationState, subscribe } from '../animationState';
+import AnimationState, { AnimationDirection, animationState, listeners, subscribe } from '../animationState';
+import { getSpeedString, programStart } from '../util/date';
 
 let component: Controller;
 
@@ -11,12 +12,11 @@ type State = {
 }
 
 function setFromScale(value: number): void {
-    const result: bigint = BigInt(Math.round(Math.exp(value)));
-    animationState.animation.speedRatio = result > BigInt(1) ? result : BigInt(1);
+    animationState.animation.speedRatio = Math.round(Math.exp(value));
 }
 
 function getFromLogarithmic(): number {
-    return Math.round(Math.log(Number(animationState.animation.speedRatio)));
+    return Math.round(Math.log(animationState.animation.speedRatio));
 }
 
 export default class Controller extends React.Component<Props, State> {
@@ -34,15 +34,15 @@ export default class Controller extends React.Component<Props, State> {
                 <p>{this.state.animationState.time.label}</p>
                 <label>
                     Speed:
-                    <input type='range' onInput={(e: FormEvent<HTMLInputElement>): void => {
+                    <input type='range' onChange={(e: FormEvent<HTMLInputElement>): void => {
                         setFromScale((e.target as HTMLInputElement).valueAsNumber);
-                    }} value={getFromLogarithmic()} min={0} max={200} step={1} />
-                    (x{Number(animationState.animation.speedRatio)})
+                    }} value={getFromLogarithmic()} min={0} max={50} step={1} />
+                    ({getSpeedString(this.state.animationState.animation.speedRatio)})
                 </label>
                 <br />
                 <label>
                     Reverse?
-                    <input type='checkbox' onInput={(e: FormEvent<HTMLInputElement>): void => {
+                    <input type='checkbox' onChange={(e: FormEvent<HTMLInputElement>): void => {
                         animationState.animation.direction = (e.target as HTMLInputElement).checked
                                                              ? AnimationDirection.backward
                                                              : AnimationDirection.forward;
@@ -51,7 +51,7 @@ export default class Controller extends React.Component<Props, State> {
                 <br />
                 <label>
                     Pause?
-                    <input type='checkbox' onInput={(e: FormEvent<HTMLInputElement>): void => {
+                    <input type='checkbox' onChange={(e: FormEvent<HTMLInputElement>): void => {
                         animationState.animation.paused = (e.target as HTMLInputElement).checked;
                     }} />
                 </label>
