@@ -6,11 +6,10 @@ import {
   Mesh,
   MeshBasicMaterial,
   Scene,
-  SphereGeometry,
-  Vector2,
+  SphereGeometry, Vector2,
   Vector3,
 } from 'three';
-import AnimationState, { animationState, subscribe } from '../animationState';
+import { animationState, subscribe } from '../animationState';
 
 export default class Body {
   public static bodies: Body[] = [];
@@ -26,10 +25,6 @@ export default class Body {
   public readonly textureColor: number;
   protected readonly timingFunction: PositionFunction;
   private line: Line;
-
-  public static getSortedBodies(): Body[] {
-    return this.bodies.sort((a, b) => (a.getProjection().x - b.getProjection().x));
-  }
 
   public constructor(
       displayName: string,
@@ -55,12 +50,11 @@ export default class Body {
     this.plot();
   }
 
-  public getProjection(): Vector2 | undefined {
-    if (!this.ready) this.init();
+  public getProjection(): Vector2 {
     const projection: Vector3 = this.mesh.position.project(this.camera);
     return new Vector2(
         (projection.x + 1) / 2,
-        (projection.y - 1) / 2,
+        1 - (projection.y + 1) / 2,
     );
   }
 
@@ -74,10 +68,8 @@ export default class Body {
 
   public focus(): void {
     console.log('try focus');
-    this.camera.position.set(
-        this.mesh.position.x,
-        this.mesh.position.y,
-        this.mesh.position.z + 200,
+    animationState.viewport.controls.target.copy(
+        this.mesh.position
     );
     Body.bodies.forEach((b: Body): void => { b.focused = false });
     this.focused = true;

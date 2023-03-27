@@ -1,8 +1,8 @@
 import * as React from 'react';
 import AnimationState, { animationState, subscribe } from '../animationState';
 import Body from '../renderer/body';
-import * as crypto from 'crypto';
 import { generateUUID } from 'three/src/math/MathUtils';
+import { Vector2 } from 'three';
 
 let component: MapViewer;
 
@@ -22,13 +22,19 @@ export default class MapViewer extends React.Component<Props, State> {
     render(): JSX.Element {
         return (
             <p id='map'>
-                {this.state.animationState.planets.map((b: Body) => (
+                {this.state.animationState.planets.map((b: Body) => {
+                    const projection: Vector2 = b.getProjection();
+                    return (
                     <span key={generateUUID()}
-                          className={`clickable${b.focused ? ' big' : ''}`}
-                          onClick={() => b.focus()}>
+                          className={`label${b.focused ? ' big' : ''}`}
+                          onClick={() => b.focus()}
+                          style={{
+                              left: (100 * projection.x)+'vw',
+                              top: (100 * projection.y)+'vh',
+                          }}>
                         {b.displayName + ' '}
                     </span>
-                ))}
+                )})}
             </p>
         );
     }
