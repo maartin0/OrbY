@@ -1,11 +1,11 @@
-import {PerspectiveCamera, Scene, WebGLRenderer} from 'three';
+import { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 import Body from './body';
 import './planets';
-import {tick} from '../animationState';
+import { tick } from '../animationState';
 
-const scene = new Scene();
-const renderer = new WebGLRenderer();
-const renderRoot = renderer.domElement;
+const scene: Scene = new Scene();
+const renderer: WebGLRenderer = new WebGLRenderer();
+const renderRoot: HTMLCanvasElement = renderer.domElement;
 let camera: PerspectiveCamera;
 
 function refreshUI() {
