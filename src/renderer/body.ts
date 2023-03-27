@@ -9,7 +9,7 @@ import {
   Raycaster,
   Scene,
   SphereGeometry,
-  Vector3
+  Vector3,
 } from 'three';
 
 export default abstract class Body {
