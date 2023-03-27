@@ -1,4 +1,4 @@
-import { getDateString } from "./util/date";
+import { getDateString } from './util/date';
 
 export enum AnimationDirection {
     forward = 1,
