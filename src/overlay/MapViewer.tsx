@@ -3,7 +3,6 @@ import AnimationState, { animationState, subscribe } from '../animationState';
 import Body from '../renderer/body';
 import { generateUUID } from 'three/src/math/MathUtils';
 import { Vector2 } from 'three';
-import { MouseEventHandler } from 'react';
 
 let component: MapViewer;
 
@@ -28,10 +27,7 @@ export default class MapViewer extends React.Component<Props, State> {
                     return (
                     <span key={generateUUID()}
                           className={`label${b.focused ? ' focused' : ''}`}
-                          onClick={(event: React.MouseEvent): void => {
-                              b.focus();
-                              console.log('click');
-                          }}
+                          onClick={() => b.focus()}
                           style={{
                               left: (100 * projection.x)+'vw',
                               top: (100 * projection.y)+'vh',
