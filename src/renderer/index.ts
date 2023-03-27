@@ -38,11 +38,11 @@ document.addEventListener('wheel', (e: WheelEvent) => {
 let clickLast: { x: number, y: number } | null = null;
 const update = (e: MouseEvent) => clickLast = { x: e.x, y: e.y };
 
-renderRoot.addEventListener('mousedown', (e: MouseEvent) => {
+document.addEventListener('mousedown', (e: MouseEvent) => {
   update(e);
 });
 
-renderRoot.addEventListener('mouseup', () => {
+document.addEventListener('mouseup', () => {
   clickLast = null;
 });
 
