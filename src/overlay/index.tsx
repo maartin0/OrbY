@@ -3,6 +3,7 @@ import Controller from './Controller';
 import MapViewer from './MapViewer';
 import { updateSize } from '../renderer';
 import Timer from './Timer';
+import * as loader from '../loader';
 
 export default class Overlay extends React.Component<{}, {}> {
     render(): JSX.Element {
@@ -18,5 +19,6 @@ export default class Overlay extends React.Component<{}, {}> {
     }
     componentDidMount(): void {
         updateSize();
+        loader.remove();
     }
 }

@@ -35,7 +35,7 @@ export default class Controller extends React.Component<{}, {}> {
         return (
             <div>
                 <label>
-                    Speed: {getSpeedString(animationState.animation.speedRatio)}
+                    <p>Speed: {getSpeedString(animationState.animation.speedRatio)}</p>
                     <input type='range' onChange={(e: React.FormEvent<HTMLInputElement>): void => {
                         setFromScale((e.target as HTMLInputElement).valueAsNumber);
                         this.forceUpdate();
