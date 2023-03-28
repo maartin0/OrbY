@@ -40,7 +40,7 @@ export default class Controller extends React.Component<{}, {}> {
                     <input type='range' onChange={(e: React.FormEvent<HTMLInputElement>): void => {
                         setFromScale((e.target as HTMLInputElement).valueAsNumber);
                         this.forceUpdate();
-                    }} min={0} max={20} step={1} />
+                    }} value={getFromLogarithmic()} min={0} max={20} step={1} />
 
                 </label>
 

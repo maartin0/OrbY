@@ -6,6 +6,8 @@ import Overlay from './overlay';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
-createRoot(document.getElementById('root')).render(<Overlay />);
+const root = document.createElement('div');
+document.body.append(root);
+createRoot(root).render(<Overlay />);
 
 console.log('Ready!');
