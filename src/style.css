@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 body {
     margin: 0;
     padding: 0;
@@ -8,7 +10,7 @@ body {
     color: white;
     display: flex;
     flex-direction: column;
-    font-family: Courier monospace;
+    font-family: 'Roboto', monospace, sans-serif;
 }
 
 body > * {
@@ -51,6 +53,7 @@ header > div {
 
 #timer {
     width: max-content;
+    font-size: 130%;
 }
 
 header > div > * {
@@ -64,6 +67,11 @@ header label {
     align-items: center;
     justify-content: center;
     margin-top: 6px;
+    font-size: 120%;
+}
+
+header label :not(input) {
+    margin-right: 6px;
 }
 
 span.label {
