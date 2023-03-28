@@ -1,7 +1,8 @@
 body {
     margin: 0;
     padding: 0;
-    height: 100%;
+    height: 100vh;
+    width: 100vw;
     overflow: hidden;
     background-color: black;
     color: white;
@@ -16,8 +17,9 @@ body > * {
     width: 100vw;
 }
 
-#canvasHolder {
+.renderRoot {
     z-index: 1;
+    height: 100%;
 }
 
 header {
@@ -56,13 +58,60 @@ header label {
 }
 
 span.label {
-    cursor: pointer;
     position: absolute;
     background-color: black;
+    user-select: none;
     z-index: 9;
 }
 
 span.label.focused {
     background-color: green;
     z-index: 10;
+}
+
+svg.icon {
+    border: 1px solid white;
+    border-radius: 0.3em;
+}
+
+.icon.button {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 0.1em;
+    padding: 0;
+    background-color: darkcyan;
+    cursor: pointer;
+    user-select: none;
+    border: 2px solid white;
+}
+
+.icon.button:hover {
+    opacity: 90%;
+}
+
+.icon.button .label {
+    margin: 3px;
+}
+
+.icon.button .holder {
+    background-color: black;
+    background-clip: border-box;
+    background-size: cover;
+}
+
+.icon.button .holder svg {
+    --size: calc(1em + 6px);
+    width: var(--size);
+    height: var(--size);
+}
+
+.icon.button.checkbox:not(.checked) {
+    background-color: red;
+}
+
+.icon.button.checkbox.checked {
+    background-color: green;
 }

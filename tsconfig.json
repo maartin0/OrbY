@@ -10,5 +10,9 @@
   },
   "files": [
       "src/index.tsx"
+  ],
+  "include": [
+    "src/assets",
+    "src/types/custom.d.ts"
   ]
 }

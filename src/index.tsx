@@ -1,5 +1,6 @@
 import './renderer';
 import './style.css';
+
 import Overlay from './overlay';
 
 import React from 'react';
