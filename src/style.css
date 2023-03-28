@@ -118,8 +118,9 @@ header > div > div {
 }
 
 .icon.button .label {
-    margin: 3px;
-    margin-right: 6px;
+    margin: auto;
+    padding: 4px;
+    text-align: center;
 }
 
 .icon.button .holder {
