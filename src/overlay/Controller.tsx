@@ -2,7 +2,7 @@ import * as React from 'react';
 import AnimationState, { AnimationDirection, animationState, subscribe } from '../animationState';
 import { getSpeedString } from '../util/date';
 import Body from '../renderer/Body';
-import { camera } from '../renderer';
+import { camera, setQuality } from '../renderer';
 import IconButton from './IconButton';
 import InIcon from '../assets/icons/in.svg';
 import MinusIcon from '../assets/icons/minus.svg';
@@ -46,6 +46,14 @@ export default class Controller extends React.Component<Props, State> {
             <div>
                 <p id='timer'>{this.state.time.label}</p>
 
+                <label>
+                    Speed:
+                    <input type='range' onChange={(e: React.FormEvent<HTMLInputElement>): void => {
+                        setFromScale((e.target as HTMLInputElement).valueAsNumber);
+                    }} value={getFromLogarithmic()} min={0} max={20} step={1} />
+                    ({getSpeedString(animationState.animation.speedRatio)})
+                </label>
+
                 <IconButton name='Move In' onClick={(): void => {
                     moveFocus(-1);
                 }}><InIcon /></IconButton>
@@ -74,13 +82,11 @@ export default class Controller extends React.Component<Props, State> {
                     animationState.animation.orbits = value;
                 }} checkbox={true} initialValue={true}><OrbitIcon /></IconButton>
 
-                <label>
-                    Speed:
-                    <input type='range' onChange={(e: React.FormEvent<HTMLInputElement>): void => {
-                        setFromScale((e.target as HTMLInputElement).valueAsNumber);
-                    }} value={getFromLogarithmic()} min={0} max={20} step={1} />
-                    ({getSpeedString(animationState.animation.speedRatio)})
-                </label>
+                {
+                    // <IconButton name='Quality' toggle={['Normal', 'Low', 'High']} onToggle={(value: string): void => {
+                    //     setQuality(value.toLowerCase() as 'high' | 'normal' | 'low');
+                    // }} />
+                }
             </div>
         );
     }

@@ -8,7 +8,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 export const scene: Scene = new Scene();
 export const renderer: WebGLRenderer = new WebGLRenderer();
 export const renderRoot: HTMLCanvasElement = renderer.domElement;
-export const camera: PerspectiveCamera = new PerspectiveCamera(75, 1, 1, 1000);
+export let camera: PerspectiveCamera = new PerspectiveCamera(75, 1, 1, 1000);
 export const size: Vector2 = new Vector2();
 export const orbitControls: OrbitControls = new OrbitControls(camera, renderRoot);
 
@@ -30,17 +30,18 @@ export function updateSize(): void {
   camera.updateProjectionMatrix();
 }
 
-export function setQuality(quality: 'high' | 'medium' | 'low') {
+export function setQuality(quality: 'high' | 'normal' | 'low') {
   if (quality === 'high') {
     camera.near = 0.1;
     camera.far = 10000;
-  } else if (quality === 'medium') {
+  } else if (quality === 'normal') {
     camera.near = 1;
     camera.far = 1000;
   } else if (quality === 'low') {
     camera.near = 10;
     camera.far = 500;
   }
+  camera.updateMatrix();
 }
 
 function render(): void {
