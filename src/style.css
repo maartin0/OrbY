@@ -24,9 +24,12 @@ body > * {
 }
 
 header {
-    border-bottom: 1px solid white;
     margin: 0;
     padding: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: calc(100vw - 20px);
 }
 
 header * {
@@ -43,15 +46,11 @@ header > div {
     flex-wrap: wrap;
     justify-content: flex-end;
     align-items: flex-start;
-    width: calc(100vw - 20px);
+    margin-left: auto;
 }
 
-header #timer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    margin: 15px;
-    line-height: 1.5em;
+#timer {
+    width: max-content;
 }
 
 header > div > * {
@@ -61,7 +60,7 @@ header > div > * {
 header label {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     margin-top: 6px;
