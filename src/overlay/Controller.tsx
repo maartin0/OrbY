@@ -1,8 +1,8 @@
 import * as React from 'react';
-import AnimationState, { AnimationDirection, animationState, subscribe } from '../animationState';
+import { AnimationDirection, animationState } from '../animationState';
 import { getSpeedString } from '../util/date';
 import Body from '../renderer/Body';
-import { camera, setQuality } from '../renderer';
+import { camera } from '../renderer';
 import IconButton from './IconButton';
 import InIcon from '../assets/icons/in.svg';
 import MinusIcon from '../assets/icons/minus.svg';
@@ -11,7 +11,6 @@ import OutIcon from '../assets/icons/out.svg';
 import PauseIcon from '../assets/icons/pause.svg';
 import PlusIcon from '../assets/icons/plus.svg';
 import ReverseIcon from '../assets/icons/reverse.svg';
-import { Component } from 'react';
 
 function setFromScale(value: number): void {
     animationState.animation.speedRatio = BigInt(Math.round(Math.exp(value)));
@@ -77,12 +76,6 @@ export default class Controller extends React.Component<{}, {}> {
                         camera.position.multiplyScalar(1.1);
                     }}><MinusIcon /></IconButton>
                 </div>
-
-                {
-                    // <IconButton name='Quality' toggle={['Normal', 'Low', 'High']} onToggle={(value: string): void => {
-                    //     setQuality(value.toLowerCase() as 'high' | 'normal' | 'low');
-                    // }} />
-                }
             </div>
         );
     }
