@@ -11,11 +11,7 @@ import OutIcon from '../assets/icons/out.svg';
 import PauseIcon from '../assets/icons/pause.svg';
 import PlusIcon from '../assets/icons/plus.svg';
 import ReverseIcon from '../assets/icons/reverse.svg';
-
-let component: Controller;
-
-type Props = {};
-type State = AnimationState;
+import { Component } from 'react';
 
 function setFromScale(value: number): void {
     animationState.animation.speedRatio = BigInt(Math.round(Math.exp(value)));
@@ -35,52 +31,52 @@ export function moveFocus(n: number): void {
     Body.bodies[((i + n) % length + length) % length].focus();
 }
 
-export default class Controller extends React.Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
-        this.state = animationState;
-        component = this;
-    }
+export default class Controller extends React.Component<{}, {}> {
     render(): JSX.Element {
         return (
             <div>
-                <p id='timer'>{this.state.time.label}</p>
-
                 <label>
-                    Speed:
+                    Speed: {getSpeedString(animationState.animation.speedRatio)}
                     <input type='range' onChange={(e: React.FormEvent<HTMLInputElement>): void => {
                         setFromScale((e.target as HTMLInputElement).valueAsNumber);
-                    }} value={getFromLogarithmic()} min={0} max={20} step={1} />
-                    ({getSpeedString(animationState.animation.speedRatio)})
+                        this.forceUpdate();
+                    }} min={0} max={20} step={1} />
+
                 </label>
 
-                <IconButton name='Move In' onClick={(): void => {
-                    moveFocus(-1);
-                }}><InIcon /></IconButton>
-
-                <IconButton name='Move Out' onClick={(): void => {
-                    moveFocus(1);
-                }}><OutIcon /></IconButton>
-
-                <IconButton name='Zoom In' onClick={(): void => {
-                    camera.position.multiplyScalar(0.9);
-                }}><PlusIcon /></IconButton>
-
-                <IconButton name='Zoom Out' onClick={(): void => {
-                    camera.position.multiplyScalar(1.1);
-                }}><MinusIcon /></IconButton>
-
-                <IconButton name='Pause' onChange={(value: boolean): void => {
-                    animationState.animation.paused = value;
-                }} checkbox={true} initialValue={false}><PauseIcon /></IconButton>
-
-                <IconButton name='Reverse' onChange={(value: boolean): void => {
-                    animationState.animation.direction = value ? AnimationDirection.backward : AnimationDirection.forward;
-                }} checkbox={true} initialValue={false}><ReverseIcon /></IconButton>
-
-                <IconButton name='Orbits' onChange={(value: boolean): void => {
+                <IconButton name='Show Orbits' onChange={(value: boolean): void => {
                     animationState.animation.orbits = value;
                 }} checkbox={true} initialValue={true}><OrbitIcon /></IconButton>
+
+                <div>
+                    <IconButton name='Move In' onClick={(): void => {
+                        moveFocus(-1);
+                    }}><InIcon /></IconButton>
+
+                    <IconButton name='Move Out' onClick={(): void => {
+                        moveFocus(1);
+                    }}><OutIcon /></IconButton>
+                </div>
+
+                <div>
+                    <IconButton name='Pause' onChange={(value: boolean): void => {
+                        animationState.animation.paused = value;
+                    }} checkbox={true} initialValue={false}><PauseIcon /></IconButton>
+
+                    <IconButton name='Reverse' onChange={(value: boolean): void => {
+                        animationState.animation.direction = value ? AnimationDirection.backward : AnimationDirection.forward;
+                    }} checkbox={true} initialValue={false}><ReverseIcon /></IconButton>
+                </div>
+
+                <div>
+                    <IconButton name='Zoom In' onClick={(): void => {
+                        camera.position.multiplyScalar(0.9);
+                    }}><PlusIcon /></IconButton>
+
+                    <IconButton name='Zoom Out' onClick={(): void => {
+                        camera.position.multiplyScalar(1.1);
+                    }}><MinusIcon /></IconButton>
+                </div>
 
                 {
                     // <IconButton name='Quality' toggle={['Normal', 'Low', 'High']} onToggle={(value: string): void => {
@@ -91,7 +87,3 @@ export default class Controller extends React.Component<Props, State> {
         );
     }
 }
-
-subscribe((animationState: AnimationState): void => {
-    component?.setState(animationState);
-});
