@@ -1,22 +1,20 @@
 import {
   BufferGeometry,
-  Camera,
   Line,
   LineBasicMaterial,
   Mesh,
   MeshBasicMaterial,
-  Scene,
-  SphereGeometry, Vector2,
+  SphereGeometry,
+  Vector2,
   Vector3,
 } from 'three';
 import { animationState, subscribe } from '../animationState';
+import { camera, orbitControls, renderRoot, scene, size } from './index';
 
 export default class Body {
   public static bodies: Body[] = [];
 
   protected mesh: Mesh;
-  protected scene: Scene;
-  protected camera: Camera;
   protected ready: boolean = false;
   public focused: boolean = false;
 
@@ -41,21 +39,22 @@ export default class Body {
   }
 
   protected init(): void {
-    this.scene = animationState.viewport.scene;
-    this.camera = animationState.viewport.camera;
     this.mesh = this.getMesh();
-    this.scene.add(this.mesh);
+    scene.add(this.mesh);
     if (this.focused) this.focus();
     this.ready = true;
     this.plot();
   }
 
-  public getProjection(): Vector2 {
-    const projection: Vector3 = this.mesh.position.project(this.camera);
-    return new Vector2(
-        (projection.x + 1) / 2,
-        1 - (projection.y + 1) / 2,
+  public getProjection(): Vector2 | null {
+    if (!this.ready) return null;
+    const projection: Vector3 = this.mesh.position.project(camera);
+    const normalized: Vector2 = new Vector2(
+        size.x * ((projection.x + 1) / 2),
+        size.y * (1 - ((projection.y + 1) / 2)) + renderRoot.offsetTop,
     );
+    if (normalized.x > size.x || normalized.x < 0 || normalized.y > size.y || normalized.y < 0) return null;
+    return normalized;
   }
 
   protected update(): void {
@@ -65,7 +64,7 @@ export default class Body {
     this.mesh.position.y = pos.y;
     this.mesh.position.z = pos.z;
     if (this.focused) this.keepFocus();
-    this.line.visible = !animationState.orbitsDisabled;
+    this.line.visible = animationState.animation.orbits;
   }
 
   public focus(): void {
@@ -75,7 +74,7 @@ export default class Body {
   }
 
   private keepFocus(): void {
-    animationState.viewport.controls.target.copy(this.mesh.position);
+    orbitControls.target.copy(this.mesh.position);
   }
 
   protected getMesh(): Mesh {
@@ -105,7 +104,7 @@ export default class Body {
       t++;
     }
     this.line.geometry = this.line.geometry.setFromPoints(points);
-    this.scene.add(this.line);
+    scene.add(this.line);
   }
 
   protected getPosition(ms: bigint): Vector3 {

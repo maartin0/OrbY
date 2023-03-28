@@ -1,7 +1,16 @@
 import * as React from 'react';
 import AnimationState, { AnimationDirection, animationState, subscribe } from '../animationState';
 import { getSpeedString } from '../util/date';
-import Body from '../renderer/body';
+import Body from '../renderer/Body';
+import { camera } from '../renderer';
+import IconButton from './IconButton';
+import InIcon from '../assets/icons/in.svg';
+import MinusIcon from '../assets/icons/minus.svg';
+import OrbitIcon from '../assets/icons/orbit.svg';
+import OutIcon from '../assets/icons/out.svg';
+import PauseIcon from '../assets/icons/pause.svg';
+import PlusIcon from '../assets/icons/plus.svg';
+import ReverseIcon from '../assets/icons/reverse.svg';
 
 let component: Controller;
 
@@ -36,38 +45,35 @@ export default class Controller extends React.Component<Props, State> {
         return (
             <div>
                 <p id='timer'>{this.state.time.label}</p>
-                <label>
-                    Reverse?
-                    <input type='checkbox' onChange={(e: React.FormEvent<HTMLInputElement>): void => {
-                        animationState.animation.direction = (e.target as HTMLInputElement).checked
-                                                             ? AnimationDirection.backward
-                                                             : AnimationDirection.forward;
-                    }} />
-                </label>
-                <label>
-                    Pause?
-                    <input type='checkbox' onChange={(e: React.FormEvent<HTMLInputElement>): void => {
-                        animationState.animation.paused = (e.target as HTMLInputElement).checked;
-                    }} />
-                </label>
-                <label>
-                    Disable Orbits?
-                    <input type='checkbox' onChange={(e: React.FormEvent<HTMLInputElement>): void => {
-                        animationState.orbitsDisabled = (e.target as HTMLInputElement).checked;
-                    }} />
-                </label>
-                <input type='button' value='Move in' onClick={(): void => {
+
+                <IconButton name='Move In' onClick={(): void => {
                     moveFocus(-1);
-                }} />
-                <input type='button' value='Move out' onClick={(): void => {
+                }}><InIcon /></IconButton>
+
+                <IconButton name='Move Out' onClick={(): void => {
                     moveFocus(1);
-                }} />
-                <input type='button' value='Zoom in' onClick={(): void => {
-                    animationState.viewport.camera.position.multiplyScalar(0.9);
-                }} />
-                <input type='button' value='Zoom out' onClick={(): void => {
-                    animationState.viewport.camera.position.multiplyScalar(1.1);
-                }} />
+                }}><OutIcon /></IconButton>
+
+                <IconButton name='Zoom In' onClick={(): void => {
+                    camera.position.multiplyScalar(0.9);
+                }}><PlusIcon /></IconButton>
+
+                <IconButton name='Zoom Out' onClick={(): void => {
+                    camera.position.multiplyScalar(1.1);
+                }}><MinusIcon /></IconButton>
+
+                <IconButton name='Pause' onChange={(value: boolean): void => {
+                    animationState.animation.paused = value;
+                }} checkbox={true} initialValue={false}><PauseIcon /></IconButton>
+
+                <IconButton name='Reverse' onChange={(value: boolean): void => {
+                    animationState.animation.direction = value ? AnimationDirection.backward : AnimationDirection.forward;
+                }} checkbox={true} initialValue={false}><ReverseIcon /></IconButton>
+
+                <IconButton name='Orbits' onChange={(value: boolean): void => {
+                    animationState.animation.orbits = value;
+                }} checkbox={true} initialValue={true}><OrbitIcon /></IconButton>
+
                 <label>
                     Speed:
                     <input type='range' onChange={(e: React.FormEvent<HTMLInputElement>): void => {
