@@ -1,4 +1,5 @@
-import Body, { circularOrbit } from './Body';
+import Body from './Body';
+import { circularOrbit } from './orbits';
 
 new Body('Sun', 50, 0xfcf803, circularOrbit(0.01)).focused = true;
 new Body('Mercury', 20/3, 0x6a838f, circularOrbit(50, 47.87/29.78));
