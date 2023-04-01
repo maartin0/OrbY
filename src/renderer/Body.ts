@@ -70,6 +70,7 @@ export default class Body {
   public focus(): void {
     Body.bodies.forEach((b: Body): void => { b.focused = false });
     this.focused = true;
+    camera.position.copy(this.mesh.position.add(new Vector3(0, 0.08, 0.12)));
     this.keepFocus();
   }
 
@@ -96,12 +97,13 @@ export default class Body {
     const passed: boolean[] = [false, false, false];
     let start: Vector3 | undefined = undefined;
     let t: bigint = BigInt(0);
+    const lbig: bigint = BigInt(100000000);
     while (points.length < 100000 && (!passed[0] || !passed[1] || !passed[2])) {
-      let end = this.getPosition(t);
+      let end: Vector3 = this.getPosition(t);
       points.push(end);
       if (!start) start = end;
       else if (start.equals(end)) break;
-      t++;
+      t += lbig;
     }
     this.line.geometry = this.line.geometry.setFromPoints(points);
     scene.add(this.line);

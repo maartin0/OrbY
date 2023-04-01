@@ -59,6 +59,7 @@ export function tick(): void {
     if (animationState.animation.paused) {
         broadcast();
     } else {
+        const start = animationState.time.ms;
         update(animationState.time.ms
             + (
                 BigInt(animationState.animation.direction.valueOf())
@@ -66,6 +67,10 @@ export function tick(): void {
                 * (now() - animationState.lastTick)
             )
         );
+        const end = animationState.time.ms;
+        if (start > end) {
+            console.log("CHANGED!!!!!!", start, end)
+        }
     }
     animationState.lastTick = now();
 }

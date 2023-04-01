@@ -8,12 +8,12 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 export const scene: Scene = new Scene();
 export const renderer: WebGLRenderer = new WebGLRenderer();
 export const renderRoot: HTMLCanvasElement = renderer.domElement;
-export let camera: PerspectiveCamera = new PerspectiveCamera(75, 1, 1, 5000);
+export let camera: PerspectiveCamera = new PerspectiveCamera(75, 1, 0.001, 1000);
 export const size: Vector2 = new Vector2();
 export const orbitControls: OrbitControls = new OrbitControls(camera, renderRoot);
 
 orbitControls.enableDamping = true;
-camera.position.set(0, 80, 500);
+camera.position.set(0, 8, 10);
 renderer.setPixelRatio(window.devicePixelRatio);
 
 renderRoot.classList.add('renderRoot');

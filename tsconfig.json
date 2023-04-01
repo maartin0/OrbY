@@ -13,6 +13,6 @@
   ],
   "include": [
     "src/assets",
-    "src/types/custom.d.ts"
+    "src/types/svg.d.ts"
   ]
 }
