@@ -15,7 +15,7 @@ const config = {
   devServer: {
     open: true,
     host: "localhost",
-    allowedHosts: [".ngrok.io"],
+    allowedHosts: [".ngrok.io", ".ngrok-free.app"],
   },
   plugins: [
     new HtmlWebpackPlugin({
