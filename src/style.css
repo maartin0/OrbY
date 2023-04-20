@@ -33,29 +33,23 @@ p {
     justify-content: space-between;
     z-index: 2;
     pointer-events: none;
-    margin: 6px;
 }
 
 #timer {
     width: max-content;
     font-size: 130%;
+    margin: 6px;
     top: 0;
     left: 0;
 }
 
 #controller {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
     align-items: flex-end;
-    justify-content: center;
-    margin: 6px;
+    justify-content: flex-end;
     font-size: 120%;
-}
-
-#speed_slider {
-    writing-mode: bt-lr; /* IE */
-    -webkit-appearance: slider-vertical; /* Chromium */
 }
 
 span.label {
@@ -95,21 +89,23 @@ svg.icon {
 }
 
 .icon.button:hover {
-    opacity: 90%; /* TODO change with color transform */
+    filter: brightness(90%);
 }
 
 .icon.button .label {
-    margin: inherit;
-    margin-right: 0;
+    margin: inherit 0 inherit inherit;
     padding-left: 8px;
     padding-right: 100%;
     text-align: center;
-    display: none;
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
     background-color: inherit;
     border-radius: inherit;
     position: absolute;
     width: max-content;
     align-items: center;
+    transition: visibility 0s, opacity 0.2s linear;
     height: 100%;
     z-index: 21;
 }
@@ -138,7 +134,8 @@ svg.icon {
 }
 
 .icon.button .holder:hover + .label {
-    display: flex;
+    visibility: visible;
+    opacity: 1;
 }
 
 .icon.button .holder svg {
@@ -153,4 +150,15 @@ svg.icon {
 
 .icon.button.checkbox.checked {
     background-color: green;
+}
+
+#selector {
+    width: 100vw;
+    background-color: darkcyan;
+    height: 0.1vh;
+    transition: height 0.5s linear;
+}
+
+#selector.active {
+    height: 50vh;
 }

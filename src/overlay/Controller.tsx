@@ -29,58 +29,78 @@ export function moveFocus(n: number): void {
     Body.bodies[((i + n) % length + length) % length].focus();
 }
 
-export default class Controller extends React.Component<{}, {}> {
+type State = {
+    expansion: number; // 0 default, 1 shows minimal controls, 2 shows full data & algorithm selection panel
+}
+
+export default class Controller extends React.Component<{}, State> {
+    constructor(props: {}) {
+        super(props);
+        this.state = {
+            expansion: 0,
+        };
+    }
+
     render(): JSX.Element {
-        // @ts-ignore
-      return (
-            <div id='controller'>
-                <IconButton name='Show Orbits' onChange={(value: boolean): void => {
+        let hideLevel1: boolean = this.state.expansion == 0;
+        return (
+            <div id="controller">
+                <IconButton name="Show Orbits" onChange={(value: boolean): void => {
                     animationState.animation.orbits = value;
-                }} checkbox={true} initialValue={true}><OrbitIcon /></IconButton>
+                }} hide={hideLevel1} checkbox={true} initialValue={true}><OrbitIcon/></IconButton>
 
-                <IconButton name='Move Out' onClick={(): void => {
+                <IconButton name="Move Out" onClick={(): void => {
                     moveFocus(1);
-                }}><ArrowIcon className='r180' /></IconButton>
+                }} hide={hideLevel1}><ArrowIcon className="r180"/></IconButton>
 
-                <IconButton name='Move In' onClick={(): void => {
-                  moveFocus(-1);
-                }}><ArrowIcon /></IconButton>
+                <IconButton name="Move In" onClick={(): void => {
+                    moveFocus(-1);
+                }} hide={hideLevel1}><ArrowIcon/></IconButton>
 
-                <IconButton name='Pause' onChange={(value: boolean): void => {
+                <IconButton name="Pause" onChange={(value: boolean): void => {
                     animationState.animation.paused = value;
-                }} checkbox={true} initialValue={false}><PauseIcon /></IconButton>
+                }} hide={hideLevel1} checkbox={true} initialValue={false}><PauseIcon/></IconButton>
 
-                <IconButton name='Reverse' onChange={(value: boolean): void => {
+                <IconButton name="Reverse" onChange={(value: boolean): void => {
                     animationState.animation.direction = value ? AnimationDirection.backward : AnimationDirection.forward;
-                }} checkbox={true} initialValue={false}><ReverseIcon /></IconButton>
+                }} hide={hideLevel1} checkbox={true} initialValue={false}><ReverseIcon/></IconButton>
 
-                <IconButton name='Zoom In' onClick={(): void => {
+                <IconButton name="Zoom In" onClick={(): void => {
                     camera.position.multiplyScalar(0.9);
-                }}><PlusIcon /></IconButton>
+                }} hide={hideLevel1}><PlusIcon/></IconButton>
 
-                <IconButton name='Zoom Out' onClick={(): void => {
+                <IconButton name="Zoom Out" onClick={(): void => {
                     camera.position.multiplyScalar(1.1);
-                }}><MinusIcon /></IconButton>
+                }} hide={hideLevel1}><MinusIcon/></IconButton>
 
-                <label className='icon button'>
-                  <div className='holder'>
-                    <input type='range'
-                           orient='vertical'
+                <IconButton name={`Speed: ${getSpeedString(animationState.animation.speedRatio)}`} hide={hideLevel1}>
+                    <input type="range"
                            min={0}
                            max={20}
                            step={1}
-                           id='speed_slider'
-                           className='clickable'
+                           className="clickable"
                            onChange={(e: React.FormEvent<HTMLInputElement>): void => {
-                      setFromScale((e.target as HTMLInputElement).valueAsNumber);
-                      this.forceUpdate();
-                    }} value={getFromLogarithmic()} />
-                    { /* TODO add icon */ }
-                  </div>
-                  <div className='label'>
-                    <span>Speed: {getSpeedString(animationState.animation.speedRatio)}</span>
-                  </div>
-                </label>
+                               setFromScale((e.target as HTMLInputElement).valueAsNumber);
+                               this.forceUpdate();
+                           }} value={getFromLogarithmic()}/>
+                    { /* TODO add icon */}
+                </IconButton>
+
+                <IconButton name="Shrink Controls" onClick={(): void => {
+                    this.setState((prevState: State) => ({
+                        expansion: prevState.expansion - 1,
+                    }));
+                }} hide={hideLevel1}><ArrowIcon className="r90"/></IconButton>
+
+                <IconButton name="Expand Controls" onClick={(): void => {
+                    this.setState((prevState: State) => ({
+                        expansion: prevState.expansion + 1,
+                    }));
+                }} hide={this.state.expansion >= 2}><ArrowIcon className="r270"/></IconButton>
+
+                <div id='selector' className={(this.state.expansion >= 2 && 'active') ?? ''}>
+
+                </div>
             </div>
         );
     }

@@ -7,6 +7,7 @@ type Props = {
     onChange?: (value: boolean) => void,
     checkbox?: boolean,
     initialValue?: boolean,
+    hide?: boolean,
 }
 
 type State = {
@@ -21,8 +22,9 @@ export default class IconButton extends React.Component<Props, State> {
         }
     }
     render(): JSX.Element {
-        return (
-            <div title={this.props.name} className={`icon button clickable${this.state.checked ? ' checked' : ''}${this.props.checkbox ? ' checkbox' : ''}`} onClick={(): void => {
+        console.log(this.props.hide);
+        return this.props.hide ? null : (
+            <div title={this.props.name} className={`icon button clickable${(this.props.checkbox && ' checkbox') || ''}${(this.state.checked && ' checked') || ''}`} onClick={(): void => {
                 if (this.props.checkbox) {
                     this.setState((prevState: State) => {
                         const checked: boolean = !prevState.checked;
