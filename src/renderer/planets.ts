@@ -2,7 +2,8 @@ import Body from './Body';
 import { circularOrbit, ellipticalOrbit } from './orbits';
 import { yearMs } from '../util/date';
 
-/* Circular Orbits
+// Circular Orbits
+/*
 new Body('Sun', 50, 0xfcf803, circularOrbit(0.01)).focused = true;
 new Body('Mercury', 20/3, 0x6a838f, circularOrbit(50, 47.87/29.78));
 new Body('Venus', 22/3, 0xa39679, circularOrbit(53.2, 35.02/29.78));
@@ -14,6 +15,7 @@ new Body('Uranus', 8, 0x6a8a7e, circularOrbit(225.5, 6.81/29.78));
 new Body('Neptune', 7.6, 0x3a4dde, circularOrbit(334.5, 5.43/29.78));
 new Body('Pluto', 19/3, 0xbac9cf, circularOrbit(413.5, 4.74/29.78));
 */
+
 
 const conv = (years: number): bigint => BigInt(Number(yearMs) * years);
 const scale: number = 1 / 23481.4;

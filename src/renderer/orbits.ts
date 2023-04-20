@@ -9,7 +9,7 @@ export const circularOrbit = (radius: number, speed?: number) => ((ms: bigint) =
     );
 });
 
-export const ellipticalOrbit = (radius: number, eccentricity: number, periodMs: bigint, debug?: boolean) => ((ms: bigint) => {
+export const ellipticalOrbit = (radius: number, eccentricity: number, periodMs: bigint) => ((ms: bigint) => {
     const angle: number = Number(ms % periodMs) / Number(periodMs) * (Math.PI * 2);
     const sin: number = Math.sin(angle);
     const cos: number = Math.cos(angle);

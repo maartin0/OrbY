@@ -13,65 +13,49 @@ body {
     font-family: 'Roboto', monospace, sans-serif;
 }
 
-body > * {
-    left: 0;
-    right: 0;
-    width: 100vw;
+p {
+    margin: 0;
 }
 
 .renderRoot {
     z-index: 1;
     height: 100vh;
+    width: 100vw;
     position: fixed;
 }
 
-header {
-    margin: 0;
-    padding: 10px;
+#overlay {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: calc(100vw - 20px);
-}
-
-header * {
-    z-index: 15;
-}
-
-header p {
-    margin: 0;
-}
-
-header > div {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    align-items: flex-start;
-    margin-left: auto;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 2;
+    pointer-events: none;
+    margin: 6px;
 }
 
 #timer {
     width: max-content;
     font-size: 130%;
+    top: 0;
+    left: 0;
 }
 
-header > div > * {
-    margin: 0 4px;
-}
-
-header label {
+#controller {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
-    margin-top: 6px;
+    margin: 6px;
     font-size: 120%;
 }
 
-header label :not(input) {
-    margin-right: 6px;
+#speed_slider {
+    writing-mode: bt-lr; /* IE */
+    -webkit-appearance: slider-vertical; /* Chromium */
 }
 
 span.label {
@@ -91,11 +75,9 @@ svg.icon {
     border-radius: 0.3em;
 }
 
-header > div > div {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: stretch;
+.clickable {
+    pointer-events: auto;
+    cursor: pointer;
 }
 
 .icon.button {
@@ -104,29 +86,59 @@ header > div > div {
     flex-wrap: nowrap;
     justify-content: flex-end;
     align-items: center;
-    border-radius: 0.1em;
-    padding: 0;
+    border-radius: 0.8em;
     background-color: darkcyan;
-    cursor: pointer;
     user-select: none;
-    border: 2px solid white;
-    margin: 4px;
+    margin: 8px;
+    position: relative;
+    z-index: 20;
 }
 
 .icon.button:hover {
-    opacity: 90%;
+    opacity: 90%; /* TODO change with color transform */
 }
 
 .icon.button .label {
-    margin: auto;
-    padding: 4px;
+    margin: inherit;
+    margin-right: 0;
+    padding-left: 8px;
+    padding-right: 100%;
     text-align: center;
+    display: none;
+    background-color: inherit;
+    border-radius: inherit;
+    position: absolute;
+    width: max-content;
+    align-items: center;
+    height: 100%;
+    z-index: 21;
+}
+
+.r90 {
+    transform: rotate(90deg);
+}
+
+.r180 {
+    transform: rotate(180deg);
+}
+
+.r270 {
+    transform: rotate(270deg);
 }
 
 .icon.button .holder {
-    background-color: black;
     background-clip: border-box;
     background-size: cover;
+    display: flex;
+    align-items: center;
+    color: white;
+    border-radius: 4em;
+    padding: 8px;
+    z-index: 22;
+}
+
+.icon.button .holder:hover + .label {
+    display: flex;
 }
 
 .icon.button .holder svg {

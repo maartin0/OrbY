@@ -14,7 +14,7 @@ export default class Timer extends React.Component<Props, State> {
     }
     render(): JSX.Element {
         return (
-            <p id='timer'>{this.state.time.label}</p>
+            <p id='timer'>{this.state.time.label}{this.state.animation.paused ? ' (paused)' : ''}</p>
         )
     }
 }
