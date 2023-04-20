@@ -22,7 +22,7 @@ export default class IconButton extends React.Component<Props, State> {
     }
     render(): JSX.Element {
         return (
-            <div title={this.props.name} className={`icon button${this.state.checked ? ' checked' : ''}${this.props.checkbox ? ' checkbox' : ''}`} onClick={(): void => {
+            <div title={this.props.name} className={`icon button clickable${this.state.checked ? ' checked' : ''}${this.props.checkbox ? ' checkbox' : ''}`} onClick={(): void => {
                 if (this.props.checkbox) {
                     this.setState((prevState: State) => {
                         const checked: boolean = !prevState.checked;
@@ -31,11 +31,11 @@ export default class IconButton extends React.Component<Props, State> {
                     });
                 } else if (this.props.onClick) this.props.onClick();
                 }}>
+                <div className='holder'>
+                  {this.props.children}
+                </div>
                 <div className='label'>
                     <span>{this.props.name}</span>
-                </div>
-                <div className='holder'>
-                    {this.props.children}
                 </div>
             </div>
         );

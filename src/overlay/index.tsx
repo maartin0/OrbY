@@ -8,12 +8,10 @@ import * as loader from '../loader';
 export default class Overlay extends React.Component<{}, {}> {
     render(): JSX.Element {
         return (
-            <div>
-                <MapViewer/>
-                <header>
-                    <Timer />
-                    <Controller/>
-                </header>
+            <div id='overlay'>
+                <Timer />
+                <MapViewer />
+                <Controller />
             </div>
         );
     }
