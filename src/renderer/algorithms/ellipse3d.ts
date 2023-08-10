@@ -1,11 +1,6 @@
 import type { PhysicalBodyAlgorithm, PhysicalBody, Timestamp } from '../../types';
 import { Vector3 } from 'three';
-
-const mul = Math.PI / 180;
-const sin = (angle: number) => Math.sin(angle * mul);
-const cos = (angle: number) => Math.cos(angle * mul);
-const sin2 = (angle: number) => sin(angle) ** 2;
-const cos2 = (angle: number) => cos(angle) ** 2;
+import { cos, sin } from './index';
 
 // TODO
 export default class Ellipse3dAlgorithm implements PhysicalBodyAlgorithm {

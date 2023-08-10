@@ -17,7 +17,7 @@ export const setBodySelected = (body: PhysicalBody, selected: boolean): void => 
 export const selectedAlgorithms: Set<PhysicalBodyAlgorithm> = new Set(Object.values(algorithms).filter(a => a.default).map(a => a.algorithm));
 export const setAlgorithmSelected = (algorithm: PhysicalBodyAlgorithm, selected: boolean): void => updateSelected(selectedAlgorithms, algorithm, selected);
 
-export let streakLength: number = 10; // TODO add controller
+export let streakLength: number = 1; // TODO add controller
 
 export function enable() {
     Object.values(algorithms).forEach(a => a.algorithm.setup());
@@ -58,13 +58,15 @@ function updateNodes() {
     nodes.forEach((node: PhysicalBodyNode) => scene.add(node.mesh, node.line));
 }
 
+const ORIGIN = new Vector3(0, 0, 0);
 function tickNode(node: PhysicalBodyNode, timeYears: number) {
     const pos: Vector3 = node.algorithm.calculate(node.body, timeYears);
     node.mesh.position.copy(pos);
     node.points.push(pos);
     if (node.points.length > 100
-        || node.points[node.points.length - 1].distanceTo(pos) > streakLength) {
-        node.points.pop();
+    //    || node.points.reduce((a, b) => b.sub(a)).distanceTo(ORIGIN) > streakLength
+    ) {
+        node.points = node.points.slice(1, node.points.length - 1);
     }
     node.line.geometry.setFromPoints(node.points);
 }

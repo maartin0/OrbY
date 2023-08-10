@@ -8,7 +8,7 @@ export const loopState = {
     frame: 0,
     lastTick: now(),
     pointer: now(),
-    speed: 1/mul/10,
+    speed: 1/mul/1000,
 };
 
 export function tick() {
