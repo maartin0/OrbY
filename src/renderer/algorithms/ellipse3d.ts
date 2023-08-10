@@ -30,9 +30,9 @@ export default class Ellipse3dAlgorithm implements PhysicalBodyAlgorithm {
         const constant3 = sinPerihelionLongitude * cosLongitude + cosPerihelionLongitude * sinLongitude;
 
         return new Vector3(
-            magnitude * constant0 * ((cosAscendingLongitude**2 + cosInclination) * constant2 + constant1 * constant3),
-            magnitude * constant0 * (constant1 * constant2 + (sinAscendingLongitude**2 + cosInclination) * constant3),
+            magnitude * ((constant0 * cosAscendingLongitude**2 + cosInclination) * constant2 + constant0 * constant1 * constant3),
             magnitude * sinInclination * sinAscendingLongitude * (constant3 - constant2),
+            magnitude * (constant0 * constant1 * constant2 + (constant0 * sinAscendingLongitude**2 + cosInclination) * constant3),
         );
     }
 }
