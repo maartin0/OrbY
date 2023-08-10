@@ -1,6 +1,6 @@
 import bodies from './bodies';
 import { PhysicalBody, PhysicalBodyAlgorithm, PhysicalBodyNode } from '../types';
-import algorithms from './algorithms';
+import algorithms from './orbits';
 import { render, scene } from './controller';
 import { removeLoader } from '../index';
 import { BufferGeometry, Line, LineBasicMaterial, Mesh, MeshBasicMaterial, SphereGeometry, Vector3 } from 'three';
@@ -20,16 +20,15 @@ export const setAlgorithmSelected = (algorithm: PhysicalBodyAlgorithm, selected:
 export let streakLength: number = 1; // TODO add controller
 
 export function enable() {
-    Object.values(algorithms).forEach(a => a.algorithm.setup());
-    removeLoader();
     updateNodes();
+    removeLoader();
     render();
 }
 
 let nodes: PhysicalBodyNode[] = [];
 
 function updateNodes() {
-    console.log("update", selectedBodies.size, selectedAlgorithms.size);
+    console.log('update', selectedBodies.size, selectedAlgorithms.size);
     nodes.forEach((node: PhysicalBodyNode) => {
         node.mesh.removeFromParent();
         node.line.removeFromParent();
@@ -49,26 +48,24 @@ function updateNodes() {
                             }),
                         ),
                         line: new Line(
-                            new BufferGeometry(),
+                            new BufferGeometry().setFromPoints(
+                                Array.from(
+                                    Array(Math.round(
+                                        body.properties.elements.orbitalPeriodYears * 365.25
+                                    )).keys()
+                                ).map((day: number) => algorithm(body, day / 365.25))),
                             new LineBasicMaterial({ color: body.texture.color }),
                         ),
-                        points: [],
                     }),
             ));
     nodes.forEach((node: PhysicalBodyNode) => scene.add(node.mesh, node.line));
 }
 
 const ORIGIN = new Vector3(0, 0, 0);
+
 function tickNode(node: PhysicalBodyNode, timeYears: number) {
-    const pos: Vector3 = node.algorithm.calculate(node.body, timeYears);
+    const pos: Vector3 = node.algorithm(node.body, timeYears);
     node.mesh.position.copy(pos);
-    node.points.push(pos);
-    if (node.points.length > 100
-    //    || node.points.reduce((a, b) => b.sub(a)).distanceTo(ORIGIN) > streakLength
-    ) {
-        node.points = node.points.slice(1, node.points.length - 1);
-    }
-    node.line.geometry.setFromPoints(node.points);
 }
 
 export function tickAll(timeYears: number) {

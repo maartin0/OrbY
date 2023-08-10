@@ -1,5 +1,5 @@
 import * as React from "react";
-import algorithms from '../renderer/algorithms';
+import algorithms from '../renderer/orbits';
 import { AlgorithmProps } from '../types';
 import { setAlgorithmSelected } from '../renderer';
 import InfoButton from './InfoButton';

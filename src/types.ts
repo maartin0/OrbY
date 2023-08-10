@@ -54,7 +54,6 @@ export interface PhysicalBodyNode {
     algorithm: PhysicalBodyAlgorithm,
     mesh: Mesh,
     line: Line,
-    points: Vector3[],
 }
 
 // Timestamp is seconds from the year 0
@@ -67,7 +66,4 @@ export interface AlgorithmProps {
     description: string,
 }
 
-export interface PhysicalBodyAlgorithm {
-    setup(): void,
-    calculate(body: PhysicalBody, timestamp: Timestamp): Vector3,
-}
+export type PhysicalBodyAlgorithm = (body: PhysicalBody, timestamp: Timestamp) => Vector3;
