@@ -55,5 +55,5 @@ export function render(): void {
     requestAnimationFrame(render);
 }
 
-renderRoot.addEventListener('resize', () => updateSize());
+window.addEventListener('resize', () => updateSize());
 updateSize();

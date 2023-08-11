@@ -2,18 +2,15 @@ body {
     background-color: black;
     width: 100vw;
     height: 100vh;
-    display: flex;
 }
 
 .renderRoot {
-    flex-grow: 1;
-    width: auto;
-    height: auto;
+    width: 100vw;
+    height: 100vh;
 }
 
 .app {
     color: white;
-    width: max-content;
 }
 
 .info {

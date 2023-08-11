@@ -91,7 +91,7 @@ function tickNode(node: PhysicalBodyNode, timeYears: number) {
     const absoluteLength: number = node.points.length * streakLength;
     let i: number = 0;
     while (points.length <= absoluteLength) {
-        const newPointer = pointer - 1;
+        const newPointer: number = pointer - 1;
         pointer = newPointer < 0 ? node.points.length - 1 : newPointer;
         points.push(node.points[pointer]);
         i++;
