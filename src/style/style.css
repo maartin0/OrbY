@@ -1,19 +1,19 @@
 body {
     background-color: black;
-    /*overflow: hidden;*/
-    display: flex;
     width: 100vw;
     height: 100vh;
+    display: flex;
 }
 
 .renderRoot {
-    height: 100vh;
-    flex-grow: 2;
+    flex-grow: 1;
+    width: auto;
+    height: auto;
 }
 
 .app {
-    flex-grow: 1;
     color: white;
+    width: max-content;
 }
 
 .info {

@@ -15,8 +15,8 @@ import { tick } from './loop';
 // Renderer setup
 
 export const scene: Scene = new Scene();
-export const renderer: WebGLRenderer = new WebGLRenderer();
-export const renderRoot: HTMLCanvasElement = renderer.domElement;
+export const renderRoot = document.createElement('canvas');
+export const renderer: WebGLRenderer = new WebGLRenderer({ canvas: renderRoot });
 export let camera: PerspectiveCamera = new PerspectiveCamera(50, 1, 1e-5, 1e10);
 export const size: Vector2 = new Vector2();
 export const orbitControls: OrbitControls = new OrbitControls(camera, renderRoot);
@@ -26,6 +26,8 @@ camera.position.set(0, 8, 10);
 renderer.setPixelRatio(window.devicePixelRatio);
 
 renderRoot.classList.add('renderRoot');
+renderRoot.width = undefined;
+renderRoot.height = undefined;
 document.body.appendChild(renderRoot);
 
 // Skybox setup
@@ -53,5 +55,5 @@ export function render(): void {
     requestAnimationFrame(render);
 }
 
-window.addEventListener('resize', () => updateSize());
+renderRoot.addEventListener('resize', () => updateSize());
 updateSize();
