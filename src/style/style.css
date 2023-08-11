@@ -1,16 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
+
 body {
     background-color: black;
     width: 100vw;
     height: 100vh;
+    font-family: 'Inter', sans-serif;
+    color: white;
 }
 
 .renderRoot {
     width: 100vw;
     height: 100vh;
-}
-
-.app {
-    color: white;
 }
 
 .info {
@@ -39,18 +39,6 @@ body {
 
 .info:hover > div,.info:focus > div {
     display: block;
-}
-
-.controls > div > div > label {
-    display: flex;
-}
-
-.controls > div > div > label > span {
-    user-select: none;
-}
-
-.controls > div > h2:first-child {
-    color: white;
 }
 
 .controls {
