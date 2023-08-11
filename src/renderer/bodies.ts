@@ -4,6 +4,7 @@ const SUN: PhysicalBody = {
     id: 10,
     label: 'Sun',
     type: PhysicalBodyType.STAR,
+    defaultSelected: true,
     texture: {
         color: '#FFE484',
     },
@@ -31,6 +32,7 @@ const MERCURY: PhysicalBody = {
     label: 'Mercury',
     type: PhysicalBodyType.PLANET,
     parent: SUN,
+    defaultSelected: true,
     texture: {
         color: '#B7B8B9',
     },
@@ -58,6 +60,7 @@ const VENUS: PhysicalBody = {
     label: 'Venus',
     type: PhysicalBodyType.PLANET,
     parent: SUN,
+    defaultSelected: true,
     texture: {
         color: '#FFC649',
     },
@@ -85,6 +88,7 @@ const EARTH: PhysicalBody = {
     label: 'Earth',
     type: PhysicalBodyType.PLANET,
     parent: SUN,
+    defaultSelected: true,
     texture: {
         color: '#8A6140',
     },
@@ -112,6 +116,7 @@ const MARS: PhysicalBody = {
     label: 'Mars',
     type: PhysicalBodyType.PLANET,
     parent: SUN,
+    defaultSelected: true,
     texture: {
         color: '#9C2E35',
     },
@@ -139,6 +144,7 @@ const JUPITER: PhysicalBody = {
     label: 'Jupiter',
     type: PhysicalBodyType.PLANET,
     parent: SUN,
+    defaultSelected: true,
     texture: {
         color: '#E3DCCB',
     },
@@ -166,6 +172,7 @@ const SATURN: PhysicalBody = {
     label: 'Saturn',
     type: PhysicalBodyType.PLANET,
     parent: SUN,
+    defaultSelected: true,
     texture: {
         color: '#7B7869',
     },
@@ -193,6 +200,7 @@ const URANUS: PhysicalBody = {
     label: 'Uranus',
     type: PhysicalBodyType.PLANET,
     parent: SUN,
+    defaultSelected: true,
     texture: {
         color: '#B2D6DB',
     },
@@ -220,6 +228,7 @@ const NEPTUNE: PhysicalBody = {
     label: 'Neptune',
     type: PhysicalBodyType.PLANET,
     parent: SUN,
+    defaultSelected: true,
     texture: {
         color: '#2990B5',
     },
@@ -247,6 +256,7 @@ const PLUTO: PhysicalBody = {
     label: 'Pluto',
     type: PhysicalBodyType.DWARF_PLANET,
     parent: SUN,
+    defaultSelected: true,
     texture: {
         color: '#968570',
     },
@@ -274,6 +284,7 @@ const PLUTO: PhysicalBody = {
     label: 'Moon',
     type: PhysicalBodyType.MOON,
     parent: EARTH,
+    defaultSelected: true,
     texture: {
         color: '#F6F1D5',
     },
@@ -296,6 +307,4 @@ const PLUTO: PhysicalBody = {
     },
 }*/
 
-const bodies = { SUN, MERCURY, VENUS, EARTH, MARS, JUPITER, SATURN, URANUS, NEPTUNE, PLUTO, /*MOON*/ };
-
-export default bodies;
+export default { SUN, MERCURY, VENUS, EARTH, MARS, JUPITER, SATURN, URANUS, NEPTUNE, PLUTO, /*MOON*/ };

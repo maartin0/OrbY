@@ -1,6 +1,4 @@
-import bodies from './bodies';
-import { PhysicalBody, PhysicalBodyAlgorithm, PhysicalBodyNode } from '../types';
-import algorithms from './orbits';
+import { AlgorithmProps, PhysicalBody, PhysicalBodyNode } from '../types';
 import { render, scene } from './controller';
 import { removeLoader } from '../index';
 import {
@@ -15,22 +13,20 @@ import {
     Vector3,
 } from 'three';
 
-function updateSelected<T>(set: Set<T>, object: T, selected: boolean): void {
-    if (selected) set.add(object);
-    else set.delete(object);
+let selectedBodies: PhysicalBody[] = [];
+export const setSelectedBodies = (value: PhysicalBody[]): void => {
+    selectedBodies = value;
     updateNodes();
 }
-
-export const selectedBodies: Set<PhysicalBody> = new Set(Object.values(bodies));
-export const setBodySelected = (body: PhysicalBody, selected: boolean): void => updateSelected(selectedBodies, body, selected);
-
-export const selectedAlgorithms: Set<PhysicalBodyAlgorithm> = new Set(Object.values(algorithms).filter(a => a.default).map(a => a.algorithm));
-export const setAlgorithmSelected = (algorithm: PhysicalBodyAlgorithm, selected: boolean): void => updateSelected(selectedAlgorithms, algorithm, selected);
+let selectedAlgorithms: AlgorithmProps[] = [];
+export const setSelectedAlgorithms = (value: AlgorithmProps[]): void => {
+    selectedAlgorithms = value;
+    updateNodes();
+}
 
 export let streakLength: number = 0.2; // TODO add controller
 
 export function enable() {
-    updateNodes();
     removeLoader();
     render();
 }
@@ -42,22 +38,22 @@ function updateNodes() {
         node.mesh.removeFromParent();
         node.line.removeFromParent();
     });
-    nodes = Array.from(selectedBodies).flatMap(
+    nodes = selectedBodies.flatMap(
         (body: PhysicalBody) =>
-            Array.from(selectedAlgorithms).map(
-                (algorithm: PhysicalBodyAlgorithm): PhysicalBodyNode => {
+            selectedAlgorithms.map(
+                (props: AlgorithmProps): PhysicalBodyNode => {
                     const points = Array.from(
                         Array(Math.ceil(
                             body.properties.elements.orbitalPeriodYears * 365.25,
                         )).keys(),
-                    ).map((day: number) => algorithm(body, day / 365.25));
+                    ).map((day: number) => props.algorithm(body, day / 365.25));
                     const { r, g, b } = new Color(body.texture.color);
                     const size = Math.ceil(streakLength * points.length);
                     const dist = 1 / size;
                     const gradient = new Float32Array(Array.from(Array(size).keys()).flatMap(n => [r, g, b, 1 - (n * dist)]));
                     return {
                         body,
-                        algorithm,
+                        algorithmProps: props,
                         points,
                         mesh: new Mesh(
                             new SphereGeometry(0.01), // TODO body.properties.radiusAu
@@ -77,7 +73,7 @@ function updateNodes() {
 }
 
 function tickNode(node: PhysicalBodyNode, timeYears: number) {
-    const pos: Vector3 = node.algorithm(node.body, timeYears);
+    const pos: Vector3 = node.algorithmProps.algorithm(node.body, timeYears);
     node.mesh.position.copy(pos);
     const points: Vector3[] = [];
     let pointer: number = 0;

@@ -7,8 +7,8 @@ export interface Texture {
 }
 
 export interface Description {
-    wikipedia: string,
-    // TODO
+    value?: string,
+    wikipedia?: string,
 }
 
 export enum PhysicalBodyType {
@@ -21,14 +21,15 @@ export enum PhysicalBodyType {
     MOON,
 }
 
-export interface PhysicalBody {
+export interface PhysicalBody extends Selectable {
     id: number,
-    label: string,
     type: PhysicalBodyType,
     texture: Texture,
     parent?: PhysicalBody | undefined,
-    description: Description,
     properties: PhysicalBodyProperties,
+    label: string,
+    description: Description,
+    defaultSelected: boolean,
 }
 
 export interface PhysicalBodyProperties {
@@ -51,7 +52,7 @@ export interface KeplerianElements {
 
 export interface PhysicalBodyNode {
     body: PhysicalBody,
-    algorithm: PhysicalBodyAlgorithm,
+    algorithmProps: AlgorithmProps,
     mesh: Mesh,
     line: Line,
     points: Vector3[],
@@ -60,11 +61,17 @@ export interface PhysicalBodyNode {
 // Timestamp is seconds from the year 0
 export type Timestamp = number;
 
-export interface AlgorithmProps {
-    algorithm: PhysicalBodyAlgorithm,
-    default: boolean,
+export interface AlgorithmProps extends Selectable {
+    id: string,
+    algorithm: (body: PhysicalBody, timestamp: Timestamp) => Vector3,
     label: string,
-    description: string,
+    description: Description,
+    defaultSelected: boolean,
 }
 
-export type PhysicalBodyAlgorithm = (body: PhysicalBody, timestamp: Timestamp) => Vector3;
+export interface Selectable {
+    id: number | string,
+    label: string,
+    description?: Description,
+    defaultSelected: boolean,
+}

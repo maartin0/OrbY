@@ -1,4 +1,3 @@
-// import CalculatedHorizonsAlgorithm from './calculatedHorizons';
 import { AlgorithmProps, PhysicalBody, Timestamp } from '../types';
 import { Vector3 } from 'three';
 
@@ -6,11 +5,12 @@ const mul = Math.PI / 180;
 export const sin = (angle: number) => Math.sin(angle * mul);
 export const cos = (angle: number) => Math.cos(angle * mul);
 
-const algorithms: Record<string, AlgorithmProps> = {
-    'ellipse2d': {
+const algorithms: AlgorithmProps[] = [
+    {
+        id: 'ellipse2d',
         label: '2D Ellipse', // TODO
-        default: false,
-        description: 'todo', // TODO
+        defaultSelected: false,
+        description: { value: 'todo'}, // TODO
         algorithm: (body: PhysicalBody, timestamp: Timestamp): Vector3 => {
             const { orbitalPeriodYears, trueAnomalyDegrees, semiMajorAxisAu, eccentricity } = body.properties.elements;
             const longitude = (360 * timestamp) / orbitalPeriodYears + trueAnomalyDegrees;
@@ -24,10 +24,11 @@ const algorithms: Record<string, AlgorithmProps> = {
             )
         },
     },
-    'ellipse3d': {
+    {
+        id: 'ellipse3d',
         label: '3D Ellipse', // TODO
-        default: true,
-        description: 'todo', // TODO
+        defaultSelected: true,
+        description: { value: 'todo'}, // TODO
         algorithm: (body: PhysicalBody, timestamp: Timestamp): Vector3 => {
             const {
                 semiMajorAxisAu,
@@ -65,12 +66,6 @@ const algorithms: Record<string, AlgorithmProps> = {
             );
         },
     },
-    // "calculatedHorizons":  {
-    //     algorithm: new CalculatedHorizonsAlgorithm(),
-    //     label: "Calculated Horizons", // TODO
-    //     default: false,
-    //     description: "todo", // TODO
-    // },
-};
+];
 
 export default algorithms;
