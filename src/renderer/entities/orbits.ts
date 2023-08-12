@@ -15,11 +15,30 @@ export const ELLIPSE_2D: AlgorithmProps = {
         const longitude = (360 * timestamp) / orbitalPeriodYears + trueAnomalyDegrees;
         const sinLongitude = sin(longitude);
         const cosLongitude = cos(longitude);
-        const mul: number = semiMajorAxisAu * (1 - (eccentricity ** 2)) / (1 - (eccentricity * cosLongitude));
+        const magnitude: number = semiMajorAxisAu * (1 - (eccentricity ** 2)) / (1 - (eccentricity * cosLongitude));
         return new Vector3(
-            mul * cosLongitude,
+            magnitude * sinLongitude,
             0,
-            mul * sinLongitude,
+            magnitude * cosLongitude,
+        )
+    },
+};
+
+export const ELLIPSE_2D_P: AlgorithmProps = {
+    id: 'ellipse2dp',
+    label: '2D Ellipse with correct perihelion longitude', // TODO
+    defaultSelected: false,
+    description: { value: 'todo' }, // TODO
+    algorithm: (body: PhysicalBody, timestamp: Timestamp): Vector3 => {
+        const { orbitalPeriodYears, trueAnomalyDegrees, semiMajorAxisAu, eccentricity } = body.properties.elements;
+        const longitude = (360 * timestamp) / orbitalPeriodYears + trueAnomalyDegrees;
+        const sinLongitude = sin(longitude);
+        const cosLongitude = cos(longitude);
+        const magnitude: number = semiMajorAxisAu * (1 - (eccentricity ** 2)) / (1 - (eccentricity * cosLongitude));
+        return new Vector3(
+            magnitude * sinLongitude,
+            0,
+            magnitude * cosLongitude,
         )
     },
 };
@@ -60,9 +79,9 @@ export const ELLIPSE_3D: AlgorithmProps = {
         const constant3 = sinPerihelionLongitude * cosLongitude + cosPerihelionLongitude * sinLongitude;
 
         return new Vector3(
-            magnitude * ((constant0 * cosAscendingLongitude ** 2 + cosInclination) * constant2 + constant0 * constant1 * constant3),
-            magnitude * sinInclination * sinAscendingLongitude * (constant3 - constant2),
             magnitude * (constant0 * constant1 * constant2 + (constant0 * sinAscendingLongitude ** 2 + cosInclination) * constant3),
+            magnitude * sinInclination * sinAscendingLongitude * (constant3 - constant2),
+            magnitude * ((constant0 * cosAscendingLongitude ** 2 + cosInclination) * constant2 + constant0 * constant1 * constant3),
         );
     },
 }
