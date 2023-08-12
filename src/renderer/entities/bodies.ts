@@ -15,7 +15,6 @@ export const SUN: PhysicalBody = {
         radiusAu: 0.00465046726,
         massRel: 332837,
         rotationPeriodYears: 0,
-        startingLongitudeDegrees: 0,
         elements: {
             semiMajorAxisAu: 0,
             eccentricity: 0,
@@ -24,6 +23,7 @@ export const SUN: PhysicalBody = {
             perihelionLongitudeDegrees: 0,
             ascendingLongitudeDegrees: 0,
             trueAnomalyDegrees: 0,
+            startingLongitudeDegrees: 0,
         },
     },
 };
@@ -43,7 +43,6 @@ export const MERCURY: PhysicalBody = {
         radiusAu: 1.63104e-5,
         massRel: 0.055,
         rotationPeriodYears: 0.160563997262,
-        startingLongitudeDegrees: 201.916,
         elements: {
             semiMajorAxisAu: 0.387,
             eccentricity: 0.21,
@@ -52,6 +51,7 @@ export const MERCURY: PhysicalBody = {
             perihelionLongitudeDegrees: 29.124,
             ascendingLongitudeDegrees: 48.331,
             trueAnomalyDegrees: 172.792,
+            startingLongitudeDegrees: 201.916,
         },
     },
 };
@@ -71,7 +71,6 @@ export const VENUS: PhysicalBody = {
         radiusAu: 4.04540517e-5,
         massRel: 0.815,
         rotationPeriodYears: 0.665347022587,
-        startingLongitudeDegrees: 104.214,
         elements: {
             semiMajorAxisAu: 0.723,
             eccentricity: 0.01,
@@ -80,6 +79,7 @@ export const VENUS: PhysicalBody = {
             perihelionLongitudeDegrees: 54.884,
             ascendingLongitudeDegrees: 76.680,
             trueAnomalyDegrees: 49.330,
+            startingLongitudeDegrees: 104.214,
         },
     },
 };
@@ -99,7 +99,6 @@ export const EARTH: PhysicalBody = {
         radiusAu: 4.2635e-05,
         massRel: 1.000,
         rotationPeriodYears: 0.00272963723477,
-        startingLongitudeDegrees: 112.396,
         elements: {
             semiMajorAxisAu: 1.000,
             eccentricity: 0.02,
@@ -108,6 +107,7 @@ export const EARTH: PhysicalBody = {
             perihelionLongitudeDegrees: 114.208,
             ascendingLongitudeDegrees: 348.739,
             trueAnomalyDegrees: 358.188,
+            startingLongitudeDegrees: 112.396,
         },
     },
 };
@@ -127,7 +127,6 @@ export const MARS: PhysicalBody = {
         radiusAu: 2.26602156e-5,
         massRel: 0.107,
         rotationPeriodYears: 0.0028090349076,
-        startingLongitudeDegrees: 305.660,
         elements: {
             semiMajorAxisAu: 1.523,
             eccentricity: 0.09,
@@ -136,6 +135,7 @@ export const MARS: PhysicalBody = {
             perihelionLongitudeDegrees: 286.500,
             ascendingLongitudeDegrees: 49.579,
             trueAnomalyDegrees: 19.160,
+            startingLongitudeDegrees: 305.660,
         },
     },
 };
@@ -155,7 +155,6 @@ export const JUPITER: PhysicalBody = {
         radiusAu: 0.00046732617,
         massRel: 317.850,
         rotationPeriodYears: 0.00113073237509,
-        startingLongitudeDegrees: 292.626,
         elements: {
             semiMajorAxisAu: 5.202,
             eccentricity: 0.05,
@@ -164,6 +163,7 @@ export const JUPITER: PhysicalBody = {
             perihelionLongitudeDegrees: 273.867,
             ascendingLongitudeDegrees: 100.464,
             trueAnomalyDegrees: 18.759,
+            startingLongitudeDegrees: 292.626,
         },
     },
 };
@@ -183,7 +183,6 @@ export const SATURN: PhysicalBody = {
         radiusAu: 1.51474185388e-13,
         massRel: 95.159,
         rotationPeriodYears: 0.00121560574949,
-        startingLongitudeDegrees: 299.691,
         elements: {
             semiMajorAxisAu: 9.576,
             eccentricity: 0.06,
@@ -192,6 +191,7 @@ export const SATURN: PhysicalBody = {
             perihelionLongitudeDegrees: 339.392,
             ascendingLongitudeDegrees: 113.665,
             trueAnomalyDegrees: 320.299,
+            startingLongitudeDegrees: 299.691,
         },
     },
 };
@@ -211,7 +211,6 @@ export const URANUS: PhysicalBody = {
         radiusAu: 0.0001695345,
         massRel: 14.500,
         rotationPeriodYears: 0.00196577686516,
-        startingLongitudeDegrees: 239.964,
         elements: {
             semiMajorAxisAu: 19.293,
             eccentricity: 0.05,
@@ -220,6 +219,7 @@ export const URANUS: PhysicalBody = {
             perihelionLongitudeDegrees: 96.999,
             ascendingLongitudeDegrees: 74.006,
             trueAnomalyDegrees: 142.965,
+            startingLongitudeDegrees: 239.964,
         },
     },
 };
@@ -239,7 +239,6 @@ export const NEPTUNE: PhysicalBody = {
         radiusAu: 0.00016460127,
         massRel: 17.204,
         rotationPeriodYears: 0.00183709787817,
-        startingLongitudeDegrees: 180.453,
         elements: {
             semiMajorAxisAu: 30.246,
             eccentricity: 0.01,
@@ -248,6 +247,7 @@ export const NEPTUNE: PhysicalBody = {
             perihelionLongitudeDegrees: 273.187,
             ascendingLongitudeDegrees: 131.783,
             trueAnomalyDegrees: 267.266,
+            startingLongitudeDegrees: 180.453,
         },
     },
 };
@@ -267,7 +267,6 @@ export const PLUTO: PhysicalBody = {
         radiusAu: 7.9432949e-6,
         massRel: 0.003,
         rotationPeriodYears: 0.0174866529774,
-        startingLongitudeDegrees: 128.099,
         elements: {
             semiMajorAxisAu: 39.509,
             eccentricity: 0.25,
@@ -276,6 +275,7 @@ export const PLUTO: PhysicalBody = {
             perihelionLongitudeDegrees: 113.834,
             ascendingLongitudeDegrees: 110.299,
             trueAnomalyDegrees: 14.265,
+            startingLongitudeDegrees: 128.099,
         },
     },
 };

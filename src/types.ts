@@ -36,7 +36,6 @@ export interface PhysicalBodyProperties {
     radiusAu: number, // Mean body radius
     massRel: number, // Mass relative to earth
     rotationPeriodYears: number,
-    startingLongitudeDegrees: number,
     elements: KeplerianElements,
 }
 
@@ -48,6 +47,7 @@ export interface KeplerianElements {
     perihelionLongitudeDegrees: number,
     ascendingLongitudeDegrees: number,
     trueAnomalyDegrees: number,
+    startingLongitudeDegrees: number,
 }
 
 export interface PhysicalBodyNode {
