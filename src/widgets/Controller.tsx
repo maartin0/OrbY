@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useMemo, useSyncExternalStore } from 'react';
 import SelectorWidget from './SelectorWidget';
-import bodies from '../renderer/bodies';
-import algorithms from '../renderer/orbits';
+import bodies from '../renderer/entities/bodies';
+import algorithms from '../renderer/entities/orbits';
 import { AlgorithmProps, PhysicalBody, PhysicalBodyNode, Selectable } from '../types';
 import { controls, nodes, SPEED_OPTIONS, update, updateSubscribe } from '../renderer';
 import FpsWidget from './FpsWidget';
@@ -26,7 +26,7 @@ export default ({ show }: Props) => {
                     update();
                 }}/>
                 <h3>Algorithm Selection:</h3>
-                <SelectorWidget options={algorithms} setter={(value: Selectable[]) => {
+                <SelectorWidget options={Object.values(algorithms)} setter={(value: Selectable[]) => {
                     controls.selectedAlgorithms = value as AlgorithmProps[];
                     update();
                 }}/>

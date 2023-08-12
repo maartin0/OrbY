@@ -1,6 +1,6 @@
-import { PhysicalBody, PhysicalBodyType } from '../types';
+import { PhysicalBody, PhysicalBodyType } from '../../types';
 
-const SUN: PhysicalBody = {
+export const SUN: PhysicalBody = {
     id: 10,
     label: 'Sun',
     type: PhysicalBodyType.STAR,
@@ -27,7 +27,7 @@ const SUN: PhysicalBody = {
         },
     },
 };
-const MERCURY: PhysicalBody = {
+export const MERCURY: PhysicalBody = {
     id: 199,
     label: 'Mercury',
     type: PhysicalBodyType.PLANET,
@@ -55,7 +55,7 @@ const MERCURY: PhysicalBody = {
         },
     },
 };
-const VENUS: PhysicalBody = {
+export const VENUS: PhysicalBody = {
     id: 299,
     label: 'Venus',
     type: PhysicalBodyType.PLANET,
@@ -83,7 +83,7 @@ const VENUS: PhysicalBody = {
         },
     },
 };
-const EARTH: PhysicalBody = {
+export const EARTH: PhysicalBody = {
     id: 399,
     label: 'Earth',
     type: PhysicalBodyType.PLANET,
@@ -111,7 +111,7 @@ const EARTH: PhysicalBody = {
         },
     },
 };
-const MARS: PhysicalBody = {
+export const MARS: PhysicalBody = {
     id: 499,
     label: 'Mars',
     type: PhysicalBodyType.PLANET,
@@ -139,7 +139,7 @@ const MARS: PhysicalBody = {
         },
     },
 };
-const JUPITER: PhysicalBody = {
+export const JUPITER: PhysicalBody = {
     id: 599,
     label: 'Jupiter',
     type: PhysicalBodyType.PLANET,
@@ -167,7 +167,7 @@ const JUPITER: PhysicalBody = {
         },
     },
 };
-const SATURN: PhysicalBody = {
+export const SATURN: PhysicalBody = {
     id: 699,
     label: 'Saturn',
     type: PhysicalBodyType.PLANET,
@@ -195,7 +195,7 @@ const SATURN: PhysicalBody = {
         },
     },
 };
-const URANUS: PhysicalBody = {
+export const URANUS: PhysicalBody = {
     id: 799,
     label: 'Uranus',
     type: PhysicalBodyType.PLANET,
@@ -223,7 +223,7 @@ const URANUS: PhysicalBody = {
         },
     },
 };
-const NEPTUNE: PhysicalBody = {
+export const NEPTUNE: PhysicalBody = {
     id: 899,
     label: 'Neptune',
     type: PhysicalBodyType.PLANET,
@@ -251,7 +251,7 @@ const NEPTUNE: PhysicalBody = {
         },
     },
 };
-const PLUTO: PhysicalBody = {
+export const PLUTO: PhysicalBody = {
     id: 134340,
     label: 'Pluto',
     type: PhysicalBodyType.DWARF_PLANET,
@@ -279,7 +279,7 @@ const PLUTO: PhysicalBody = {
         },
     },
 };
-/*const MOON: PhysicalBody = {
+/*export const MOON: PhysicalBody = {
     id: 301,
     label: 'Moon',
     type: PhysicalBodyType.MOON,
