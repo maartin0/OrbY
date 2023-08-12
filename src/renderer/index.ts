@@ -1,5 +1,5 @@
 import { AlgorithmProps, PhysicalBody, PhysicalBodyNode, PhysicalBodyType } from '../types';
-import { orbitControls, render, scene } from './controller';
+import { render, scene } from './controller';
 import { removeLoader } from '../index';
 import {
     BufferAttribute,
@@ -46,9 +46,10 @@ export const SPEED_OPTIONS = [
 ];
 
 export const controls: {
-    streakLength: number,
+    streak: {
+        length: number,
+    }
     speedIndex: number,
-    focus: number,
     scale: {
         real: boolean,
         value: number,
@@ -56,9 +57,10 @@ export const controls: {
     selectedBodies: PhysicalBody[],
     selectedAlgorithms: AlgorithmProps[],
 } = {
-    streakLength: 0.7,
+    streak: {
+        length: 0.7,
+    },
     speedIndex: 0,
-    focus: 0,
     scale: {
         real: true,
         value: 1,
@@ -79,6 +81,12 @@ export const updateSubscribe = (listener: () => void) => {
     return () => { updateListeners = updateListeners.filter(v => v !== listener) };
 }
 
+export function getPos(node: { body: PhysicalBody, algorithmProps: AlgorithmProps }, timeYears: number): Vector3 {
+    const focusTarget: PhysicalBodyNode = nodes[0];
+    if (!focusTarget || focusTarget.body.id === node.body.id) return new Vector3(0, 0, 0);
+    else return node.algorithmProps.algorithm(node.body, timeYears).sub(focusTarget.algorithmProps.algorithm(focusTarget.body, timeYears));
+}
+
 export function update() {
     loopState.speed = SPEED_OPTIONS[controls.speedIndex].value;
     nodes.forEach((node: PhysicalBodyNode) => {
@@ -91,9 +99,9 @@ export function update() {
                 (body: PhysicalBody): PhysicalBodyNode => {
                     const points = Array.from(
                         Array(Math.ceil(
-                            body.properties.elements.orbitalPeriodYears * 365.25,
+                            body.properties.elements.orbitalPeriodYears * 365.25 * (controls.streak.length > 1 ? controls.streak.length : 1),
                         )).keys(),
-                    ).map((day: number) => algorithmProps.algorithm(body, day / 365.25));
+                    ).map((day: number) => getPos({ body, algorithmProps }, day / 365.25));
                     const mesh = new Mesh(
                         new SphereGeometry(controls.scale.value * (
                             controls.scale.real
@@ -105,9 +113,9 @@ export function update() {
                             wireframe: false,
                         }),
                     );
-                    const line = controls.streakLength != 1 ? (() => {
+                    const line = controls.streak.length < 1 ? (() => {
                         const { r, g, b } = new Color(body.texture.color);
-                        const size = Math.ceil(controls.streakLength * points.length);
+                        const size = Math.ceil(controls.streak.length * points.length);
                         return new Line(
                             new BufferGeometry().setAttribute('color', new BufferAttribute(
                                 new Float32Array(
@@ -129,9 +137,9 @@ export function update() {
 }
 
 function tickNode(node: PhysicalBodyNode, timeYears: number) {
-    const pos: Vector3 = node.algorithmProps.algorithm(node.body, timeYears);
+    const pos: Vector3 = getPos(node, timeYears);
     node.mesh.position.copy(pos);
-    if (controls.streakLength != 1) {
+    if (controls.streak.length < 1) {
         const points: Vector3[] = [];
         let pointer: number = 0;
         let min: { distance: number, pointer: number } = undefined;
@@ -141,7 +149,7 @@ function tickNode(node: PhysicalBodyNode, timeYears: number) {
             pointer++;
         }
         pointer = min.pointer + 1;
-        const absoluteLength: number = Math.ceil(node.points.length * controls.streakLength) - 1;
+        const absoluteLength: number = Math.ceil(node.points.length * controls.streak.length) - 1;
         let i: number = 0;
         while (points.length <= absoluteLength) {
             const newPointer: number = pointer - 1;
@@ -161,9 +169,6 @@ export const tickSubscribe = (listener: () => void) => {
 }
 
 export function tickAll(timeYears: number) {
-    const target = nodes[controls?.focus];
-    if (target) orbitControls.target.copy(target.mesh.position);
-    else orbitControls.target.set(0, 0, 0);
     nodes.forEach(node => tickNode(node, timeYears));
     tickListeners.forEach((listener) => listener());
 }

@@ -12,7 +12,9 @@ document.body.appendChild(root);
 createRoot(root).render(<App />);
 
 export function removeLoader() {
-    document.getElementById("loader").remove();
+    const loader = document.getElementById("loader");
+    loader.classList.add("hide");
+    setTimeout(() => loader.remove(), 500);
 }
 
 enable();

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Controller from '../widgets/Controller';
-import { renderRoot, updateSize } from '../renderer/controller';
+import { updateSize } from '../renderer/controller';
 
 export default () => {
     const [expanded, setExpanded] = useState<boolean>(false);

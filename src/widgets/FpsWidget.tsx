@@ -1,5 +1,5 @@
-import * as React from "react";
-import { useState, useSyncExternalStore } from 'react';
+import * as React from 'react';
+import { useSyncExternalStore } from 'react';
 import { tickSubscribe } from '../renderer';
 import { loopState } from '../renderer/loop';
 

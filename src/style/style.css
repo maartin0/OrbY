@@ -50,6 +50,10 @@ body {
     justify-content: flex-start;
 }
 
+.focus-btn {
+    cursor: pointer;
+}
+
 .info > span {
     font-weight: bold;
     color: white;
@@ -63,6 +67,7 @@ body {
     color: black;
     z-index: 2;
     padding: 0.4em;
+    user-select: text;
 }
 
 .info:hover > div, .info:focus > div {
@@ -76,6 +81,7 @@ body {
     width: fit-content;
     overflow: scroll;
     height: 100vh;
+    user-select: none;
 }
 
 .controls:not(.expanded) {
@@ -121,11 +127,6 @@ span.add, span.del {
     text-align: center;
     cursor: pointer;
     font-weight: bold;
-    user-select: none;
-}
-
-.speed-label {
-    user-select: none;
 }
 
 .selector span.add {

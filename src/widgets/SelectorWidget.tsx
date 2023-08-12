@@ -6,9 +6,10 @@ import InfoButton from './InfoButton';
 type Props = {
     options: Selectable[],
     setter: (selected: Selectable[]) => void
+    tooling?: (option: Selectable, index: number) => JSX.Element,
 };
 
-export default ({ options, setter }: Props) => {
+export default ({ options, setter, tooling }: Props) => {
     const [selected, setSelected] = useState<Selectable[]>(options.filter(o => o.defaultSelected));
     useEffect(() => setter(selected), [selected]);
     const deselected = useMemo(() =>
@@ -40,6 +41,7 @@ export default ({ options, setter }: Props) => {
                         </select>
                     </label>
                     <div className="fill" />
+                    {tooling && tooling(option, index)}
                     {option.description && <InfoButton>
                         {option.description.value && <span>{option.description.value}</span>}
                         {option.description.wikipedia &&
