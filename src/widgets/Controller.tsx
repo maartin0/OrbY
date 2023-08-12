@@ -9,41 +9,20 @@ import FpsWidget from './FpsWidget';
 import TimeController from './TimeController';
 import CheckboxWidget from './CheckboxWidget';
 
-type Props = { show: boolean };
-
-export default ({ show }: Props) => {
+export default () => {
     const nodeCache: PhysicalBodyNode[] = useSyncExternalStore<PhysicalBodyNode[]>(updateSubscribe, () => nodes);
-    const focusList: JSX.Element[] = useMemo(() => nodeCache.map((node: PhysicalBodyNode, index: number) => (
-        <option key={`${node.body.id}-${index}`} value={index}
-                label={index === 0 || index === (nodeCache.length - 1) ? node.body.label : undefined}/>
-    )), [nodeCache]);
     const extendedControls: boolean = useMemo(() => nodeCache[0]?.body.id !== SUN.id, [nodeCache]);
-    const [lengthCache, setLengthCache] = useState<{size: number, set: boolean}>({ size: controls.streak.length, set: true });
-    const [bodyScaleCache, setBodyScaleCache] = useState<{size: number, set: boolean}>({ size: controls.scale.value, set: true });
+    const [lengthCache, setLengthCache] = useState<{ size: number, set: boolean }>({
+        size: controls.streak.length,
+        set: true,
+    });
+    const [bodyScaleCache, setBodyScaleCache] = useState<{ size: number, set: boolean }>({
+        size: controls.scale.value,
+        set: true,
+    });
     return (
-        <div className={`controls${show ? ' expanded' : ''}`}>
+        <div className="controls">
             <div>
-                <h3>Body Selection:</h3>
-                <SelectorWidget options={Object.values(bodies)}
-                                setter={(value: Selectable[]) => {
-                                    controls.selectedBodies = value as PhysicalBody[];
-                                    update();
-                                }}
-                                tooling={(value: Selectable, index: number) => index !== 0 && (
-                                    <div className="focus-btn" onClick={() => {
-                                        // Swap focused, requires 2 update cycles
-                                        if ((value as PhysicalBody).id === SUN.id) controls.streak.length = 0.7;
-                                        [controls.selectedBodies[0], controls.selectedBodies[index]] =
-                                            [controls.selectedBodies[index], controls.selectedBodies[0]];
-                                        update();
-                                        update();
-                                    }}><span>🔍</span></div>
-                                )}/>
-                <h3>Algorithm Selection:</h3>
-                <SelectorWidget options={Object.values(algorithms)} setter={(value: Selectable[]) => {
-                    controls.selectedAlgorithms = value as AlgorithmProps[];
-                    update();
-                }}/>
                 <h3><label htmlFor="speed-control">Speed Control:</label></h3>
                 <div className="inline">
                     <span className={`del${controls.speedIndex > 0 ? '' : ' hide'}`} onClick={() => {
@@ -62,18 +41,17 @@ export default ({ show }: Props) => {
                 <div className="inline">
                     <TimeController/>
                 </div>
-                <datalist id="focus-list">
-                    {focusList}
-                </datalist>
+            </div>
+            <div>
                 <h3><label htmlFor="streak-length">Streak Length:</label></h3>
                 <div className="inline">
                     <span>0%</span>
-                    <input id="streak-length" type="range" min={0} max={extendedControls ? 5 : 1} step={0.1}
+                    <input id="streak-length" type="range" min={0} max={extendedControls ? 20 : 1} step={0.1}
                            defaultValue={controls.streak.length}
                            onChange={(e) => {
                                setLengthCache({ size: e.target.valueAsNumber, set: false });
                            }}/>
-                    <span>{extendedControls ? "500%" : "100%"}</span>
+                    <span>{extendedControls ? '2000%' : '100%'}</span>
                 </div>
                 {!lengthCache.set && <div className="inline">
                     <span>New length: {Math.round(lengthCache.size * 100)}%</span>
@@ -81,8 +59,10 @@ export default ({ show }: Props) => {
                         controls.streak.length = lengthCache.size;
                         setLengthCache({ size: lengthCache.size, set: true });
                         update();
-                    }} />
+                    }}/>
                 </div>}
+            </div>
+            <div>
                 <h3><label htmlFor="scale-control">Body Scale:</label></h3>
                 <div className="inline">
                     <span>10%</span>
@@ -99,17 +79,44 @@ export default ({ show }: Props) => {
                         controls.scale.value = bodyScaleCache.size;
                         setBodyScaleCache({ size: bodyScaleCache.size, set: true });
                         update();
-                    }} />
+                    }}/>
                 </div>}
                 <div className="inline">
                     <label>
-                        Smoothed?
+                        Visible scale?
                         <CheckboxWidget defaultChecked={false} onChange={(value: boolean) => {
                             controls.scale.real = !value;
                             update();
                         }}/>
                     </label>
                 </div>
+            </div>
+            <div>
+                <h3>Algorithm Selection:</h3>
+                <SelectorWidget options={Object.values(algorithms)} setter={(value: Selectable[]) => {
+                    controls.selectedAlgorithms = value as AlgorithmProps[];
+                    update();
+                }}/>
+            </div>
+            <div>
+                <h3>Body Selection:</h3>
+                <SelectorWidget options={Object.values(bodies)}
+                                setter={(value: Selectable[]) => {
+                                    controls.selectedBodies = value as PhysicalBody[];
+                                    update();
+                                }}
+                                tooling={(value: Selectable, index: number) => index !== 0 && (
+                                    <div className="focus-btn" onClick={() => {
+                                        // Swap focused, requires 2 update cycles
+                                        if ((value as PhysicalBody).id === SUN.id) controls.streak.length = 0.7;
+                                        [controls.selectedBodies[0], controls.selectedBodies[index]] =
+                                            [controls.selectedBodies[index], controls.selectedBodies[0]];
+                                        update();
+                                        update();
+                                    }}><span>🔍</span></div>
+                                )}/>
+            </div>
+            <div>
                 <h3>Debug Stats:</h3> {/* TODO remove */}
                 <div className="inline"><FpsWidget/></div>
             </div>

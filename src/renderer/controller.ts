@@ -6,7 +6,6 @@ import {
     PerspectiveCamera,
     Scene,
     TextureLoader,
-    Vector2,
     WebGLRenderer,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -18,7 +17,6 @@ export const scene: Scene = new Scene();
 export const renderRoot = document.createElement('canvas');
 export const renderer: WebGLRenderer = new WebGLRenderer({ canvas: renderRoot });
 export let camera: PerspectiveCamera = new PerspectiveCamera(50, 1, 1e-5, 1e10);
-export const size: Vector2 = new Vector2();
 export const orbitControls: OrbitControls = new OrbitControls(camera, renderRoot);
 
 orbitControls.enableDamping = true;
@@ -26,8 +24,6 @@ camera.position.set(0, 8, 10);
 renderer.setPixelRatio(window.devicePixelRatio);
 
 renderRoot.classList.add('renderRoot');
-renderRoot.width = undefined;
-renderRoot.height = undefined;
 document.body.appendChild(renderRoot);
 
 // Skybox setup
@@ -41,12 +37,14 @@ scene.add(new Mesh(
 
 // Lifecycle methods
 export function updateSize(): void {
-    size.x = renderRoot.clientWidth;
-    size.y = renderRoot.clientHeight;
-    renderRoot.width = size.x;
-    renderRoot.height = size.y;
-    renderer.setSize(size.x, size.y, false);
-    camera.aspect = size.x / size.y;
+    const width: number = window.innerWidth;
+    const height: number = window.innerHeight;
+    renderRoot.width = width;
+    renderRoot.height = height;
+    renderRoot.style.width = `${width}px`;
+    renderRoot.style.height = `${height}px`;
+    renderer.setSize(width, height, true);
+    camera.aspect = width / height;
     camera.updateProjectionMatrix();
 }
 

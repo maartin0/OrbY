@@ -1,5 +1,5 @@
 import { AlgorithmProps, PhysicalBody, PhysicalBodyNode, PhysicalBodyType } from '../types';
-import { render, scene } from './controller';
+import { render, scene, updateSize } from './controller';
 import { removeLoader } from '../index';
 import {
     BufferAttribute,

@@ -1,17 +1,26 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import Controller from '../widgets/Controller';
-import { updateSize } from '../renderer/controller';
 
 export default () => {
-    const [expanded, setExpanded] = useState<boolean>(false);
-    useEffect(updateSize, [expanded])
+    const scrollY: number = useSyncExternalStore(
+        (onStoreChange: () => void) => {
+            window.addEventListener('scroll', onStoreChange);
+            return () => window.removeEventListener('scroll', onStoreChange);
+        },
+        () => window.scrollY,
+    );
     return (
         <>
-            <div className="expander" onClick={() => setExpanded((prevState: boolean) => !prevState)}>
-                <span>{expanded ? 'ᐳ Hide controls' : 'ᐸ Show controls'}</span>
+            <div className="expander">
+                <div>
+                <span className={scrollY < 10 ? '' : 'hide'}
+                      onClick={() => window.scrollTo({ top: window.innerHeight })}>ᐱ Show controls</span>
+                    <span className={scrollY < 10 ? 'hide' : ''}
+                          onClick={() => window.scrollTo({ top: 0 })}>ᐯ Hide controls</span>
+                </div>
             </div>
-            <Controller show={expanded}/>
+            <Controller/>
         </>
     );
 };
