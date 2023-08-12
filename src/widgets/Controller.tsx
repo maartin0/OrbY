@@ -45,7 +45,6 @@ export default ({ show }: Props) => {
                               update();
                           }}>+</span>
                 </div>
-                <h3><label htmlFor="time-control">Time Control:</label></h3>
                 <div className="inline">
                     <TimeController/>
                 </div>
