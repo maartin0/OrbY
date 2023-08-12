@@ -43,6 +43,8 @@ scene.add(new Mesh(
 export function updateSize(): void {
     size.x = renderRoot.clientWidth;
     size.y = renderRoot.clientHeight;
+    renderRoot.width = size.x;
+    renderRoot.height = size.y;
     renderer.setSize(size.x, size.y, false);
     camera.aspect = size.x / size.y;
     camera.updateProjectionMatrix();
