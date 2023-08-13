@@ -29,6 +29,7 @@ export default ({ show }: Props) => {
                 <div className="inline">
                     <span className={`del${controls.speedIndex > 0 ? '' : ' hide'}`} onClick={() => {
                         controls.speedIndex--;
+                        scheduleUpdate();
                     }}>-</span>
                     <div className="fill"/>
                     <span className="speed-label">{SPEED_OPTIONS[controls.speedIndex].label}</span>
@@ -36,6 +37,7 @@ export default ({ show }: Props) => {
                     <span className={`add${controls.speedIndex < (SPEED_OPTIONS.length - 1) ? '' : ' hide'}`}
                           onClick={() => {
                               controls.speedIndex++;
+                              scheduleUpdate();
                           }}>+</span>
                 </div>
                 <div className="inline">

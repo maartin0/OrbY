@@ -47,6 +47,10 @@ export const SPEED_OPTIONS = [
         value: 315576000,
         label: '10 years / s',
     },
+    {
+        value: 3155760000,
+        label: '100 years / s',
+    },
 ];
 
 export const controls: {
