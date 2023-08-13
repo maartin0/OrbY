@@ -8,6 +8,7 @@ import { controls, nodes, scheduleUpdate, SPEED_OPTIONS, updateSubscribe } from 
 import FpsWidget from './FpsWidget';
 import TimeController from './TimeController';
 import CheckboxWidget from './CheckboxWidget';
+import CacheRangeWidget from './CacheRangeWidget';
 
 window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
@@ -18,14 +19,7 @@ window.addEventListener('keydown', (e) => {
 export default () => {
     const nodeCache: PhysicalBodyNode[] = useSyncExternalStore<PhysicalBodyNode[]>(updateSubscribe, () => nodes);
     const extendedControls: boolean = useMemo(() => nodeCache[0]?.body.id !== SUN.id, [nodeCache]);
-    const [lengthCache, setLengthCache] = useState<{ size: number, set: boolean }>({
-        size: controls.streak.length,
-        set: true,
-    });
-    const [bodyScaleCache, setBodyScaleCache] = useState<{ size: number, set: boolean }>({
-        size: controls.scale.value,
-        set: true,
-    });
+
     return (
         <div className="controls">
             <div>
@@ -50,44 +44,31 @@ export default () => {
             </div>
             <div>
                 <h3><label htmlFor="streak-length">Streak Length:</label></h3>
-                <div className="inline">
-                    <span>{nodeCache[0]?.body.id === SUN.id ? "0%" : "100%"}</span>
-                    <input id="streak-length" type="range" min={nodeCache[0]?.body.id === SUN.id ? 0 : 1}
-                           max={extendedControls ? 20 : 1} step={0.1}
-                           defaultValue={controls.streak.length}
-                           onChange={(e) => {
-                               setLengthCache({ size: e.target.valueAsNumber, set: false });
-                           }}/>
-                    <span>{extendedControls ? '2000%' : '100%'}</span>
-                </div>
-                {!lengthCache.set && <div className="inline">
-                    <span>New length: {Math.round(lengthCache.size * 100)}%</span>
-                    <input type="button" value="Save" onClick={() => {
-                        controls.streak.length = lengthCache.size;
-                        setLengthCache({ size: lengthCache.size, set: true });
-                        scheduleUpdate();
-                    }}/>
-                </div>}
+                <CacheRangeWidget min={nodeCache[0]?.body.id === SUN.id ? 0 : 1}
+                                  max={extendedControls ? 20 : 1}
+                                  step={0.1}
+                                  initialSize={controls.streak.length}
+                                  prefix={<span>{nodeCache[0]?.body.id === SUN.id ? "0%" : "100%"}</span>}
+                                  suffix={<span>{extendedControls ? '2000%' : '100%'}</span>}
+                                  format={(v: number) => `New length: ${Math.round(v * 100)}%`}
+                                  updater={(v: number) => {
+                                      controls.streak.length = v;
+                                      scheduleUpdate();
+                                  }} />
             </div>
             <div>
                 <h3><label htmlFor="scale-control">Body Scale:</label></h3>
-                <div className="inline">
-                    <span>10%</span>
-                    <input id="scale-control" type="range" min={0.1} max={5} step={0.1}
-                           defaultValue={1}
-                           onChange={(e) => {
-                               setBodyScaleCache({ set: false, size: e.target.valueAsNumber });
-                           }}/>
-                    <span>500%</span>
-                </div>
-                {!bodyScaleCache.set && <div className="inline">
-                    <span>New size: {Math.round(bodyScaleCache.size * 100)}%</span>
-                    <input type="button" value="Save" onClick={() => {
-                        controls.scale.value = bodyScaleCache.size;
-                        setBodyScaleCache({ size: bodyScaleCache.size, set: true });
-                        scheduleUpdate();
-                    }}/>
-                </div>}
+                <CacheRangeWidget min={0.1}
+                                  max={5}
+                                  step={0.1}
+                                  initialSize={1}
+                                  prefix={<span>10%</span>}
+                                  suffix={<span>500%</span>}
+                                  format={(v: number) => `New size: ${Math.round(v * 100)}%`}
+                                  updater={(v: number) => {
+                                      controls.scale.value = v;
+                                      scheduleUpdate();
+                                  }} />
                 <div className="inline">
                     <label>
                         Visible scale?
@@ -136,6 +117,29 @@ export default () => {
                     scheduleUpdate();
                 }} />
             </div>
+            {controls.spirograph.options.length > 0 && <div>
+                <h3>Spirograph Options:</h3>
+                <CacheRangeWidget min={0.1}
+                                  max={10}
+                                  step={0.1}
+                                  initialSize={1}
+                                  label="Plot interval / au:"
+                                  format={(v: number) => `New interval: ${v}`}
+                                  updater={(v: number) => {
+                                      controls.spirograph.plotInterval = v;
+                                      scheduleUpdate();
+                                  }} />
+                <CacheRangeWidget min={1000}
+                                  max={1000000}
+                                  step={1000}
+                                  initialSize={10000}
+                                  label="Max spirograph lines:"
+                                  format={(v: number) => `New max: ${v}`}
+                                  updater={(v: number) => {
+                                      controls.spirograph.max = v;
+                                      scheduleUpdate();
+                                  }} />
+            </div>}
             <div>
                 <h3>Debug Stats:</h3>
                 <div className="inline"><FpsWidget/></div>
