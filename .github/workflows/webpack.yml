@@ -10,7 +10,7 @@ on:
     branches: [ "main" ]
 
 env:
-  TOKEN_SECRET: ${{ secrets.PID }}
+  TOKEN_SECRET: ${{ secrets.PAT }}
 
 jobs:
   build:
