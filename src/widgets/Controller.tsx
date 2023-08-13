@@ -2,9 +2,9 @@ import * as React from 'react';
 import { useMemo, useSyncExternalStore } from 'react';
 import SelectorWidget from './SelectorWidget';
 import bodies, { SUN } from '../renderer/entities/bodies';
-import algorithms from '../renderer/entities/orbits';
+import algorithms from '../renderer/entities/algorithms';
 import { AlgorithmProps, PhysicalBody, PhysicalBodyNode, Selectable, SpirographOption } from '../types';
-import { controls, nodes, scheduleUpdate, SPEED_OPTIONS, updateSubscribe } from '../renderer';
+import { controls, nodes, SPEED_OPTIONS, updateSubscribe } from '../renderer';
 import FpsWidget from './FpsWidget';
 import TimeController from './TimeController';
 import CheckboxWidget from './CheckboxWidget';
@@ -20,7 +20,6 @@ window.addEventListener('keydown', (e) => {
 export default () => {
     const nodeCache: PhysicalBodyNode[] = useSyncExternalStore<PhysicalBodyNode[]>(updateSubscribe, () => nodes);
     const extendedControls: boolean = useMemo(() => nodeCache[0]?.body.id !== SUN.id, [nodeCache]);
-
     return (
         <div className="controls">
             <div>
@@ -28,7 +27,6 @@ export default () => {
                 <div className="inline">
                     <span className={`del${controls.speedIndex > 0 ? '' : ' hide'}`} onClick={() => {
                         controls.speedIndex--;
-                        scheduleUpdate();
                     }}>-</span>
                     <div className="fill"/>
                     <span className="speed-label">{SPEED_OPTIONS[controls.speedIndex].label}</span>
@@ -36,7 +34,6 @@ export default () => {
                     <span className={`add${controls.speedIndex < (SPEED_OPTIONS.length - 1) ? '' : ' hide'}`}
                           onClick={() => {
                               controls.speedIndex++;
-                              scheduleUpdate();
                           }}>+</span>
                 </div>
                 <div className="inline">
@@ -51,10 +48,9 @@ export default () => {
                                   initialSize={controls.streak.length}
                                   prefix={<span>{nodeCache[0]?.body.id === SUN.id ? '0%' : '100%'}</span>}
                                   suffix={<span>{extendedControls ? '2000%' : '100%'}</span>}
-                                  format={(v: number) => `New length: ${Math.round(v * 100)}%`}
+                                  format={(v: number) => `Length: ${Math.round(v * 100)}%`}
                                   updater={(v: number) => {
                                       controls.streak.length = v;
-                                      scheduleUpdate();
                                   }}/>
             </div>
             <div>
@@ -65,17 +61,15 @@ export default () => {
                                   initialSize={controls.scale.value}
                                   prefix={<span>10%</span>}
                                   suffix={<span>500%</span>}
-                                  format={(v: number) => `New size: ${Math.round(v * 100)}%`}
+                                  format={(v: number) => `Size: ${Math.round(v * 100)}%`}
                                   updater={(v: number) => {
                                       controls.scale.value = v;
-                                      scheduleUpdate();
                                   }}/>
                 <div className="inline">
                     <label>
                         Visible scale?
                         <CheckboxWidget defaultChecked={false} onChange={(value: boolean) => {
                             controls.scale.real = !value;
-                            scheduleUpdate();
                         }}/>
                     </label>
                 </div>
@@ -87,7 +81,6 @@ export default () => {
                         <span>Enabled?:</span>
                         <CheckboxWidget defaultChecked={controls.labels} onChange={(value: boolean) => {
                             controls.labels = value;
-                            scheduleUpdate();
                         }}/>
                     </label>
                 </div>
@@ -96,7 +89,6 @@ export default () => {
                 <h3>Algorithm Selection:</h3>
                 <SelectorWidget options={Object.values(algorithms)} setter={(value: Selectable[]) => {
                     controls.selectedAlgorithms = value as AlgorithmProps[];
-                    scheduleUpdate();
                 }}/>
             </div>
             <div>
@@ -104,7 +96,6 @@ export default () => {
                 <SelectorWidget options={Object.values(bodies)}
                                 setter={(value: Selectable[]) => {
                                     controls.selectedBodies = value as PhysicalBody[];
-                                    scheduleUpdate();
                                 }}
                                 tooling={(value: Selectable, index: number) => index !== 0 && (
                                     <div className="focus-btn" title="Move planet to origin" onClick={() => {
@@ -113,7 +104,6 @@ export default () => {
                                         else if (controls.streak.length < 1) controls.streak.length = 1;
                                         [controls.selectedBodies[0], controls.selectedBodies[index]] =
                                             [controls.selectedBodies[index], controls.selectedBodies[0]];
-                                        scheduleUpdate();
                                     }}><span>🔍</span></div>
                                 )}/>
             </div>
@@ -135,7 +125,6 @@ export default () => {
                         });
                     }))} setter={(selected: Selectable[]) => {
                     controls.spirograph.options = selected as SpirographOption[];
-                    scheduleUpdate();
                 }}/>
             </div>
             <div>

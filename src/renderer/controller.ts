@@ -14,7 +14,7 @@ import { tick } from './loop';
 // Renderer setup
 
 export const scene: Scene = new Scene();
-export const renderRoot = document.createElement('canvas');
+export const renderRoot: HTMLCanvasElement = document.createElement('canvas');
 export const renderer: WebGLRenderer = new WebGLRenderer({ canvas: renderRoot });
 export let camera: PerspectiveCamera = new PerspectiveCamera(50, 1, 1e-5, 1e10);
 export const orbitControls: OrbitControls = new OrbitControls(camera, renderRoot);

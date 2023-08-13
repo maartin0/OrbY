@@ -15,6 +15,8 @@ import {
 } from 'three';
 import { loopState } from './loop';
 import { LabelProps } from '../widgets/Label';
+import bodies from './entities/bodies';
+import algorithms from './entities/algorithms';
 
 export const SPEED_OPTIONS = [
     {
@@ -72,8 +74,8 @@ export const controls: {
         real: true,
         value: 1,
     },
-    selectedBodies: [],
-    selectedAlgorithms: [],
+    selectedBodies: Object.values(bodies).filter(b => b.defaultSelected),
+    selectedAlgorithms: Object.values(algorithms).filter(a => a.defaultSelected),
     spirograph: {
         options: [],
         lines: [],
@@ -82,8 +84,9 @@ export const controls: {
 }
 
 export function enable() {
+    update();
+    update();
     removeLoader();
-    setTimeout(update, 100);
     render();
 }
 

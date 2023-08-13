@@ -12,32 +12,25 @@ type Props = {
     prefix?: JSX.Element,
     suffix?: JSX.Element,
 };
-type Cache = { size: number, set: boolean };
 
 export default ({ initialSize, min, max, step, label, format, updater, prefix, suffix }: Props) => {
-    const [cache, setCache] = useState<Cache>({
-        size: initialSize,
-        set: true,
-    });
+    const [cache, setCache] = useState<number>(initialSize);
     return (
         <>
             <div className="inline">
                 <label>
                     {label && <span>{label}</span>}
                     {prefix}
-                    <input type="range" min={min} max={max} step={step} value={cache.size} onChange={(e) => {
-                        setCache({ size: e.target.valueAsNumber, set: false });
+                    <input type="range" min={min} max={max} step={step} value={cache} onChange={(e) => {
+                        setCache(e.target.valueAsNumber);
+                        updater(e.target.valueAsNumber);
                     }}/>
                     {suffix}
                 </label>
             </div>
-            {!cache.set && <div className="inline">
-                <span>{format(cache.size)}</span>
-                <input type="button" value="Save" onClick={() => {
-                    updater(cache.size);
-                    setCache(({ size }: Cache) => ({ size, set: true }));
-                }}/>
-            </div>}
+            <div className="inline">
+                <span>{format(cache)}</span>
+            </div>
         </>
     )
 }
