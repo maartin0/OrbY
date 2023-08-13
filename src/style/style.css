@@ -6,7 +6,7 @@ body {
     height: 100vh;
     font-family: 'Inter', sans-serif;
     color: white;
-    overflow: scroll;
+    overflow: clip;
     display: flex;
     flex-direction: column;
 }
@@ -98,6 +98,7 @@ body {
     right: 0;
     bottom: 0;
     margin: 0;
+    overflow-x: clip;
 }
 
 .controls > div {
