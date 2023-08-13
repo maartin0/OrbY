@@ -48,7 +48,7 @@ export default () => {
                 <CacheRangeWidget min={nodeCache[0]?.body.id === SUN.id ? 0 : 1}
                                   max={extendedControls ? 20 : 1}
                                   step={0.1}
-                                  initialSize={controls.streak.length}
+                                  initialSize={0.7}
                                   prefix={<span>{nodeCache[0]?.body.id === SUN.id ? '0%' : '100%'}</span>}
                                   suffix={<span>{extendedControls ? '2000%' : '100%'}</span>}
                                   format={(v: number) => `New length: ${Math.round(v * 100)}%`}

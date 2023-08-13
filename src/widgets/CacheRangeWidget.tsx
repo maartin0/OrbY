@@ -25,7 +25,7 @@ export default ({ initialSize, min, max, step, label, format, updater, prefix, s
                 <label>
                     {label && <span>{label}</span>}
                     {prefix}
-                    <input type="range" min={min} max={max} step={step} defaultValue={initialSize} onChange={(e) => {
+                    <input type="range" min={min} max={max} step={step} value={cache.size} onChange={(e) => {
                         setCache({ size: e.target.valueAsNumber, set: false });
                     }}/>
                     {suffix}
@@ -35,7 +35,7 @@ export default ({ initialSize, min, max, step, label, format, updater, prefix, s
                 <span>{format(cache.size)}</span>
                 <input type="button" value="Save" onClick={() => {
                     updater(cache.size);
-                    setCache({ size: initialSize, set: true });
+                    setCache(({ size }: Cache) => ({ size, set: true }));
                 }}/>
             </div>}
         </>
