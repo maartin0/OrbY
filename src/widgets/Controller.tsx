@@ -24,7 +24,7 @@ export default () => {
     return (
         <div className="controls">
             <div>
-                <h3><label htmlFor="speed-control">Speed Control:</label></h3>
+                <h3>Speed Control:</h3>
                 <div className="inline">
                     <span className={`del${controls.speedIndex > 0 ? '' : ' hide'}`} onClick={() => {
                         controls.speedIndex--;
@@ -44,21 +44,21 @@ export default () => {
                 </div>
             </div>
             <div>
-                <h3><label htmlFor="streak-length">Streak Length:</label></h3>
+                <h3>Streak Length:</h3>
                 <CacheRangeWidget min={nodeCache[0]?.body.id === SUN.id ? 0 : 1}
                                   max={extendedControls ? 20 : 1}
                                   step={0.1}
                                   initialSize={controls.streak.length}
-                                  prefix={<span>{nodeCache[0]?.body.id === SUN.id ? "0%" : "100%"}</span>}
+                                  prefix={<span>{nodeCache[0]?.body.id === SUN.id ? '0%' : '100%'}</span>}
                                   suffix={<span>{extendedControls ? '2000%' : '100%'}</span>}
                                   format={(v: number) => `New length: ${Math.round(v * 100)}%`}
                                   updater={(v: number) => {
                                       controls.streak.length = v;
                                       scheduleUpdate();
-                                  }} />
+                                  }}/>
             </div>
             <div>
-                <h3><label htmlFor="scale-control">Body Scale:</label></h3>
+                <h3>Body Scale:</h3>
                 <CacheRangeWidget min={0.1}
                                   max={5}
                                   step={0.1}
@@ -69,12 +69,24 @@ export default () => {
                                   updater={(v: number) => {
                                       controls.scale.value = v;
                                       scheduleUpdate();
-                                  }} />
+                                  }}/>
                 <div className="inline">
                     <label>
                         Visible scale?
                         <CheckboxWidget defaultChecked={false} onChange={(value: boolean) => {
                             controls.scale.real = !value;
+                            scheduleUpdate();
+                        }}/>
+                    </label>
+                </div>
+            </div>
+            <div>
+                <h3>Body Labels:</h3>
+                <div className="inline">
+                    <label>
+                        <span>Enabled?:</span>
+                        <CheckboxWidget defaultChecked={controls.labels} onChange={(value: boolean) => {
+                            controls.labels = value;
                             scheduleUpdate();
                         }}/>
                     </label>
@@ -107,23 +119,24 @@ export default () => {
             </div>
             <div>
                 <h3>Spirograph Generator:</h3>
-                <SelectorWidget options={nodeCache.flatMap((node: PhysicalBodyNode, index: number) => nodeCache.slice(index + 1).map((node1: PhysicalBodyNode): SpirographOption => {
-                    const maxPeriod: number = Math.max(node.body.properties.elements.orbitalPeriodYears, node1.body.properties.elements.orbitalPeriodYears);
-                    return ({
-                        id: `${node.body.id}-${node1.body.id}`,
-                        label: `${node.body.label} + ${node1.body.label}`,
-                        defaultSelected: false,
-                        from: node,
-                        to: node1,
-                        lines: [],
-                        end: loopState.lastTick + 30 * maxPeriod,
-                        plotInterval: maxPeriod / 120,
-                        lastPlot: loopState.lastTick,
-                    });
-                }))} setter={(selected: Selectable[]) => {
+                <SelectorWidget
+                    options={nodeCache.flatMap((node: PhysicalBodyNode, index: number) => nodeCache.slice(index + 1).map((node1: PhysicalBodyNode): SpirographOption => {
+                        const maxPeriod: number = Math.max(node.body.properties.elements.orbitalPeriodYears, node1.body.properties.elements.orbitalPeriodYears);
+                        return ({
+                            id: `${node.body.id}-${node1.body.id}`,
+                            label: `${node.body.label} + ${node1.body.label}`,
+                            defaultSelected: false,
+                            from: node,
+                            to: node1,
+                            lines: [],
+                            end: loopState.lastTick + 30 * maxPeriod,
+                            plotInterval: maxPeriod / 120,
+                            lastPlot: loopState.lastTick,
+                        });
+                    }))} setter={(selected: Selectable[]) => {
                     controls.spirograph.options = selected as SpirographOption[];
                     scheduleUpdate();
-                }} />
+                }}/>
             </div>
             <div>
                 <h3>Debug Stats:</h3>

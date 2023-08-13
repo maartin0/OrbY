@@ -160,10 +160,13 @@ span.hide {
     visibility: hidden;
 }
 
-.inline {
+.inline, .inline > * {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.inline {
     border-top: 1px solid rgba(255, 255, 255, 10%);
     border-bottom: 1px solid rgba(255, 255, 255, 10%);
     padding: 0.2em;
@@ -172,4 +175,9 @@ span.hide {
 .inline > * {
     margin-right: 0.2em;
     margin-left: 0.2em;
+}
+
+.label {
+    position: absolute;
+    user-select: none;
 }

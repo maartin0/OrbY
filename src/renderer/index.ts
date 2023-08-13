@@ -1,5 +1,5 @@
 import { AlgorithmProps, PhysicalBody, PhysicalBodyNode, PhysicalBodyType, SpirographOption } from '../types';
-import { render, scene } from './controller';
+import { camera, render, renderRoot, scene } from './controller';
 import { removeLoader } from '../index';
 import {
     BufferAttribute,
@@ -9,10 +9,12 @@ import {
     LineBasicMaterial,
     Mesh,
     MeshBasicMaterial,
-    SphereGeometry,
+    SphereGeometry, Vector2,
     Vector3,
 } from 'three';
 import { loopState } from './loop';
+import { LabelProps } from '../widgets/Label';
+import bodies from './entities/bodies';
 
 export const SPEED_OPTIONS = [
     {
@@ -59,7 +61,8 @@ export const controls: {
     spirograph: {
         options: SpirographOption[],
         lines: Line[],
-    }
+    },
+    labels: boolean,
 } = {
     streak: {
         length: 0.7,
@@ -75,6 +78,7 @@ export const controls: {
         options: [],
         lines: [],
     },
+    labels: true,
 }
 
 export function enable() {
@@ -152,7 +156,7 @@ export function update() {
 }
 
 const getRgb = (node: PhysicalBodyNode): [number, number, number] => {
-    const {r, g, b} = new Color(node.body.texture.color);
+    const { r, g, b } = new Color(node.body.texture.color);
     return [r, g, b];
 }
 
@@ -179,6 +183,35 @@ function tickNode(node: PhysicalBodyNode, timeYears: number) {
         }
         node.line.geometry.setFromPoints(points);
     }
+}
+
+
+let tickListeners: (() => void)[] = [];
+export const tickSubscribe = (listener: () => void) => {
+    tickListeners.push(listener);
+    return () => { tickListeners = tickListeners.filter(v => v !== listener) };
+};
+
+export let labels: LabelProps[] = [];
+
+export function tickAll(timeYears: number) {
+    nodes.forEach(node => tickNode(node, timeYears));
+    labels = nodes.map((node: PhysicalBodyNode): LabelProps => {
+        const projection: Vector3 = node.mesh.position.project(camera);
+        const normalised: Vector2 = new Vector2(
+            window.innerWidth * ((projection.x + 1) / 2),
+            window.innerHeight * (1 - ((projection.y + 1) / 2) + renderRoot.offsetTop),
+        );
+        const show: boolean = !(normalised.x > window.innerWidth || normalised.y > window.innerHeight || normalised.x < 0 || normalised.y < 0);
+        return {
+            show,
+            color: node.body.texture.color,
+            top: normalised.y,
+            left: normalised.x,
+            label: node.body.label,
+            id: `label-${node.body.id}-${node.algorithmProps.id}`,
+        };
+    });
     controls.spirograph.options.forEach((option: SpirographOption) => {
         while (timeYears > option.end) {
             option?.lines?.shift()?.removeFromParent();
@@ -197,16 +230,5 @@ function tickNode(node: PhysicalBodyNode, timeYears: number) {
             option.lastPlot = timeYears;
         }
     });
-}
-
-
-let tickListeners: (() => void)[] = [];
-export const tickSubscribe = (listener: () => void) => {
-    tickListeners.push(listener);
-    return () => { tickListeners = tickListeners.filter(v => v !== listener) };
-}
-
-export function tickAll(timeYears: number) {
-    nodes.forEach(node => tickNode(node, timeYears));
     tickListeners.forEach((listener) => listener());
 }

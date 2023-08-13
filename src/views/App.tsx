@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useSyncExternalStore } from 'react';
 import Controller from '../widgets/Controller';
+import Labeler from '../widgets/Labeler';
 
 export default () => {
     const scrollY: number = useSyncExternalStore(
@@ -12,6 +13,7 @@ export default () => {
     );
     return (
         <>
+            <Labeler />
             <div className="expander">
                 <div>
                 <span className={scrollY < 10 ? '' : 'hide'}
