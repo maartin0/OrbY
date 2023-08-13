@@ -9,9 +9,6 @@ on:
   pull_request:
     branches: [ "main" ]
 
-env:
-  TOKEN_SECRET: ${{ secrets.PAT }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -39,4 +36,4 @@ jobs:
         folder: dist
         repository-name: maartin0/maartin0.github.io
         target-folder: orby
-        token: ${{ TOKEN_SECRET }}
+        token: ${{ secrets.PAT }}
