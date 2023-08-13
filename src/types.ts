@@ -82,4 +82,8 @@ export interface SpirographOption extends Selectable {
     defaultSelected: boolean,
     from: PhysicalBodyNode,
     to: PhysicalBodyNode,
+    lastPlot: number,
+    plotInterval: number,
+    lines: Line[],
+    end: number,
 }

@@ -59,9 +59,6 @@ export const controls: {
     spirograph: {
         options: SpirographOption[],
         lines: Line[],
-        max: number,
-        plotInterval: number,
-        lastPlot: number,
     }
 } = {
     streak: {
@@ -77,9 +74,6 @@ export const controls: {
     spirograph: {
         options: [],
         lines: [],
-        max: 10000,
-        plotInterval: 1,
-        lastPlot: 0,
     },
 }
 
@@ -185,23 +179,24 @@ function tickNode(node: PhysicalBodyNode, timeYears: number) {
         }
         node.line.geometry.setFromPoints(points);
     }
-    if (timeYears - controls.spirograph.lastPlot > controls.spirograph.plotInterval) {
-        controls.spirograph.options.forEach((option: SpirographOption) => {
+    controls.spirograph.options.forEach((option: SpirographOption) => {
+        while (timeYears > option.end) {
+            option?.lines?.shift()?.removeFromParent();
+            option.end += option.plotInterval;
+        }
+        if (timeYears - option.lastPlot > option.plotInterval) {
             const line = new Line(
                 new BufferGeometry()
                 .setFromPoints([getPos(option.from, timeYears), getPos(option.to, timeYears)])
                 .setAttribute('color', new BufferAttribute(new Float32Array([...getRgb(option.from), ...getRgb(option.to)]), 3)),
                 new LineBasicMaterial({ vertexColors: true }),
             )
-            console.log("line");
+            option.lines.push(line);
             controls.spirograph.lines.push(line);
             scene.add(line);
-        });
-        controls.spirograph.lastPlot = timeYears;
-        while (controls.spirograph.lines.length > controls.spirograph.max) {
-            controls.spirograph.lines.shift().removeFromParent();
+            option.lastPlot = timeYears;
         }
-    }
+    });
 }
 
 

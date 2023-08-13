@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useMemo, useState, useSyncExternalStore } from 'react';
+import { useMemo, useSyncExternalStore } from 'react';
 import SelectorWidget from './SelectorWidget';
 import bodies, { SUN } from '../renderer/entities/bodies';
 import algorithms from '../renderer/entities/orbits';
@@ -9,6 +9,7 @@ import FpsWidget from './FpsWidget';
 import TimeController from './TimeController';
 import CheckboxWidget from './CheckboxWidget';
 import CacheRangeWidget from './CacheRangeWidget';
+import { loopState } from '../renderer/loop';
 
 window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
@@ -106,40 +107,24 @@ export default () => {
             </div>
             <div>
                 <h3>Spirograph Generator:</h3>
-                <SelectorWidget options={nodeCache.flatMap((node: PhysicalBodyNode, index: number) => nodeCache.slice(index + 1).map((node1: PhysicalBodyNode, index1: number) => ({
-                    id: `${node.body.id}-${node1.body.id}`,
-                    label: `${node.body.label} + ${node1.body.label}`,
-                    defaultSelected: false,
-                    from: node,
-                    to: node1,
-                })))} setter={(selected: Selectable[]) => {
+                <SelectorWidget options={nodeCache.flatMap((node: PhysicalBodyNode, index: number) => nodeCache.slice(index + 1).map((node1: PhysicalBodyNode): SpirographOption => {
+                    const maxPeriod: number = Math.max(node.body.properties.elements.orbitalPeriodYears, node1.body.properties.elements.orbitalPeriodYears);
+                    return ({
+                        id: `${node.body.id}-${node1.body.id}`,
+                        label: `${node.body.label} + ${node1.body.label}`,
+                        defaultSelected: false,
+                        from: node,
+                        to: node1,
+                        lines: [],
+                        end: loopState.lastTick + 30 * maxPeriod,
+                        plotInterval: maxPeriod / 120,
+                        lastPlot: loopState.lastTick,
+                    });
+                }))} setter={(selected: Selectable[]) => {
                     controls.spirograph.options = selected as SpirographOption[];
                     scheduleUpdate();
                 }} />
             </div>
-            {controls.spirograph.options.length > 0 && <div>
-                <h3>Spirograph Options:</h3>
-                <CacheRangeWidget min={0.1}
-                                  max={10}
-                                  step={0.1}
-                                  initialSize={1}
-                                  label="Plot interval / au:"
-                                  format={(v: number) => `New interval: ${v}`}
-                                  updater={(v: number) => {
-                                      controls.spirograph.plotInterval = v;
-                                      scheduleUpdate();
-                                  }} />
-                <CacheRangeWidget min={1000}
-                                  max={1000000}
-                                  step={1000}
-                                  initialSize={10000}
-                                  label="Max spirograph lines:"
-                                  format={(v: number) => `New max: ${v}`}
-                                  updater={(v: number) => {
-                                      controls.spirograph.max = v;
-                                      scheduleUpdate();
-                                  }} />
-            </div>}
             <div>
                 <h3>Debug Stats:</h3>
                 <div className="inline"><FpsWidget/></div>
