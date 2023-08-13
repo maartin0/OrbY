@@ -17,11 +17,13 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
-export default () => {
+type Props = {show: boolean};
+
+export default ({ show }: Props) => {
     const nodeCache: PhysicalBodyNode[] = useSyncExternalStore<PhysicalBodyNode[]>(updateSubscribe, () => nodes);
     const extendedControls: boolean = useMemo(() => nodeCache[0]?.body.id !== SUN.id, [nodeCache]);
     return (
-        <div className="controls">
+        <div className={`controls${show ? '' : ' hide'}`}>
             <div>
                 <h3>Speed Control:</h3>
                 <div className="inline">

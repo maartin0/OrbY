@@ -155,7 +155,7 @@ span.del:hover {
     color: red;
 }
 
-span.hide {
+.hide {
     visibility: hidden;
 }
 
