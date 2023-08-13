@@ -9,6 +9,9 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  TOKEN_SECRET: ${{ secrets.PID }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,8 +35,6 @@ jobs:
         
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.4.3
-      env:
-        TOKEN_SECRET: ${{ secrets.PID }}
       with:
         folder: dist
         repository-name: maartin0/maartin0.github.io
