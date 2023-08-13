@@ -26,5 +26,4 @@ Focused mode:
 
 
 ## Renderer model
-![img.png](docs/abstraction.png
-)
+![img.png](docs/abstraction.png)

@@ -9,12 +9,12 @@ import {
     LineBasicMaterial,
     Mesh,
     MeshBasicMaterial,
-    SphereGeometry, Vector2,
+    SphereGeometry,
+    Vector2,
     Vector3,
 } from 'three';
 import { loopState } from './loop';
 import { LabelProps } from '../widgets/Label';
-import bodies from './entities/bodies';
 
 export const SPEED_OPTIONS = [
     {
@@ -216,18 +216,18 @@ export function tickAll(timeYears: number) {
         while (timeYears > option.end) {
             option?.lines?.shift()?.removeFromParent();
             option.end += option.plotInterval;
-        }
-        if (timeYears - option.lastPlot > option.plotInterval) {
-            const line = new Line(
-                new BufferGeometry()
-                .setFromPoints([getPos(option.from, timeYears), getPos(option.to, timeYears)])
-                .setAttribute('color', new BufferAttribute(new Float32Array([...getRgb(option.from), ...getRgb(option.to)]), 3)),
-                new LineBasicMaterial({ vertexColors: true }),
-            )
-            option.lines.push(line);
-            controls.spirograph.lines.push(line);
-            scene.add(line);
-            option.lastPlot = timeYears;
+            if (timeYears - option.lastPlot > option.plotInterval) {
+                const line = new Line(
+                    new BufferGeometry()
+                    .setFromPoints([getPos(option.from, timeYears), getPos(option.to, timeYears)])
+                    .setAttribute('color', new BufferAttribute(new Float32Array([...getRgb(option.from), ...getRgb(option.to)]), 3)),
+                    new LineBasicMaterial({ vertexColors: true }),
+                )
+                option.lines.push(line);
+                controls.spirograph.lines.push(line);
+                scene.add(line);
+                option.lastPlot = timeYears;
+            }
         }
     });
     tickListeners.forEach((listener) => listener());
