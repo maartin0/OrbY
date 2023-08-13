@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon src/index.tsx",
     "build": "webpack --mode=production --node-env=production",
-    "copy": "cp -r public/* dist",
+    "copy": "cpy assets/* dist/",
     "build:dev": "webpack --mode=development",
     "watch": "webpack --watch",
     "dev": "webpack serve"
@@ -55,7 +55,8 @@
     "webpack": "^5.76.2",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.12.0",
-    "workbox-webpack-plugin": "^6.5.4"
+    "workbox-webpack-plugin": "^6.5.4",
+    "cpy-cli": "^5.0.0"
   },
   "dependencies": {
     "three": "^0.150.1"
