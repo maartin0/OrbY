@@ -1,5 +1,5 @@
-import { AlgorithmProps, PhysicalBody, PhysicalBodyNode, PhysicalBodyType } from '../types';
-import { render, scene, updateSize } from './controller';
+import { AlgorithmProps, PhysicalBody, PhysicalBodyNode, PhysicalBodyType, SpirographOption } from '../types';
+import { render, scene } from './controller';
 import { removeLoader } from '../index';
 import {
     BufferAttribute,
@@ -56,21 +56,36 @@ export const controls: {
     },
     selectedBodies: PhysicalBody[],
     selectedAlgorithms: AlgorithmProps[],
+    spirograph: {
+        options: SpirographOption[],
+        lines: Line[],
+        max: number,
+        plotInterval: number,
+        lastPlot: number,
+    }
 } = {
     streak: {
         length: 0.7,
     },
-    speedIndex: 0,
+    speedIndex: 5,
     scale: {
         real: true,
         value: 1,
     },
     selectedBodies: [],
     selectedAlgorithms: [],
+    spirograph: {
+        options: [],
+        lines: [],
+        max: 10000,
+        plotInterval: 1,
+        lastPlot: 0,
+    },
 }
 
 export function enable() {
     removeLoader();
+    setTimeout(update, 100);
     render();
 }
 
@@ -87,7 +102,13 @@ export function getPos(node: { body: PhysicalBody, algorithmProps: AlgorithmProp
     else return node.algorithmProps.algorithm(node.body, timeYears).sub(focusTarget.algorithmProps.algorithm(focusTarget.body, timeYears));
 }
 
+export function scheduleUpdate() {
+    update();
+    setTimeout(update, 10);
+}
+
 export function update() {
+    controls.spirograph.lines.forEach(line => line.removeFromParent());
     loopState.speed = SPEED_OPTIONS[controls.speedIndex].value;
     nodes.forEach((node: PhysicalBodyNode) => {
         node.mesh.removeFromParent();
@@ -126,14 +147,19 @@ export function update() {
                             new LineBasicMaterial({ vertexColors: true }),
                         )
                     })() : new Line(
-                            new BufferGeometry().setFromPoints(points),
-                            new LineBasicMaterial({ color: body.texture.color }),
-                        );
+                        new BufferGeometry().setFromPoints(points),
+                        new LineBasicMaterial({ color: body.texture.color }),
+                    );
                     return { body, algorithmProps, points, mesh, line };
                 },
             ));
     nodes.forEach((node: PhysicalBodyNode) => scene.add(node.mesh, node.line));
     updateListeners.forEach((listener) => listener());
+}
+
+const getRgb = (node: PhysicalBodyNode): [number, number, number] => {
+    const {r, g, b} = new Color(node.body.texture.color);
+    return [r, g, b];
 }
 
 function tickNode(node: PhysicalBodyNode, timeYears: number) {
@@ -158,6 +184,23 @@ function tickNode(node: PhysicalBodyNode, timeYears: number) {
             i++;
         }
         node.line.geometry.setFromPoints(points);
+    }
+    if (timeYears - controls.spirograph.lastPlot > controls.spirograph.plotInterval) {
+        controls.spirograph.options.forEach((option: SpirographOption) => {
+            const line = new Line(
+                new BufferGeometry()
+                .setFromPoints([getPos(option.from, timeYears), getPos(option.to, timeYears)])
+                .setAttribute('color', new BufferAttribute(new Float32Array([...getRgb(option.from), ...getRgb(option.to)]), 3)),
+                new LineBasicMaterial({ vertexColors: true }),
+            )
+            console.log("line");
+            controls.spirograph.lines.push(line);
+            scene.add(line);
+        });
+        controls.spirograph.lastPlot = timeYears;
+        while (controls.spirograph.lines.length > controls.spirograph.max) {
+            controls.spirograph.lines.shift().removeFromParent();
+        }
     }
 }
 

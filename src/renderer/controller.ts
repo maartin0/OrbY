@@ -20,7 +20,7 @@ export let camera: PerspectiveCamera = new PerspectiveCamera(50, 1, 1e-5, 1e10);
 export const orbitControls: OrbitControls = new OrbitControls(camera, renderRoot);
 
 orbitControls.enableDamping = true;
-camera.position.set(0, 8, 10);
+camera.position.set(0, 15, 30);
 renderer.setPixelRatio(window.devicePixelRatio);
 
 renderRoot.classList.add('renderRoot');

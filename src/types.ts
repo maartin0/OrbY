@@ -75,3 +75,11 @@ export interface Selectable {
     description?: Description,
     defaultSelected: boolean,
 }
+
+export interface SpirographOption extends Selectable {
+    id: string,
+    label: string,
+    defaultSelected: boolean,
+    from: PhysicalBodyNode,
+    to: PhysicalBodyNode,
+}

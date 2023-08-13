@@ -7,23 +7,23 @@ export const cos = (angle: number) => Math.cos(angle * mul);
 
 export const ELLIPSE_2D: AlgorithmProps = {
     id: 'ellipse2d',
-    label: '2D Ellipse', // TODO
+    label: '2D Ellipse',
     defaultSelected: false,
-    description: { value: 'todo' }, // TODO
+    description: { value: '2D Ellipse' },
     algorithm: (body: PhysicalBody, timestamp: Timestamp): Vector3 => {
-        const { 
-            semiMajorAxisAu, 
-            eccentricity, 
-            orbitalPeriodYears, 
-            startingLongitudeDegrees
+        const {
+            semiMajorAxisAu,
+            eccentricity,
+            orbitalPeriodYears,
+            startingLongitudeDegrees,
         } = body.properties.elements;
-        
+
         const longitude = (360 * timestamp) / orbitalPeriodYears + startingLongitudeDegrees;
         const sinLongitude = sin(longitude);
         const cosLongitude = cos(longitude);
-        
+
         const magnitude: number = semiMajorAxisAu * (1 - (eccentricity ** 2)) / (1 - (eccentricity * cosLongitude));
-        
+
         return new Vector3(
             magnitude * sinLongitude,
             0,
@@ -34,27 +34,30 @@ export const ELLIPSE_2D: AlgorithmProps = {
 
 export const ELLIPSE_2D_P: AlgorithmProps = {
     id: 'ellipse2dp',
-    label: '2D Ellipse with correct perihelion longitude', // TODO
+    label: '2D Ellipse + P',
     defaultSelected: false,
-    description: { value: 'todo' }, // TODO
+    description: { value: '2D Ellipse with correct perihelion longitude' },
     algorithm: (body: PhysicalBody, timestamp: Timestamp): Vector3 => {
-        const { 
-            semiMajorAxisAu, 
-            eccentricity, 
-            orbitalPeriodYears, 
-            perihelionLongitudeDegrees, 
-            trueAnomalyDegrees
+        const {
+            semiMajorAxisAu,
+            eccentricity,
+            orbitalPeriodYears,
+            perihelionLongitudeDegrees,
+            trueAnomalyDegrees,
         } = body.properties.elements;
-        
+
         const longitude = (360 * timestamp) / orbitalPeriodYears + trueAnomalyDegrees;
         const sinLongitude = sin(longitude);
         const cosLongitude = cos(longitude);
-        
+
+        const sinPerihelionLongitude = sin(perihelionLongitudeDegrees);
+        const cosPerihelionLongitude = cos(perihelionLongitudeDegrees);
+
         const magnitudeP: number = semiMajorAxisAu * (1 - (eccentricity ** 2)) / (1 + (eccentricity * cosLongitude));
-        
+
         const constant0 = cosPerihelionLongitude * cosLongitude - sinPerihelionLongitude * sinLongitude;
         const constant1 = sinPerihelionLongitude * cosLongitude + cosPerihelionLongitude * sinLongitude;
-        
+
         return new Vector3(
             magnitudeP * constant1,
             0,
@@ -65,27 +68,27 @@ export const ELLIPSE_2D_P: AlgorithmProps = {
 
 export const ELLIPSE_3D: AlgorithmProps = {
     id: 'ellipse3d',
-    label: '3D Ellipse', // TODO
+    label: '3D Ellipse',
     defaultSelected: false,
-    description: { value: 'todo' }, // TODO
+    description: { value: '3D Ellipse' },
     algorithm: (body: PhysicalBody, timestamp: Timestamp): Vector3 => {
-        const { 
-            semiMajorAxisAu, 
-            eccentricity, 
-            inclinationDegrees, 
-            orbitalPeriodYears, 
-            startingLongitudeDegrees
+        const {
+            semiMajorAxisAu,
+            eccentricity,
+            inclinationDegrees,
+            orbitalPeriodYears,
+            startingLongitudeDegrees,
         } = body.properties.elements;
-        
+
         const longitude = (360 * timestamp) / orbitalPeriodYears + startingLongitudeDegrees;
         const sinLongitude = sin(longitude);
         const cosLongitude = cos(longitude);
-        
+
         const sinInclination = sin(inclinationDegrees);
         const cosInclination = cos(inclinationDegrees);
-        
+
         const magnitude: number = semiMajorAxisAu * (1 - (eccentricity ** 2)) / (1 - (eccentricity * cosLongitude));
-        
+
         return new Vector3(
             magnitude * sinLongitude,
             magnitude * cosLongitude * sinInclination,
@@ -96,31 +99,34 @@ export const ELLIPSE_3D: AlgorithmProps = {
 
 export const ELLIPSE_3D_P: AlgorithmProps = {
     id: 'ellipse3dp',
-    label: '3D Ellipse with correct perihelion longitude', // TODO
+    label: '3D Ellipse + P',
     defaultSelected: false,
-    description: { value: 'todo' }, // TODO
+    description: { value: '3D Ellipse with correct perihelion longitude' },
     algorithm: (body: PhysicalBody, timestamp: Timestamp): Vector3 => {
-        const { 
-            semiMajorAxisAu, 
-            eccentricity, 
-            inclinationDegrees, 
-            orbitalPeriodYears, 
-            perihelionLongitudeDegrees, 
-            trueAnomalyDegrees
+        const {
+            semiMajorAxisAu,
+            eccentricity,
+            inclinationDegrees,
+            orbitalPeriodYears,
+            perihelionLongitudeDegrees,
+            trueAnomalyDegrees,
         } = body.properties.elements;
-        
+
         const longitude = (360 * timestamp) / orbitalPeriodYears + trueAnomalyDegrees;
         const sinLongitude = sin(longitude);
         const cosLongitude = cos(longitude);
-        
+
         const sinInclination = sin(inclinationDegrees);
         const cosInclination = cos(inclinationDegrees);
-        
+
+        const sinPerihelionLongitude = sin(perihelionLongitudeDegrees);
+        const cosPerihelionLongitude = cos(perihelionLongitudeDegrees);
+
         const magnitudeP: number = semiMajorAxisAu * (1 - (eccentricity ** 2)) / (1 + (eccentricity * cosLongitude));
-        
+
         const constant0 = sinPerihelionLongitude * cosLongitude + cosPerihelionLongitude * sinLongitude;
         const constant1 = cosPerihelionLongitude * cosLongitude - sinPerihelionLongitude * sinLongitude;
-        
+
         return new Vector3(
             magnitudeP * constant0,
             magnitudeP * constant1 * sinInclination,
@@ -131,47 +137,47 @@ export const ELLIPSE_3D_P: AlgorithmProps = {
 
 export const ELLIPSE_3D_A: AlgorithmProps = {
     id: 'ellipse3da',
-    label: '3D Ellipse with correct ascending node longitude', // TODO
+    label: '3D Ellipse + A',
     defaultSelected: false,
-    description: { value: 'todo' }, // TODO
+    description: { value: '3D Ellipse with correct ascending node longitude' },
     algorithm: (body: PhysicalBody, timestamp: Timestamp): Vector3 => {
-        const { 
-            semiMajorAxisAu, 
-            eccentricity, 
+        const {
+            semiMajorAxisAu,
+            eccentricity,
             inclinationDegrees,
-            orbitalPeriodYears, 
-            ascendingLongitudeDegrees, 
-            startingLongitudeDegrees, 
+            orbitalPeriodYears,
+            ascendingLongitudeDegrees,
+            startingLongitudeDegrees,
         } = body.properties.elements;
-        
+
         const longitude = (360 * timestamp) / orbitalPeriodYears + startingLongitudeDegrees;
         const sinLongitude = sin(longitude);
         const cosLongitude = cos(longitude);
-        
+
         const sinInclination = sin(inclinationDegrees);
         const cosInclination = cos(inclinationDegrees);
-        
+
         const sinAscendingLongitude = sin(ascendingLongitudeDegrees);
         const cosAscendingLongitude = cos(ascendingLongitudeDegrees);
-        
+
         const magnitude: number = semiMajorAxisAu * (1 - (eccentricity ** 2)) / (1 - (eccentricity * cosLongitude));
-        
+
         const constant2 = 1 - cosInclination;
         const constant3 = sinAscendingLongitude * cosAscendingLongitude;
 
         return new Vector3(
             magnitude * ((constant2 * sinAscendingLongitude ** 2 + cosInclination) * sinLongitude + constant2 * constant3 * cosLongitude),
-            m * sinInclination * (cosAscendingLongitude * sinLongitude - sinAscendingLongitude * cosLongitude),
+            magnitude * sinInclination * (cosAscendingLongitude * sinLongitude - sinAscendingLongitude * cosLongitude),
             magnitude * (constant2 * constant3 * sinLongitude + (constant2 * cosAscendingLongitude ** 2 + cosInclination) * cosLongitude),
         )
     },
 };
 
 export const ELLIPSE_3D_P_A: AlgorithmProps = {
-    id: 'ellipse3d',
-    label: '3D Ellipse with correct perihelion and ascending node longitudes', // TODO
+    id: 'ellipse3dpa',
+    label: '3D Ellipse + P + A',
     defaultSelected: true,
-    description: { value: 'todo' }, // TODO
+    description: { value: '3D Ellipse with correct perihelion and ascending node longitudes' },
     algorithm: (body: PhysicalBody, timestamp: Timestamp): Vector3 => {
         const {
             semiMajorAxisAu,
@@ -182,7 +188,7 @@ export const ELLIPSE_3D_P_A: AlgorithmProps = {
             ascendingLongitudeDegrees,
             trueAnomalyDegrees,
         } = body.properties.elements;
-        
+
         const longitude = (360 * timestamp) / orbitalPeriodYears + trueAnomalyDegrees;
         const sinLongitude = sin(longitude);
         const cosLongitude = cos(longitude);

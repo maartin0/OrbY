@@ -12,11 +12,10 @@ type Props = {
 export default ({ options, setter, tooling }: Props) => {
     const [selected, setSelected] = useState<Selectable[]>(options.filter(o => o.defaultSelected));
     useEffect(() => setter(selected), [selected]);
-    const deselected = useMemo(() =>
-        options.filter(
+    const deselected = useMemo(() => options.filter(
             o =>
                 selected.findIndex(o1 => o1.id === o.id) === -1,
-        ), [selected]);
+        ), [selected, options]);
     const getOption = useCallback((option: Selectable) =>
         <option key={option.id} value={option.id}>{option.label}</option>, []);
     const extras = useMemo(() => (deselected.map(getOption)), [selected]);

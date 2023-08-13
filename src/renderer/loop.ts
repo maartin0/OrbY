@@ -11,12 +11,17 @@ export const loopState = {
     pointer: getNow(),
     speed: 1,
     fps: 0,
+    lastFpsUpdate: Date.now(),
 };
 
 export function tick() {
     const now = getNow();
     loopState.pointer += (now - loopState.lastTick) * loopState.speed;
-    loopState.fps = (now - loopState.lastTick) / mul;
+    const nowMs = Date.now();
+    if ((nowMs - loopState.lastFpsUpdate) > 1000) {
+        loopState.lastFpsUpdate = nowMs;
+        loopState.fps = 1 / ((now - loopState.lastTick) / mul / 1000);
+    }
     loopState.lastTick = now;
     loopState.frame += 1;
     tickAll(loopState.pointer);

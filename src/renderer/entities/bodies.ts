@@ -90,7 +90,7 @@ export const EARTH: PhysicalBody = {
     parent: SUN,
     defaultSelected: true,
     texture: {
-        color: '#8A6140',
+        color: '#3a6635',
     },
     description: {
         wikipedia: 'https://en.wikipedia.org/wiki/Earth',
