@@ -26,6 +26,6 @@ Controls:
 
 ## Graphs
 Task 1:
-![Task 1.png](docs/Task 1.png)
+![Task_1.png](docs/Task_1.png)
 Task 5:
-![Task 5.png](docs/Task 5.png)
+![Task_5.png](docs/Task_5.png)
