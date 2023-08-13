@@ -21,7 +21,7 @@ export default () => {
                     scheduleUpdate();
                     setExpanded(false);
                 }}>
-                    <span>Save</span>
+                    <span>Resume</span>
                 </div>
             </> : <div className="expander" onClick={() => setExpanded(true)}>
                 <span>Show controls</span>

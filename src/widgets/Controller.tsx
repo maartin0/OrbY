@@ -4,7 +4,7 @@ import SelectorWidget from './SelectorWidget';
 import bodies, { SUN } from '../renderer/entities/bodies';
 import algorithms from '../renderer/entities/algorithms';
 import { AlgorithmProps, PhysicalBody, PhysicalBodyNode, Selectable, SpirographOption } from '../types';
-import { controls, nodes, SPEED_OPTIONS, updateSubscribe } from '../renderer';
+import { controls, nodes, scheduleUpdate, SPEED_OPTIONS, updateSubscribe } from '../renderer';
 import FpsWidget from './FpsWidget';
 import TimeController from './TimeController';
 import CheckboxWidget from './CheckboxWidget';
@@ -106,6 +106,7 @@ export default ({ show }: Props) => {
                                         else if (controls.streak.length < 1) controls.streak.length = 1;
                                         [controls.selectedBodies[0], controls.selectedBodies[index]] =
                                             [controls.selectedBodies[index], controls.selectedBodies[0]];
+                                        scheduleUpdate();
                                     }}><span>🔍</span></div>
                                 )}/>
             </div>
