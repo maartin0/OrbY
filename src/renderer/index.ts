@@ -204,7 +204,7 @@ export function tickAll(timeYears: number) {
         );
         const show: boolean = !(normalised.x > window.innerWidth || normalised.y > window.innerHeight || normalised.x < 0 || normalised.y < 0);
         return {
-            show,
+            show: (show && controls.labels),
             color: node.body.texture.color,
             top: normalised.y,
             left: normalised.x,

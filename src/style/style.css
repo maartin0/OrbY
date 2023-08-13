@@ -180,4 +180,5 @@ span.hide {
 .label {
     position: absolute;
     user-select: none;
+    pointer-events: none;
 }
