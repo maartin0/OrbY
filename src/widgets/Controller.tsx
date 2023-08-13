@@ -94,7 +94,7 @@ export default () => {
                                     scheduleUpdate();
                                 }}
                                 tooling={(value: Selectable, index: number) => index !== 0 && (
-                                    <div className="focus-btn" onClick={() => {
+                                    <div className="focus-btn" title="Move planet to origin" onClick={() => {
                                         // Swap focused, requires 2 update cycles
                                         if ((value as PhysicalBody).id === SUN.id) controls.streak.length = 0.7;
                                         else if (controls.streak.length < 1) controls.streak.length = 1;
