@@ -37,3 +37,4 @@ jobs:
         repository-name: maartin0/maartin0.github.io
         target-folder: orby
         token: ${{ secrets.PAT }}
+        branch: main
