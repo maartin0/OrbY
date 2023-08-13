@@ -194,10 +194,12 @@ export const tickSubscribe = (listener: () => void) => {
 
 export let labels: LabelProps[] = [];
 
+const copy = ({x, y, z}: Vector3): Vector3 => new Vector3(x, y, z);
+
 export function tickAll(timeYears: number) {
     nodes.forEach(node => tickNode(node, timeYears));
     labels = nodes.map((node: PhysicalBodyNode): LabelProps => {
-        const projection: Vector3 = node.mesh.position.project(camera);
+        const projection: Vector3 = copy(node.mesh.position).project(camera);
         const normalised: Vector2 = new Vector2(
             window.innerWidth * ((projection.x + 1) / 2),
             window.innerHeight * (1 - ((projection.y + 1) / 2) + renderRoot.offsetTop),
