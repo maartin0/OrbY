@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon src/index.tsx",
     "build": "webpack --mode=production --node-env=production",
-    "copy": "cpy assets/* dist/",
+    "copy": "cpy 'public/**' dist/",
     "build:dev": "webpack --mode=development",
     "watch": "webpack --watch",
     "dev": "webpack serve"
