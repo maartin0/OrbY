@@ -21,7 +21,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x]
 
     steps:
     - uses: actions/checkout@v3
@@ -36,16 +36,6 @@ jobs:
         npm install
         npm run build
         npm run copy
-
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4.4.3
-      with:
-        folder: dist
-        repository-name: maartin0/maartin0.github.io
-        target-folder: orby
-        token: ${{ secrets.PAT }}
-        branch: main
-
   deploy:
     needs: build
     environment:
