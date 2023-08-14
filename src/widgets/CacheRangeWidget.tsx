@@ -9,8 +9,8 @@ type Props = {
     label?: string,
     format: (value: number) => string,
     updater: (value: number) => void,
-    prefix?: JSX.Element,
-    suffix?: JSX.Element,
+    prefix?: React.ReactElement | null,
+    suffix?: React.ReactElement | null,
 };
 
 export default ({ initialSize, min, max, step, label, format, updater, prefix, suffix }: Props) => {

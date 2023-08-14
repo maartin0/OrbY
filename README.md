@@ -1,6 +1,6 @@
 # OrbY
 **Orb**ital Displa**y**<br>
-Submission for the BPhO 2023 Computational Physics Challenge
+Submission for the BPhO 2023 Computational Physics Challenge<br>
 A solar system viewer written in [three.js](https://github.com/mrdoob/three.js/)
 
 ## Planets

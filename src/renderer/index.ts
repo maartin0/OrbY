@@ -66,7 +66,6 @@ export const controls: {
     selectedAlgorithms: AlgorithmProps[],
     spirograph: {
         options: SpirographOption[],
-        lines: Line[],
     },
     labels: boolean,
 } = {
@@ -82,7 +81,6 @@ export const controls: {
     selectedAlgorithms: Object.values(algorithms).filter(a => a.defaultSelected),
     spirograph: {
         options: [],
-        lines: [],
     },
     labels: true,
 }
@@ -113,7 +111,10 @@ export function scheduleUpdate() {
 }
 
 export function update() {
-    controls.spirograph.lines.forEach(line => line.removeFromParent());
+    controls.spirograph.options.forEach(o => {
+        o.lines.forEach(l => l.removeFromParent())
+        o.lines = [];
+    });
     loopState.speed = SPEED_OPTIONS[controls.speedIndex].value;
     nodes.forEach((node: PhysicalBodyNode) => {
         node.mesh.removeFromParent();
@@ -233,7 +234,6 @@ export function tickAll(timeYears: number) {
                 new LineBasicMaterial({ vertexColors: true }),
             )
             option.lines.push(line);
-            controls.spirograph.lines.push(line);
             scene.add(line);
             option.lastPlot = timeYears;
         }

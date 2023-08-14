@@ -12,7 +12,6 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { tick } from './loop';
 
 // Renderer setup
-
 export const scene: Scene = new Scene();
 export const renderRoot: HTMLCanvasElement = document.createElement('canvas');
 export const renderer: WebGLRenderer = new WebGLRenderer({ canvas: renderRoot });

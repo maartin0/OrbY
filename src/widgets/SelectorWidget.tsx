@@ -6,7 +6,7 @@ import InfoButton from './InfoButton';
 type Props = {
     options: Selectable[],
     setter: (selected: Selectable[]) => void
-    tooling?: (option: Selectable, index: number) => JSX.Element,
+    tooling?: (option: Selectable, index: number) => React.ReactElement | null,
 };
 
 export default ({ options, setter, tooling }: Props) => {
