@@ -1,4 +1,4 @@
-import { AlgorithmProps, PhysicalBody, Timestamp } from '../types';
+import {AlgorithmProps, computeElements, PhysicalBody, Timestamp} from '../types';
 import { Vector3 } from 'three';
 
 const mul = Math.PI / 180;
@@ -176,7 +176,7 @@ export const ELLIPSE_3D_A: AlgorithmProps = {
 export const ELLIPSE_3D_P_A: AlgorithmProps = {
     id: 'ellipse3dpa',
     label: '3D Ellipse + P + A',
-    defaultSelected: true,
+    defaultSelected: false,
     description: { value: '3D Ellipse with correct perihelion and ascending node longitudes' },
     algorithm: (body: PhysicalBody, timestamp: Timestamp): Vector3 => {
         const {
@@ -217,4 +217,51 @@ export const ELLIPSE_3D_P_A: AlgorithmProps = {
     },
 }
 
-export default { ELLIPSE_2D, ELLIPSE_2D_P, ELLIPSE_3D, ELLIPSE_3D_P, ELLIPSE_3D_A, ELLIPSE_3D_P_A };
+export const ELLIPSE_3D_P_A_AC: AlgorithmProps = {
+    id: 'ellipse3dpa_ac',
+    label: 'Acc 3D Ellipse + P + A',
+    defaultSelected: true,
+    description: { value: '3D Ellipse with correct perihelion and ascending node longitudes with dynamically calculated keplerian elements' },
+    algorithm: (body: PhysicalBody, timestamp: Timestamp): Vector3 => {
+        const {
+            semiMajorAxisAu,
+            eccentricity,
+            inclinationDegrees,
+            perihelionLongitudeDegrees,
+            ascendingLongitudeDegrees,
+        } = computeElements(body.properties.elementPairs, timestamp);
+
+        const {
+            orbitalPeriodYears,
+            trueAnomalyDegrees,
+        } = body.properties.elements;
+
+        const longitude = (360 * timestamp) / orbitalPeriodYears + trueAnomalyDegrees;
+        const sinLongitude = sin(longitude);
+        const cosLongitude = cos(longitude);
+
+        const sinInclination = sin(inclinationDegrees);
+        const cosInclination = cos(inclinationDegrees);
+
+        const sinPerihelionLongitude = sin(perihelionLongitudeDegrees);
+        const cosPerihelionLongitude = cos(perihelionLongitudeDegrees);
+
+        const sinAscendingLongitude = sin(ascendingLongitudeDegrees);
+        const cosAscendingLongitude = cos(ascendingLongitudeDegrees);
+
+        const magnitudeP = semiMajorAxisAu * (1 - eccentricity ** 2) / (1 + eccentricity * cosLongitude);
+
+        const constant0 = sinPerihelionLongitude * cosLongitude + cosPerihelionLongitude * sinLongitude;
+        const constant1 = cosPerihelionLongitude * cosLongitude - sinPerihelionLongitude * sinLongitude;
+        const constant2 = 1 - cosInclination;
+        const constant3 = sinAscendingLongitude * cosAscendingLongitude;
+
+        return new Vector3(
+            magnitudeP * ((constant2 * sinAscendingLongitude ** 2 + cosInclination) * constant0 + constant2 * constant3 * constant1),
+            magnitudeP * sinInclination * (cosAscendingLongitude * constant0 - sinAscendingLongitude * constant1),
+            magnitudeP * (constant2 * constant3 * constant0 + (constant2 * cosAscendingLongitude ** 2 + cosInclination) * constant1),
+        );
+    },
+}
+
+export default { ELLIPSE_2D, ELLIPSE_2D_P, ELLIPSE_3D, ELLIPSE_3D_P, ELLIPSE_3D_A, ELLIPSE_3D_P_A, ELLIPSE_3D_P_A_AC };

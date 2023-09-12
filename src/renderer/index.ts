@@ -1,6 +1,6 @@
-import { AlgorithmProps, PhysicalBody, PhysicalBodyNode, PhysicalBodyType, SpirographOption } from '../types';
-import { camera, render, renderRoot, scene } from './controller';
-import { removeLoader } from '../index';
+import {AlgorithmProps, PhysicalBody, PhysicalBodyNode, PhysicalBodyType, SpirographOption} from '../types';
+import {camera, render, renderRoot, scene} from './controller';
+import {removeLoader} from '../index';
 import {
     BufferAttribute,
     BufferGeometry,
@@ -13,8 +13,8 @@ import {
     Vector2,
     Vector3,
 } from 'three';
-import { loopState } from './loop';
-import { LabelProps } from '../widgets/Label';
+import {loopState} from './loop';
+import {LabelProps} from '../widgets/Label';
 import bodies from '../entities/bodies';
 import algorithms from '../entities/algorithms';
 
@@ -98,13 +98,16 @@ export let nodes: PhysicalBodyNode[] = [];
 let updateListeners: (() => void)[] = [];
 export const updateSubscribe = (listener: () => void) => {
     updateListeners.push(listener);
-    return () => { updateListeners = updateListeners.filter(v => v !== listener) };
+    return () => {
+        updateListeners = updateListeners.filter(v => v !== listener)
+    };
 }
 
 export function getPos(node: { body: PhysicalBody, algorithmProps: AlgorithmProps }, timeYears: number): Vector3 {
-    const focusTarget: PhysicalBodyNode = nodes[0];
-    if (!focusTarget || focusTarget.body.id === node.body.id) return new Vector3(0, 0, 0);
-    else return node.algorithmProps.algorithm(node.body, timeYears).sub(focusTarget.algorithmProps.algorithm(focusTarget.body, timeYears));
+    const focusTarget: PhysicalBodyNode = nodes[0]
+    return (!focusTarget || focusTarget.body.id === node.body.id)
+        ? new Vector3(0, 0, 0)
+        : node.algorithmProps.algorithm(node.body, timeYears).sub(focusTarget.algorithmProps.algorithm(focusTarget.body, timeYears));
 }
 
 export function scheduleUpdate() {
@@ -131,12 +134,12 @@ export function update() {
                         Array(Math.ceil(
                             body.properties.elements.orbitalPeriodYears * 365.25 * (controls.streak.length > 1 ? controls.streak.length : 1),
                         )).keys(),
-                    ).map((day: number) => getPos({ body, algorithmProps }, day / 365.25));
+                    ).map((day: number) => getPos({body, algorithmProps}, day / 365.25));
                     const mesh = new Mesh(
                         new SphereGeometry(controls.scale.value * (
                             controls.scale.real
-                            ? body.properties.radiusAu
-                            : (body.type === PhysicalBodyType.STAR ? 0.1 : 0.03)
+                                ? body.properties.radiusAu
+                                : (body.type === PhysicalBodyType.STAR ? 0.1 : 0.03)
                         )),
                         new MeshBasicMaterial({
                             color: body.texture.color,
@@ -144,22 +147,22 @@ export function update() {
                         }),
                     );
                     const line = controls.streak.length < 1 ? (() => {
-                        const { r, g, b } = new Color(body.texture.color);
+                        const {r, g, b} = new Color(body.texture.color);
                         const size = Math.ceil(controls.streak.length * points.length);
                         return new Line(
                             new BufferGeometry().setAttribute('color', new BufferAttribute(
                                 new Float32Array(
                                     Array.from(Array(size).keys())
-                                         .flatMap(n => [r - (r / size * n), g - (g / size * n), b - (b / size * n)])),
+                                        .flatMap(n => [r - (r / size * n), g - (g / size * n), b - (b / size * n)])),
                                 3,
                                 true)),
-                            new LineBasicMaterial({ vertexColors: true }),
+                            new LineBasicMaterial({vertexColors: true}),
                         )
                     })() : new Line(
                         new BufferGeometry().setFromPoints(points),
-                        new LineBasicMaterial({ color: body.texture.color }),
+                        new LineBasicMaterial({color: body.texture.color}),
                     );
-                    return { body, algorithmProps, points, mesh, line };
+                    return {body, algorithmProps, points, mesh, line};
                 },
             ));
     nodes.forEach((node: PhysicalBodyNode) => scene.add(node.mesh, node.line));
@@ -167,7 +170,7 @@ export function update() {
 }
 
 const getRgb = (node: PhysicalBodyNode): [number, number, number] => {
-    const { r, g, b } = new Color(node.body.texture.color);
+    const {r, g, b} = new Color(node.body.texture.color);
     return [r, g, b];
 }
 
@@ -180,7 +183,7 @@ function tickNode(node: PhysicalBodyNode, timeYears: number) {
         let min: { distance: number, pointer: number } = undefined;
         for (let point of node.points) {
             const distance: number = point.distanceTo(pos);
-            if (!min || distance < min.distance) min = { pointer, distance };
+            if (!min || distance < min.distance) min = {pointer, distance};
             pointer++;
         }
         pointer = min.pointer + 1;
@@ -200,7 +203,9 @@ function tickNode(node: PhysicalBodyNode, timeYears: number) {
 let tickListeners: (() => void)[] = [];
 export const tickSubscribe = (listener: () => void) => {
     tickListeners.push(listener);
-    return () => { tickListeners = tickListeners.filter(v => v !== listener) };
+    return () => {
+        tickListeners = tickListeners.filter(v => v !== listener)
+    };
 };
 
 export let labels: LabelProps[] = [];
@@ -232,9 +237,9 @@ export function tickAll(timeYears: number) {
             }
             const line = new Line(
                 new BufferGeometry()
-                .setFromPoints([getPos(option.from, timeYears), getPos(option.to, timeYears)])
-                .setAttribute('color', new BufferAttribute(new Float32Array([...getRgb(option.from), ...getRgb(option.to)]), 3)),
-                new LineBasicMaterial({ vertexColors: true }),
+                    .setFromPoints([getPos(option.from, timeYears), getPos(option.to, timeYears)])
+                    .setAttribute('color', new BufferAttribute(new Float32Array([...getRgb(option.from), ...getRgb(option.to)]), 3)),
+                new LineBasicMaterial({vertexColors: true}),
             )
             option.lines.push(line);
             scene.add(line);

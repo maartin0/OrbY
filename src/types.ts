@@ -1,5 +1,5 @@
 /* Properties from Horizons API: https://ssd-api.jpl.nasa.gov/doc/horizons.html */
-import { Line, Mesh, Vector3 } from 'three';
+import {Line, Mesh, Vector3} from 'three';
 
 export interface Texture {
     color: string,
@@ -37,18 +37,41 @@ export interface PhysicalBodyProperties {
     massRel: number, // Mass relative to earth
     rotationPeriodYears: number,
     elements: KeplerianElements,
+    elementPairs: KeplerianElementPairs,
 }
 
-export interface KeplerianElements {
-    semiMajorAxisAu: number,
-    eccentricity: number,
-    inclinationDegrees: number,
-    orbitalPeriodYears: number,
-    perihelionLongitudeDegrees: number,
-    ascendingLongitudeDegrees: number,
-    trueAnomalyDegrees: number,
-    startingLongitudeDegrees: number,
+export interface GenericKeplerianElements<T> {
+    semiMajorAxisAu: T,
+    eccentricity: T,
+    inclinationDegrees: T,
+    orbitalPeriodYears: T,
+    perihelionLongitudeDegrees: T,
+    ascendingLongitudeDegrees: T,
+    trueAnomalyDegrees: T,
+    startingLongitudeDegrees: T,
 }
+
+export interface KeplerianElementPair {
+    mul: number,
+    offset: number,
+}
+
+export type KeplerianElements = GenericKeplerianElements<number>;
+
+export interface KeplerianElementPairs {
+    semiMajorAxisAu: KeplerianElementPair,
+    eccentricity: KeplerianElementPair,
+    inclinationDegrees: KeplerianElementPair,
+    perihelionLongitudeDegrees: KeplerianElementPair,
+    ascendingLongitudeDegrees: KeplerianElementPair,
+    startingLongitudeDegrees: KeplerianElementPair,
+}
+
+export const computeElements = (pairs: KeplerianElementPairs, timestamp: Timestamp): Record<keyof KeplerianElementPairs, number> => Object.fromEntries(
+    Object.entries(pairs)
+        .map(([k, {mul, offset}]) =>
+            [k, mul * (timestamp / 100) + offset]
+        )) as Record<keyof KeplerianElementPairs, number>;
 
 export interface PhysicalBodyNode {
     body: PhysicalBody,
