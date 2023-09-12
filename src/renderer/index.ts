@@ -66,6 +66,7 @@ export const controls: {
     selectedAlgorithms: AlgorithmProps[],
     spirograph: {
         options: SpirographOption[],
+        update: SpirographOption[],
     },
     labels: boolean,
 } = {
@@ -81,6 +82,7 @@ export const controls: {
     selectedAlgorithms: Object.values(algorithms).filter(a => a.defaultSelected),
     spirograph: {
         options: [],
+        update: [],
     },
     labels: true,
 }
@@ -115,6 +117,7 @@ export function update() {
         o.lines.forEach(l => l.removeFromParent())
         o.lines = [];
     });
+    controls.spirograph.options = controls.spirograph.update;
     loopState.speed = SPEED_OPTIONS[controls.speedIndex].value;
     nodes.forEach((node: PhysicalBodyNode) => {
         node.mesh.removeFromParent();

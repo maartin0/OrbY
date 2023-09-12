@@ -129,7 +129,7 @@ export default ({ show }: Props) => {
                             lastPlot: loopState.lastTick,
                         });
                     }))} setter={(selected: Selectable[]) => {
-                    controls.spirograph.options = selected as SpirographOption[];
+                    controls.spirograph.update = selected as SpirographOption[];
                 }}/>
             </div>
             <div>
