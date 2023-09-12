@@ -1,4 +1,4 @@
-import { PhysicalBody, PhysicalBodyType } from '../../types';
+import { PhysicalBody, PhysicalBodyType } from '../types';
 
 export const SUN: PhysicalBody = {
     id: 10,

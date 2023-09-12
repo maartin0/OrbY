@@ -1,4 +1,4 @@
-import { AlgorithmProps, PhysicalBody, Timestamp } from '../../types';
+import { AlgorithmProps, PhysicalBody, Timestamp } from '../types';
 import { Vector3 } from 'three';
 
 const mul = Math.PI / 180;

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useMemo, useSyncExternalStore } from 'react';
 import SelectorWidget from './SelectorWidget';
-import bodies, { SUN } from '../renderer/entities/bodies';
-import algorithms from '../renderer/entities/algorithms';
+import bodies, { SUN } from '../entities/bodies';
+import algorithms from '../entities/algorithms';
 import { AlgorithmProps, PhysicalBody, PhysicalBodyNode, Selectable, SpirographOption } from '../types';
 import { controls, nodes, scheduleUpdate, SPEED_OPTIONS, updateSubscribe } from '../renderer';
 import FpsWidget from './FpsWidget';

@@ -15,8 +15,8 @@ import {
 } from 'three';
 import { loopState } from './loop';
 import { LabelProps } from '../widgets/Label';
-import bodies from './entities/bodies';
-import algorithms from './entities/algorithms';
+import bodies from '../entities/bodies';
+import algorithms from '../entities/algorithms';
 
 export const SPEED_OPTIONS = [
     {
