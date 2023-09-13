@@ -472,7 +472,7 @@ export const PLUTO: PhysicalBody = {
     label: 'Pluto',
     type: PhysicalBodyType.DWARF_PLANET,
     parent: SUN,
-    defaultSelected: false,
+    defaultSelected: true,
     texture: {
         color: '#968570',
     },
@@ -494,12 +494,12 @@ export const PLUTO: PhysicalBody = {
             startingLongitudeDegrees: 128.099,
         },
         elementPairs: {
-            semiMajorAxisAu: {offset: 0, mul: 39.509},
-            eccentricity: {offset: 0, mul: 0.25},
-            inclinationDegrees: {offset: 0, mul: 17.5},
-            perihelionLongitudeDegrees: {offset: 0, mul: 113.834},
-            ascendingLongitudeDegrees: {offset: 0, mul: 110.299},
-            startingLongitudeDegrees: {offset: 0, mul: 128.099},
+            semiMajorAxisAu: {offset: 39.509, mul: 0},
+            eccentricity: {offset: 0.25, mul: 0},
+            inclinationDegrees: {offset: 17.5, mul: 0},
+            perihelionLongitudeDegrees: {offset: 113.834, mul: 0},
+            ascendingLongitudeDegrees: {offset: 110.299, mul: 0},
+            startingLongitudeDegrees: {offset: 128.099, mul: 0},
         },
     },
 };
