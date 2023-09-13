@@ -26,12 +26,12 @@ export const SUN: PhysicalBody = {
             startingLongitudeDegrees: 0,
         },
         elementPairs: {
-            semiMajorAxisAu: {mul: 0, offset: 0},
-            eccentricity: {mul: 0, offset: 0},
-            inclinationDegrees: {mul: 0, offset: 0},
-            perihelionLongitudeDegrees: {mul: 0, offset: 0},
-            ascendingLongitudeDegrees: {mul: 0, offset: 0},
-            startingLongitudeDegrees: {mul: 0, offset: 0},
+            semiMajorAxisAu: {offset: 0, mul: 0},
+            eccentricity: {offset: 0, mul: 0},
+            inclinationDegrees: {offset: 0, mul: 0},
+            perihelionLongitudeDegrees: {offset: 0, mul: 0},
+            ascendingLongitudeDegrees: {offset: 0, mul: 0},
+            startingLongitudeDegrees: {offset: 0, mul: 0},
         },
     },
 };
@@ -63,28 +63,28 @@ export const MERCURY: PhysicalBody = {
         },
         elementPairs: {
             "semiMajorAxisAu": {
-                "mul": 0.38709927,
-                "offset": 3.7e-07
+                "offset": 0.38709927,
+                "mul": 3.7e-07
             },
             "eccentricity": {
-                "mul": 0.20563593,
-                "offset": 1.906e-05
+                "offset": 0.20563593,
+                "mul": 1.906e-05
             },
             "inclinationDegrees": {
-                "mul": 7.00497902,
-                "offset": -0.00594749
+                "offset": 7.00497902,
+                "mul": -0.00594749
             },
             "startingLongitudeDegrees": {
-                "mul": 252.2503235,
-                "offset": 149472.67411175
+                "offset": 252.2503235,
+                "mul": 149472.67411175
             },
             "perihelionLongitudeDegrees": {
-                "mul": 77.45779628,
-                "offset": 0.16047689
+                "offset": 77.45779628,
+                "mul": 0.16047689
             },
             "ascendingLongitudeDegrees": {
-                "mul": 48.33076593,
-                "offset": -0.12534081
+                "offset": 48.33076593,
+                "mul": -0.12534081
             },
         },
     },
@@ -117,28 +117,28 @@ export const VENUS: PhysicalBody = {
         },
         elementPairs: {
             "semiMajorAxisAu": {
-                "mul": 0.72333566,
-                "offset": 3.9e-06
+                "offset": 0.72333566,
+                "mul": 3.9e-06
             },
             "eccentricity": {
-                "mul": 0.00677672,
-                "offset": -4.107e-05
+                "offset": 0.00677672,
+                "mul": -4.107e-05
             },
             "inclinationDegrees": {
-                "mul": 3.39467605,
-                "offset": -0.0007889
+                "offset": 3.39467605,
+                "mul": -0.0007889
             },
             "startingLongitudeDegrees": {
-                "mul": 181.9790995,
-                "offset": 58517.81538729
+                "offset": 181.9790995,
+                "mul": 58517.81538729
             },
             "perihelionLongitudeDegrees": {
-                "mul": 131.60246718,
-                "offset": 0.00268329
+                "offset": 131.60246718,
+                "mul": 0.00268329
             },
             "ascendingLongitudeDegrees": {
-                "mul": 76.67984255,
-                "offset": -0.27769418
+                "offset": 76.67984255,
+                "mul": -0.27769418
             }
         },
     },
@@ -171,28 +171,28 @@ export const EARTH: PhysicalBody = {
         },
         elementPairs: {
             "semiMajorAxisAu": {
-                "mul": 1.00000261,
-                "offset": 5.62e-06
+                "offset": 1.00000261,
+                "mul": 5.62e-06
             },
             "eccentricity": {
-                "mul": 0.01671123,
-                "offset": -4.392e-05
+                "offset": 0.01671123,
+                "mul": -4.392e-05
             },
             "inclinationDegrees": {
-                "mul": -1.531e-05,
-                "offset": -0.01294668
+                "offset": -1.531e-05,
+                "mul": -0.01294668
             },
             "startingLongitudeDegrees": {
-                "mul": 100.46457166,
-                "offset": 35999.37244981
+                "offset": 100.46457166,
+                "mul": 35999.37244981
             },
             "perihelionLongitudeDegrees": {
-                "mul": 102.93768193,
-                "offset": 0.32327364
+                "offset": 102.93768193,
+                "mul": 0.32327364
             },
             "ascendingLongitudeDegrees": {
-                "mul": 0.0,
-                "offset": 0.0
+                "offset": 0.0,
+                "mul": 0.0
             }
         },
     },
@@ -225,28 +225,28 @@ export const MARS: PhysicalBody = {
         },
         elementPairs: {
             "semiMajorAxisAu": {
-                "mul": 1.52371034,
-                "offset": 1.847e-05
+                "offset": 1.52371034,
+                "mul": 1.847e-05
             },
             "eccentricity": {
-                "mul": 0.0933941,
-                "offset": 7.882e-05
+                "offset": 0.0933941,
+                "mul": 7.882e-05
             },
             "inclinationDegrees": {
-                "mul": 1.84969142,
-                "offset": -0.00813131
+                "offset": 1.84969142,
+                "mul": -0.00813131
             },
             "startingLongitudeDegrees": {
-                "mul": -4.55343205,
-                "offset": 19140.30268499
+                "offset": -4.55343205,
+                "mul": 19140.30268499
             },
             "perihelionLongitudeDegrees": {
-                "mul": -23.94362959,
-                "offset": 0.44441088
+                "offset": -23.94362959,
+                "mul": 0.44441088
             },
             "ascendingLongitudeDegrees": {
-                "mul": 49.55953891,
-                "offset": -0.29257343
+                "offset": 49.55953891,
+                "mul": -0.29257343
             }
         },
     },
@@ -279,28 +279,28 @@ export const JUPITER: PhysicalBody = {
         },
         elementPairs: {
             "semiMajorAxisAu": {
-                "mul": 5.202887,
-                "offset": -0.00011607
+                "offset": 5.202887,
+                "mul": -0.00011607
             },
             "eccentricity": {
-                "mul": 0.04838624,
-                "offset": -0.00013253
+                "offset": 0.04838624,
+                "mul": -0.00013253
             },
             "inclinationDegrees": {
-                "mul": 1.30439695,
-                "offset": -0.00183714
+                "offset": 1.30439695,
+                "mul": -0.00183714
             },
             "startingLongitudeDegrees": {
-                "mul": 34.39644051,
-                "offset": 3034.74612775
+                "offset": 34.39644051,
+                "mul": 3034.74612775
             },
             "perihelionLongitudeDegrees": {
-                "mul": 14.72847983,
-                "offset": 0.21252668
+                "offset": 14.72847983,
+                "mul": 0.21252668
             },
             "ascendingLongitudeDegrees": {
-                "mul": 100.47390909,
-                "offset": 0.20469106
+                "offset": 100.47390909,
+                "mul": 0.20469106
             }
         },
     },
@@ -333,28 +333,28 @@ export const SATURN: PhysicalBody = {
         },
         elementPairs: {
             "semiMajorAxisAu": {
-                "mul": 9.53667594,
-                "offset": -0.0012506
+                "offset": 9.53667594,
+                "mul": -0.0012506
             },
             "eccentricity": {
-                "mul": 0.05386179,
-                "offset": -0.00050991
+                "offset": 0.05386179,
+                "mul": -0.00050991
             },
             "inclinationDegrees": {
-                "mul": 2.48599187,
-                "offset": 0.00193609
+                "offset": 2.48599187,
+                "mul": 0.00193609
             },
             "startingLongitudeDegrees": {
-                "mul": 49.95424423,
-                "offset": 1222.49362201
+                "offset": 49.95424423,
+                "mul": 1222.49362201
             },
             "perihelionLongitudeDegrees": {
-                "mul": 92.59887831,
-                "offset": -0.41897216
+                "offset": 92.59887831,
+                "mul": -0.41897216
             },
             "ascendingLongitudeDegrees": {
-                "mul": 113.66242448,
-                "offset": -0.28867794
+                "offset": 113.66242448,
+                "mul": -0.28867794
             }
         },
     },
@@ -387,28 +387,28 @@ export const URANUS: PhysicalBody = {
         },
         elementPairs: {
             "semiMajorAxisAu": {
-                "mul": 19.18916464,
-                "offset": -0.00196176
+                "offset": 19.18916464,
+                "mul": -0.00196176
             },
             "eccentricity": {
-                "mul": 0.04725744,
-                "offset": -4.397e-05
+                "offset": 0.04725744,
+                "mul": -4.397e-05
             },
             "inclinationDegrees": {
-                "mul": 0.77263783,
-                "offset": -0.00242939
+                "offset": 0.77263783,
+                "mul": -0.00242939
             },
             "startingLongitudeDegrees": {
-                "mul": 313.23810451,
-                "offset": 428.48202785
+                "offset": 313.23810451,
+                "mul": 428.48202785
             },
             "perihelionLongitudeDegrees": {
-                "mul": 170.9542763,
-                "offset": 0.40805281
+                "offset": 170.9542763,
+                "mul": 0.40805281
             },
             "ascendingLongitudeDegrees": {
-                "mul": 74.01692503,
-                "offset": 0.04240589
+                "offset": 74.01692503,
+                "mul": 0.04240589
             }
         },
     },
@@ -441,28 +441,28 @@ export const NEPTUNE: PhysicalBody = {
         },
         elementPairs: {
             "semiMajorAxisAu": {
-                "mul": 30.06992276,
-                "offset": 0.00026291
+                "offset": 30.06992276,
+                "mul": 0.00026291
             },
             "eccentricity": {
-                "mul": 0.00859048,
-                "offset": 5.105e-05
+                "offset": 0.00859048,
+                "mul": 5.105e-05
             },
             "inclinationDegrees": {
-                "mul": 1.77004347,
-                "offset": 0.00035372
+                "offset": 1.77004347,
+                "mul": 0.00035372
             },
             "startingLongitudeDegrees": {
-                "mul": -55.12002969,
-                "offset": 218.45945325
+                "offset": -55.12002969,
+                "mul": 218.45945325
             },
             "perihelionLongitudeDegrees": {
-                "mul": 44.96476227,
-                "offset": -0.32241464
+                "offset": 44.96476227,
+                "mul": -0.32241464
             },
             "ascendingLongitudeDegrees": {
-                "mul": 131.78422574,
-                "offset": -0.00508664
+                "offset": 131.78422574,
+                "mul": -0.00508664
             }
         },
     },
@@ -494,12 +494,12 @@ export const PLUTO: PhysicalBody = {
             startingLongitudeDegrees: 128.099,
         },
         elementPairs: {
-            semiMajorAxisAu: {mul: 0, offset: 39.509},
-            eccentricity: {mul: 0, offset: 0.25},
-            inclinationDegrees: {mul: 0, offset: 17.5},
-            perihelionLongitudeDegrees: {mul: 0, offset: 113.834},
-            ascendingLongitudeDegrees: {mul: 0, offset: 110.299},
-            startingLongitudeDegrees: {mul: 0, offset: 128.099},
+            semiMajorAxisAu: {offset: 0, mul: 39.509},
+            eccentricity: {offset: 0, mul: 0.25},
+            inclinationDegrees: {offset: 0, mul: 17.5},
+            perihelionLongitudeDegrees: {offset: 0, mul: 113.834},
+            ascendingLongitudeDegrees: {offset: 0, mul: 110.299},
+            startingLongitudeDegrees: {offset: 0, mul: 128.099},
         },
     },
 };

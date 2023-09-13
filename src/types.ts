@@ -52,8 +52,8 @@ export interface GenericKeplerianElements<T> {
 }
 
 export interface KeplerianElementPair {
-    mul: number,
     offset: number,
+    mul: number,
 }
 
 export type KeplerianElements = GenericKeplerianElements<number>;
